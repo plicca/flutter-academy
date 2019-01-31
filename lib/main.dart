@@ -1,56 +1,35 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class Todo {
-  final String title;
-  final String description;
+void main() => runApp(HeroApp());
 
-  Todo(this.title, this.description);
+class HeroApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Transition Demo',
+      home: MainScreen(),
+    );
+  }
 }
 
-void main() {
-  runApp(MaterialApp(
-    title: 'Passing Data',
-    home: TodosScreen(
-      todos: List.generate(
-        20,
-        (i) => Todo(
-              'Todo $i',
-              'A description of what needs to be done for Todo $i',
-            ),
-      ),
-    ),
-  ));
-}
-
-class TodosScreen extends StatelessWidget {
-  final List<Todo> todos;
-
-  TodosScreen({Key key, @required this.todos}) : super(key: key);
-
+class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todos'),
+        title: Text('Main Screen'),
       ),
-      body: ListView.builder(
-        itemCount: todos.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(todos[index].title),
-            // When a user taps on the ListTile, navigate to the DetailScreen.
-            // Notice that we're not only creating a DetailScreen, we're
-            // also passing the current todo through to it!
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailScreen(todo: todos[index]),
-                ),
-              );
-            },
-          );
+      body: GestureDetector(
+        child: Hero(
+          tag: 'imageHero',
+          child: Image.network(
+            'https://picsum.photos/250?image=9',
+          ),
+        ),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return DetailScreen();
+          }));
         },
       ),
     );
@@ -58,22 +37,21 @@ class TodosScreen extends StatelessWidget {
 }
 
 class DetailScreen extends StatelessWidget {
-  // Declare a field that holds the Todo
-  final Todo todo;
-
-  // In the constructor, require a Todo
-  DetailScreen({Key key, @required this.todo}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    // Use the Todo to create our UI
     return Scaffold(
-      appBar: AppBar(
-        title: Text(todo.title),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Text(todo.description),
+      body: GestureDetector(
+        child: Center(
+          child: Hero(
+            tag: 'imageHero',
+            child: Image.network(
+              'https://picsum.photos/250?image=9',
+            ),
+          ),
+        ),
+        onTap: () {
+          Navigator.pop(context);
+        },
       ),
     );
   }
