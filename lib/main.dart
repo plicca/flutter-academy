@@ -1,48 +1,79 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+class Todo {
+  final String title;
+  final String description;
+
+  Todo(this.title, this.description);
+}
 
 void main() {
   runApp(MaterialApp(
-    title: 'Navigation Basics',
-    home: FirstRoute(),
+    title: 'Passing Data',
+    home: TodosScreen(
+      todos: List.generate(
+        20,
+        (i) => Todo(
+              'Todo $i',
+              'A description of what needs to be done for Todo $i',
+            ),
+      ),
+    ),
   ));
 }
 
-class FirstRoute extends StatelessWidget {
+class TodosScreen extends StatelessWidget {
+  final List<Todo> todos;
+
+  TodosScreen({Key key, @required this.todos}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('First Route'),
+        title: Text('Todos'),
       ),
-      body: Center(
-        child: RaisedButton(
-          child: Text('Open route'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SecondRoute()),
-            );
-          },
-        ),
+      body: ListView.builder(
+        itemCount: todos.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(todos[index].title),
+            // When a user taps on the ListTile, navigate to the DetailScreen.
+            // Notice that we're not only creating a DetailScreen, we're
+            // also passing the current todo through to it!
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailScreen(todo: todos[index]),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
 }
 
-class SecondRoute extends StatelessWidget {
+class DetailScreen extends StatelessWidget {
+  // Declare a field that holds the Todo
+  final Todo todo;
+
+  // In the constructor, require a Todo
+  DetailScreen({Key key, @required this.todo}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    // Use the Todo to create our UI
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Route"),
+        title: Text(todo.title),
       ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back!'),
-        ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Text(todo.description),
       ),
     );
   }
