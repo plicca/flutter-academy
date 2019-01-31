@@ -9,6 +9,7 @@ class MyApp extends StatelessWidget {
 		return MaterialApp(
 			title: 'Startup Name Generator',   
 			theme: new ThemeData(
+				fontFamily: 'Roboto',
 				primaryColor: Colors.teal,
 			),         
 			home: new RandomWords(),
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
 }
 
 class RandomWords extends StatefulWidget {
+  RandomWords({Key key}) : super(key: key);
 	@override
 	RandomWordsState createState() => new RandomWordsState();
 }
@@ -32,9 +34,35 @@ class RandomWordsState extends State<RandomWords> {
 			appBar: new AppBar(
 				title: new Text('Startup Name Generator'),
 				actions: <Widget>[
-					new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
+				//	new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
 				],
 			),
+      drawer: new Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Draw Header'),
+              decoration:  BoxDecoration(
+                color: Colors.teal,
+              ),
+            ),
+            ListTile(
+              title: Text('Saved Sugestions'),
+              onTap: () {
+                _pushSaved();
+              }
+            ),
+            ListTile(
+              title: Text('SnackBar Pop Up'),
+              onTap: () {
+                // Not working
+                Scaffold.of(context).showSnackBar(SnackBar(content: new Text('This is a snack bar')));
+              },
+            )
+          ]
+        ),
+      ),
 			body: _buildSuggestions(),
 		);
 	}
@@ -105,3 +133,4 @@ class RandomWordsState extends State<RandomWords> {
 		);
 	}
 }
+
