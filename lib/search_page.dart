@@ -1,16 +1,52 @@
 import 'package:flutter/material.dart';
 
+  final students = [
+    "Tiago",
+    "Pedro",
+    "Francisco",
+    "Shazia",
+  ];
+
+  final profs = [
+    "António",
+    "Manuel",
+    "Gedeão",
+    "Paulo"
+  ];
+
+  final subjects = [
+    "Eletrónica 1",
+    "Eletrónica 2",
+    "Programação de Microprocessadores",
+    "Análise Matemática 1"
+  ];
+
+  final recentSubjects = [
+    "Eletrónica 1",
+    "Eletrónica 2"
+  ];
+
+  final recentProfs = [
+    "Paulo",
+    "Gedeão"
+  ];
+
+  final recentStudents = [
+    "Tiago",
+    "Pedro"
+  ];
+
+  int selected = 1;
+
 class Search extends StatefulWidget {
   SearchState createState() => new SearchState();
 }
 
 class SearchState extends State<Search> with SingleTickerProviderStateMixin{
 
-  int _selected = 0;
-
   void onChanged(int value) {
     setState(() {
-     _selected = value; 
+     selected = value; 
     });
   }
 
@@ -20,7 +56,7 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin{
     list.add(new RadioListTile(
       value: 1,
       title: new Text("Students"),
-      groupValue: _selected,
+      groupValue: selected,
       onChanged: (int value){onChanged(value);},
       activeColor: Colors.green,
       secondary: Icon(Icons.person)
@@ -29,7 +65,7 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin{
     list.add(new RadioListTile(
       value: 2,
       title: new Text("Teachers"),
-      groupValue: _selected,
+      groupValue: selected,
       onChanged: (int value){onChanged(value);},
       activeColor: Colors.green,
       secondary: Icon(Icons.person),
@@ -38,7 +74,7 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin{
     list.add(new RadioListTile(
       value: 3,
       title: new Text("Subjects"),
-      groupValue: _selected,
+      groupValue: selected,
       onChanged: (int value){onChanged(value);},
       activeColor: Colors.green,
       secondary: Icon(Icons.assignment)
@@ -76,44 +112,6 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin{
 }
 
 class SearchData extends SearchDelegate<String> {
-  
-  final students = [
-    "Tiago",
-    "Pedro",
-    "Francisco",
-    "Shazia",
-  ];
-
-  final profs = [
-    "António",
-    "Manuel",
-    "Gedeão",
-    "Paulo"
-  ];
-
-  final subjects = [
-    "Eletrónica 1",
-    "Eletrónica 2",
-    "Programação de Microprocessadores",
-    "Análise Matemática 1"
-  ];
-
-  final recentSubjects = [
-    "Eletrónica 1",
-    "Eletrónica 2"
-  ];
-
-  final recentProfs = [
-    "Paulo",
-    "Gedeão"
-  ];
-
-  final recentStudents = [
-    "Tiago",
-    "Pedro"
-  ];
-
-
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -139,13 +137,39 @@ class SearchData extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
+    return Container(
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new Text("This is where searched data will show...")
+        ],
+      ),
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
 
-    final suggestionList = query.isEmpty ? recentStudents : students.where((p) => p.startsWith(query)).toList();
+    List recentSearch, searchList;
+
+    if (selected != 0) {
+      if (selected == 1) {
+        recentSearch = recentStudents;
+        searchList = students;
+      }
+
+      if (selected == 2) {
+        recentSearch = recentProfs;
+        searchList = profs;
+      }
+
+      if (selected == 3) {
+        recentSearch = recentSubjects;
+        searchList = subjects;
+      }
+    }
+
+    final suggestionList = query.isEmpty ? recentSearch : searchList.where((p) => p.startsWith(query)).toList();
 
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(

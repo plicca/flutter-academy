@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
+String nome = "Tiago Filipe Cabral Marques";
+String numAluno = "49879";
+String curso = "MIEEC";
+String periodo = "3º ano";
+String data = "17 de Setembro de 2016";
+String matriculas = "3";
+
 class User extends StatefulWidget {
   UserState createState() => new UserState();
 }
 
 class UserState extends State<User> with SingleTickerProviderStateMixin {
-
-  String nome = "Tiago Filipe Cabral Marques";
-  String numAluno = "49879";
-  String curso = "MIEEC";
-  String periodo = "3º ano";
-  String data = "17 de Setembro de 2016";
-  String matriculas = "3";
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,6 @@ class UpdateProfile extends StatefulWidget {
 class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderStateMixin {
   
   final TextEditingController controller = new TextEditingController();
-  String result = "";
   
   @override
   Widget build(BuildContext context) {
@@ -83,27 +82,32 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
         title: new Text("Update User Profile"),
         backgroundColor: Colors.green,
       ),
-      body: new Center(
+      body: new Container(
         child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             new Padding(
-              padding: EdgeInsets.only(left: 50.0, right: 50.0),
+              padding: EdgeInsets.only(top:20.0, left: 50.0, right: 50.0),
               child: new TextField(
                 decoration: new InputDecoration(
                 hintText: "Nome..."
               ),
                 onSubmitted: (String str) {
-                  setState(() {
-                    result = str; 
-                  });
-                  controller.text = "";
+                  controller.text = str;
                 },
                 controller: controller,
               ),
-            )
+            ),
           ],
         ),
+      ),
+      floatingActionButton: new FloatingActionButton.extended(
+        label: new Text("Save"),
+        onPressed: () {
+          Navigator.pop(context);
+          setState(() {nome = controller.text;});
+        },
+        backgroundColor: Colors.green,
+        icon: new Icon(Icons.save),
       )
     );
   }
