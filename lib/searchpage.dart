@@ -6,12 +6,16 @@ class Search extends StatefulWidget {
 
 class SearchState extends State<Search> with SingleTickerProviderStateMixin{
 
- int _selected = 0;
+ static int _selected = 0;
 
  void onChanged(int value) {
    setState(() {
     _selected = value;
    });
+ }
+
+ static int getSelectedState() {
+   return _selected;
  }
 
  List<Widget> makeRadios() {
@@ -77,97 +81,107 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin{
 
 class SearchData extends SearchDelegate<String> {
 
- final students = [
-   "Tiago",
-   "Pedro",
-   "Francisco",
-   "Shazia",
- ];
+  final students = [
+    "Tiago",
+    "Pedro",
+    "Francisco",
+    "Shazia",
+  ];
 
- final profs = [
-   "António",
-   "Manuel",
-   "Gedeão",
-   "Paulo"
- ];
+  final profs = [
+    "António",
+    "Manuel",
+    "Gedeão",
+    "Paulo"
+  ];
 
- final subjects = [
-   "Eletrónica 1",
-   "Eletrónica 2",
-   "Programação de Microprocessadores",
-   "Análise Matemática 1"
- ];
+  final subjects = [
+    "Eletrónica 1",
+    "Eletrónica 2",
+    "Programação de Microprocessadores",
+    "Análise Matemática 1"
+  ];
 
- final recentSubjects = [
-   "Eletrónica 1",
-   "Eletrónica 2"
- ];
+  /* final recentSubjects = [
+    "Eletrónica 1",
+    "Eletrónica 2"
+  ];
 
- final recentProfs = [
-   "Paulo",
-   "Gedeão"
- ];
+  final recentProfs = [
+    "Paulo",
+    "Gedeão"
+  ];
 
- final recentStudents = [
-   "Tiago",
-   "Pedro"
- ];
+  final recentStudents = [
+    "Tiago",
+    "Pedro"
+  ];*/
 
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      )
+    ];
+  }
 
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
 
- @override
- List<Widget> buildActions(BuildContext context) {
-   return [
-     IconButton(
-       icon: Icon(Icons.clear),
-       onPressed: () {
-         query = '';
-       },
-     )
-   ];
- }
+  @override
+  Widget buildResults(BuildContext context) {
+  return Container();
+  }
 
- @override
- Widget buildLeading(BuildContext context) {
-   return IconButton(
-     icon: Icon(Icons.arrow_back),
-     onPressed: () {
-       close(context, null);
-     },
-   );
- }
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    var totallist = []..addAll(students)..addAll(profs)..addAll(subjects);
+    var suggestionList = totallist.where((p) => p.startsWith(query)).toList();
+    
+    switch (SearchState.getSelectedState()) {
+      case 1:
+        suggestionList = students.where((p) => p.startsWith(query)).toList();
+        break;
+      case 2:
+        suggestionList = profs.where((p) => p.startsWith(query)).toList();
+        break;
+      case 3:
+        suggestionList = subjects.where((p) => p.startsWith(query)).toList();
+        break;
+    }
 
- @override
- Widget buildResults(BuildContext context) {
-   return Container();
- }
-
- @override
- Widget buildSuggestions(BuildContext context) {
-
-   final suggestionList = query.isEmpty ? recentStudents : students.where((p) => p.startsWith(query)).toList();
-
-   return ListView.builder(
-     itemBuilder: (context, index) => ListTile(
-       onTap: () {
-         showResults(context);
-       },
-       leading: Icon(Icons.arrow_right),
-       title: RichText(
-         text: TextSpan(
-           text: suggestionList[index].substring(0, query.length),
-           style: new TextStyle(
-             color: Colors.green,
-             fontWeight: FontWeight.bold
-           ),
-           children: [TextSpan(
-               text: suggestionList[index].substring(query.length),
-               style: TextStyle(color: Colors.grey)
-           )]
-         ),
-       ),
-     ),
-     itemCount: suggestionList.length,
-   );
- }
+    return ListView.builder(
+      itemBuilder: (context, index) => ListTile(
+        onTap: () {
+          showResults(context);
+        },
+        leading: Icon(Icons.arrow_right),
+        title: RichText(
+          text: TextSpan(
+            text: suggestionList[index].substring(0, query.length),
+            style: new TextStyle(
+              color: Colors.green,
+              fontWeight: FontWeight.bold
+            ),
+            children: [TextSpan(
+                text: suggestionList[index].substring(query.length),
+                style: TextStyle(color: Colors.grey)
+            )]
+          ),
+        ),
+      ),
+      itemCount: suggestionList.length,
+    );
+  }
 }
