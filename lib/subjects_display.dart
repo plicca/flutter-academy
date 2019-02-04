@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:clip/networking/teacher_endpoint.dart';
 
 class Subjects extends StatefulWidget {
   @override

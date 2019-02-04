@@ -1,7 +1,6 @@
+import 'package:clip/networking/teacher_endpoint.dart';
+import 'package:clip/model/professor.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:convert';
 
 class Search extends StatefulWidget {
   @override
@@ -12,43 +11,133 @@ class _SearchState extends State<Search> {
   @override
   final TextEditingController _filter = new TextEditingController();
   String _searchText = "";
-  List filteredNames = [
-  "Lavern Colligan",
-  "Bob Coomes",
-  "Losonya Dematteo",
-  "maryo Kyles",
-  "Carisa Watt",
-  "Beryl Buchman",
-  "Adrianna Aberle",
-  "Meagan Kravitz",
-  "Janey Parfait",
-  "Dayle Reddix",
-  "Jinny Kaester",
-  "Katherine Ganey",
-  "Kendrick Lalley",
-  "Marcelle Shaul",
-  "Fracie Giffen",
-  "Misha Retzlaff",
+  List filteredNames;
+  List studentsNames = [
+    "Lavern Colligan",
+    "Bob Coomes",
+    "Losonya Dematteo",
+    "Maryo Kyles",
+    "Carisa Watt",
+    "Beryl Buchman",
+    "Adrianna Aberle",
+    "Tiago Marques",
+    "Miguel Marcelo",
+    "Pedro Albuquerque",
+    "Shazia Sulemane",
+    "Yuliya Prytysyuk",
+    "Valeria Natasha",
+    "Ricardo Walker",
   ];
-  Icon _searchIcon = new Icon(Icons.search);
-  Widget _appBarTitle = new Text( 'Search Example' );
+  List teachersNames = [
+    "Meagan Kravitz",
+    "Janey Parfait",
+    "Dayle Reddix",
+    "Jinny Kaester",
+    "Katherine Ganey",
+    "Kendrick Lalley",
+    "Marcelle Shaul",
+    "Fracie Giffen",
+    "Misha Retzlaff",
+    "Paulo Pinto",
+    "Paulo Montezuma",
+    "Fernanda Barbosa",
+    "Raul Rato",
+    "Rui Neves da Silva",
+  ];
+  List subjects = [
+    "Álgebra Linear e Geometria Analítica",
+    "Análise Matemática I",
+    "Desenho Assistido por Computador",
+    "Programação de Microprocessadores",
+    "Sistemas Lógicos I",
+    "Algoritmos e Estruturas de Dados",
+    "Análise Matemática II B",
+    "Física I",
+    "Sistemas Lógicos II",
+    "Teoria de Circuitos Elétricos",
+    "Análise Matemática III B",
+    "Cálculo Numérico",
+    "Física III",
+    "Introdução às Telecomunicações",
+    "Microprocessadores",
+    "Análise Matemática IV B",
+    "Eletrónica I",
+    "Probabilidades e Estatística C",
+    "Sistemas de Telecomunicações",
+    "Teoria de Sinais",
+    "Eletrotecnia Teórica",
+    "Eletrónica II",
+    "Física II",
+    "Sistemas de Tempo Real",
+    "Teoria de Controlo",
+    "Controlo por Computador",
+    "Conversão Eletromecânica de Energia",
+    "Instrumentação de Medidas Elétricas",
+    "Modelação de Dados em Engenharia",
+    "Propagação e Radiação",
+  ];
 
+
+  Icon _searchIcon = new Icon(Icons.search);
+  Widget _appBarTitle = new Text( 'Search' );
+
+  int _selected = 0;
+
+  final TextEditingController controller = new TextEditingController();
+
+  void onChanged(int v) {
+    setState(() {
+      _selected = v;
+    });
+  }
 
   Widget build(BuildContext context) {
     return new Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        centerTitle: true,
-        title: _appBarTitle,
-        backgroundColor: Theme.of(context).primaryColor,
-        actions: <Widget>[
-          IconButton(
-            icon: _searchIcon,
-            onPressed: _searchPressed,
-          ),
-        ],
-      ),
-      body: _buildList(),
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          centerTitle: true,
+          title: _appBarTitle,
+          backgroundColor: Colors.green,
+          actions: <Widget>[
+            IconButton(
+              icon: _searchIcon,
+              onPressed: _searchPressed,
+            ),
+          ],
+        ),
+        body: new Column(
+          children: <Widget>[
+            new RadioListTile(
+              title: Text('Alunos '),
+              value: 0,
+              groupValue: _selected,
+              onChanged: (int v) => (onChanged(v)),
+              activeColor: Colors.green,
+              secondary: Icon(Icons.person_outline),
+             ),
+            new RadioListTile(
+              title: Text('Disciplinas '),
+              value: 1,
+              groupValue: _selected,
+              onChanged: (int v) => (onChanged(v)),
+              activeColor: Colors.green,
+              secondary: Icon(Icons.assignment),
+            ),
+            new RadioListTile(
+              title: Text('Professores '),
+              value: 2,
+              groupValue: _selected,
+              onChanged: (int v) => (onChanged(v)),
+              activeColor: Colors.green,
+              secondary: Icon(Icons.person),
+            ),
+            new Container(
+              child: Expanded(
+                  child: _buildList(),
+              ),
+            ),
+          ],
+        ),
     );
   }
 
@@ -65,19 +154,31 @@ class _SearchState extends State<Search> {
         );
       } else {
         this._searchIcon = new Icon(Icons.search);
-        this._appBarTitle = new Text('Search Example');
+        this._appBarTitle = new Text('Search');
         _filter.clear();
       }
     });
   }
 
+  changeList () {
+    if (_selected == 0) {
+      filteredNames = studentsNames;
+    } else if (_selected == 2) {
+      filteredNames = teachersNames;
+    } else if (_selected == 1) {
+      filteredNames = subjects;
+    }
+  }
+
   Widget _buildList() {
+    changeList();
+    ExamplePageState();
     return ListView.builder(
-      itemCount: filteredNames.length,
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: (context, i) {source
-        return _buildRow(filteredNames[i]);
-      });
+        itemCount: filteredNames.length,
+        padding: const EdgeInsets.all(16.0),
+        itemBuilder: (context, i) {
+          return _buildRow(filteredNames[i]);
+        });
   }
 
   Widget _buildRow(String name) {
@@ -95,7 +196,9 @@ class _SearchState extends State<Search> {
         });
       } else {
         setState(() {
+          print(_filter.text);
           _searchText = _filter.text;
+          filterText();
         });
       }
     });
@@ -103,10 +206,15 @@ class _SearchState extends State<Search> {
 
   void filterText () {
     var i;
-
-     for (i=0; i < filteredNames.length; i++) {
-       if (!filteredNames.contains(_searchText))
-         filteredNames.removeAt(i);
-     }
+    for (i = 0; i < filteredNames.length; i++) {
+      if (!filteredNames.elementAt(i).toString().toLowerCase().contains(
+          _searchText.toLowerCase()))
+        //print(filteredNames.elementAt(i));
+        filteredNames.removeAt(i);
+    }
+    if (filteredNames.isEmpty) {
+      filteredNames.add("No Results");
+    }
+    print(filteredNames);
   }
-  }
+}

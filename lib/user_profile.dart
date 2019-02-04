@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:clip/model/professor.dart';
+import 'package:clip/networking/teacher_endpoint.dart';
 
 class User extends StatefulWidget {
   UserState createState() => new UserState();
@@ -6,12 +8,18 @@ class User extends StatefulWidget {
 
 class UserState extends State<User> with SingleTickerProviderStateMixin {
 
-  String nome = "Tiago Filipe Cabral Marques";
-  String numAluno = "49879";
-  String curso = "MIEEC";
-  String periodo = "3º ano";
-  String data = "17 de Setembro de 2016";
-  String matriculas = "3";
+  Professor currentProfessor =  Professor(id: 0, firstName: "", lastName: "",
+      cursoID: "", cadeiraID: "", startDate: "");
+
+  @override
+  void initState() {
+    super.initState();
+    fetchProfessorbyID(1).then((Professor x) {
+      setState(() {
+        currentProfessor = x;
+      });
+    });
+  }
 
   void onPressed() {
 
@@ -32,22 +40,19 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               new Text("Nome Completo: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-              new Text(nome),
+              new Text(currentProfessor.firstName + " " + currentProfessor.lastName),
               new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-              new Text("Número de Aluno: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-              new Text(numAluno),
+              new Text("Número de Professor: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+              new Text(currentProfessor.id.toString()),
               new Padding(padding: EdgeInsets.only(bottom: 5.0)),
               new Text("Curso: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-              new Text(curso),
-              new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-              new Text("Período Curricular: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-              new Text(periodo),
+              new Text(currentProfessor.cursoID),
               new Padding(padding: EdgeInsets.only(bottom: 5.0)),
               new Text("Data de início: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-              new Text(data),
+              new Text(currentProfessor.startDate),
               new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-              new Text("Número de Matrículas: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-              new Text(matriculas)
+              new Text("Cadeira: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+              new Text(currentProfessor.cadeiraID)
             ],
           ),
         ),
