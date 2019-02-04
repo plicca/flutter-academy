@@ -35,7 +35,11 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("CLIP v.0.1"),
+        title: new Text("CLIP", style: new TextStyle(fontSize: 22.5)),
+        actions: <Widget>[
+          new Icon(Icons.attach_file, size: 30.0),
+          new Padding(padding: EdgeInsets.only(right: 10.0))
+        ],
         backgroundColor: Colors.green,
       ),
       bottomNavigationBar: new Material(
