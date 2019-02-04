@@ -1,3 +1,4 @@
+import 'package:clip/networking/teacher_endpoint.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatelessWidget {
@@ -113,6 +114,7 @@ class DataSearch extends SearchDelegate<String> {
     "Sistemas de Tempo Real",
     "Teoria de Controlo",
   ];
+
 
   List<Widget> buildActions(BuildContext context) {
     return [

@@ -1,3 +1,5 @@
+import 'package:clip/model/professor.dart';
+import 'package:clip/networking/teacher_endpoint.dart';
 import 'package:flutter/material.dart';
 
 class User extends StatefulWidget {
@@ -5,15 +7,20 @@ class User extends StatefulWidget {
 }
 
 class UserState extends State<User> with SingleTickerProviderStateMixin {
-  String nome = "Pedro Miguel Silvério de Oliveira";
-  String numAluno = "50544";
-  String curso = "MIEEC";
-  String periodo = "3.º ano";
-  String data = "17 de Setembro de 2016";
-  String matriculas = "3";
+  Professor currentProfessor = Professor(id: 0, firstName: "", lastName: "", cursoID: "", cadeiraID: "", startDate: "");
 
-  void onPressed() {  }  @override
+  void initState() {
+    super.initState();
+    fetchTeacher(1).then((Professor x) {
+      setState(() {
+        currentProfessor = x;
+      });
+    });
+  }
 
+  void onPressed() {  }
+
+  @override
   Widget build(BuildContext context) {
       return ListView(
         children: [
@@ -31,27 +38,23 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
                   children: <Widget>[
                     new Text("Nome Completo: ", style: new TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 16.0)),
-                    new Text(nome),
+                    new Text(currentProfessor.firstName + " " + currentProfessor.lastName),
                     new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-                    new Text("Número de Aluno: ", style: new TextStyle(
+                    new Text("Número de Professor: ", style: new TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 16.0)),
-                    new Text(numAluno),
+                    new Text(currentProfessor.id.toString()),
                     new Padding(padding: EdgeInsets.only(bottom: 5.0)),
                     new Text("Curso: ", style: new TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 16.0)),
-                    new Text(curso),
+                    new Text(currentProfessor.cursoID),
                     new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-                    new Text("Período Curricular: ", style: new TextStyle(
+                    new Text("Cadeira: ", style: new TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 16.0)),
-                    new Text(periodo),
+                    new Text(currentProfessor.cadeiraID),
                     new Padding(padding: EdgeInsets.only(bottom: 5.0)),
                     new Text("Data de início: ", style: new TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 16.0)),
-                    new Text(data),
-                    new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-                    new Text("Número de Matrículas: ", style: new TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16.0)),
-                    new Text(matriculas)
+                    new Text(currentProfessor.startDate),
                   ],
                 ),
               ),

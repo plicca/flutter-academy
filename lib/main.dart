@@ -1,12 +1,16 @@
+import 'package:clip/networking/teacher_endpoint.dart';
 import 'package:flutter/material.dart';
 import './search_page.dart' as search;
 import './subjects_display.dart' as subjects;
 import './user_profile.dart' as user;
-
+import './splash.dart' as splash;
 
 void main() {
   runApp(new MaterialApp(
-    home: Tabs()
+      home: splash.SplashScreen(),
+      routes: <String, WidgetBuilder> {
+        "/Tabs": (BuildContext context) => new Tabs()
+      }
   ));
 }
 
