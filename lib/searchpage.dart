@@ -15,24 +15,11 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin{
     _selected = value;
    });
  }
-  //List<Student> st;
-  Student st;
+  static List<Student> st;
+
   void initState() {
     super.initState();
-    fetchStudents().then((List<Student> x){
-      print(x);
-      st = x.first;
-      print(st.firstName);
-      print(st.lastName);
-      print(st.cursoID);
-      print(st.date);
-      });
-    //print(st.id);
-    /*print(st.firstName);
-    print(st.lastName);
-    print(st.cursoID);
-    print(st.date);*/
-    //print(st);
+    fetchStudents().then((List<Student> x){st = x;});
   }
 
  static int getSelectedState() {
@@ -72,6 +59,14 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin{
    return list;
  }
 
+  Widget buildStudentsList(List<Student> students) {
+    List<Widget> list = new List<Widget>();
+    for(var i = 0; i < students.length; i++) {
+        list.add(new Text(students[i].firstName + ' ' + students[i].lastName));
+    }
+    return new Column(children: list);
+  }
+
  @override
  Widget build(BuildContext context) {
    return new Scaffold(
@@ -92,7 +87,12 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin{
        padding: new EdgeInsets.all(32.0),
        child: new Center(
          child: new Column(
-           children: makeRadios(),
+           children: [
+             new Column (
+              children :makeRadios(),
+             ),
+             buildStudentsList(st),
+            ],
          ),
        ),
      ),
@@ -122,6 +122,8 @@ class SearchData extends SearchDelegate<String> {
     "Programação de Microprocessadores",
     "Análise Matemática 1"
   ];
+
+
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -157,7 +159,8 @@ class SearchData extends SearchDelegate<String> {
     
     switch (SearchState.getSelectedState()) {
       case 1:
-        suggestionList = students.where((p) => p.startsWith(query)).toList();
+        //suggestionList = students.where((p) => p.startsWith(query)).toList();
+        
         break;
       case 2:
         suggestionList = profs.where((p) => p.startsWith(query)).toList();
