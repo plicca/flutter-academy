@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import './search_page.dart' as search;
 import './subjects_display.dart' as subjects;
 import './user_profile.dart' as user;
+import './splash.dart' as splash;
 
 
 void main() {
   runApp(new MaterialApp(
-    home: Tabs()
+    home: splash.SplashScreen(),
+    routes: <String, WidgetBuilder> {
+      "/Tabs": (BuildContext context) => new Tabs()
+    }
   ));
 }
 
@@ -35,7 +39,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("CLIP", style: new TextStyle(fontSize: 22.5)),
+        title: new Text("MyCLIP", style: new TextStyle(fontSize: 22.5)),
         actions: <Widget>[
           new Icon(Icons.attach_file, size: 30.0),
           new Padding(padding: EdgeInsets.only(right: 10.0))

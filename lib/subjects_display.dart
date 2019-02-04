@@ -56,7 +56,7 @@ class SubjectsState extends State<Subjects> {
         backgroundColor: Colors.green,
         title: new Text("Subjects"),
       ),
-      body: buildSubjects(),
+      body: buildSubjects()S,
       floatingActionButton: new FloatingActionButton(
         onPressed: () {},
         child: new Icon(Icons.add),

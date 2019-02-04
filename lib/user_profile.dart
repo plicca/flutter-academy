@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:clip/model/student.dart';
+import 'package:clip/networking/student_endpoint.dart';
 
-String nome = "Tiago Filipe Cabral Marques";
-String numAluno = "49879";
-String curso = "MIEEC";
-String periodo = "3º ano";
-String data = "17 de Setembro de 2016";
-String matriculas = "3";
+Student currentStudent = new Student();
 
 class User extends StatefulWidget {
   UserState createState() => new UserState();
 }
 
 class UserState extends State<User> with SingleTickerProviderStateMixin {
+
+  void initState() {
+    super.initState();
+    fetchStudent(5).then((Student receivedStudent) {
+      setState(() {
+        currentStudent = receivedStudent;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,22 +40,17 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Text("Nome Completo: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-                new Text(nome, style: new TextStyle(fontSize: 16.0)),
+                new Text(currentStudent.firstName + " " + currentStudent.lastName, style: new TextStyle(fontSize: 16.0)),
                 new Padding(padding: EdgeInsets.only(bottom: 5.0)),
                 new Text("Número de Aluno: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-                new Text(numAluno, style: new TextStyle(fontSize: 16.0)),
+                new Text(currentStudent.id.toString(), style: new TextStyle(fontSize: 16.0)),
                 new Padding(padding: EdgeInsets.only(bottom: 5.0)),
                 new Text("Curso: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-                new Text(curso, style: new TextStyle(fontSize: 16.0)),
-                new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-                new Text("Período Curricular: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-                new Text(periodo, style: new TextStyle(fontSize: 16.0)),
+                new Text(currentStudent.cursoID.toString(), style: new TextStyle(fontSize: 16.0)),
                 new Padding(padding: EdgeInsets.only(bottom: 5.0)),
                 new Text("Data de início: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-                new Text(data, style: new TextStyle(fontSize: 16.0)),
+                new Text(currentStudent.startDate, style: new TextStyle(fontSize: 16.0)),
                 new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-                new Text("Número de Matrículas: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-                new Text(matriculas, style: new TextStyle(fontSize: 16.0))
               ],
             ),
           ),
@@ -73,7 +74,8 @@ class UpdateProfile extends StatefulWidget {
 
 class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderStateMixin {
   
-  final TextEditingController controller = new TextEditingController();
+  final TextEditingController firstController = new TextEditingController();
+  final TextEditingController lastController = new TextEditingController();
   
   @override
   Widget build(BuildContext context) {
@@ -89,14 +91,26 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
               padding: EdgeInsets.only(top:20.0, left: 50.0, right: 50.0),
               child: new TextField(
                 decoration: new InputDecoration(
-                hintText: "Nome..."
+                hintText: "First name..."
               ),
                 onSubmitted: (String str) {
-                  controller.text = str;
+                 firstController.text = str;
                 },
-                controller: controller,
+                controller: firstController,
               ),
             ),
+            new Padding(
+              padding: EdgeInsets.only(top:20.0, left: 50.0, right: 50.0),
+              child: new TextField(
+                decoration: new InputDecoration(
+                hintText: "Last name..."
+              ),
+                onSubmitted: (String str) {
+                  lastController.text = str;
+                },
+                controller: lastController,
+              ),
+            )
           ],
         ),
       ),
@@ -104,7 +118,10 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
         label: new Text("Save"),
         onPressed: () {
           Navigator.pop(context);
-          setState(() {nome = controller.text;});
+          setState(() {
+            currentStudent.firstName = firstController.text;
+            currentStudent.lastName = lastController.text;
+          });
         },
         backgroundColor: Colors.green,
         icon: new Icon(Icons.save),
