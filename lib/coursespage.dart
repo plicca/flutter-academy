@@ -9,6 +9,28 @@ class CoursesHome extends StatefulWidget {
 }
 
 class CoursesHomeState extends State<CoursesHome> {
+  final subjects = [
+    "Álgebra Linear e Geometria Analítica",
+    "Análise Matemática I",
+    "Desenho Assistido por Computador",
+    "Programação de Microprocessadores",
+    "Sistemas Lógicos I",
+    "Algoritmos e Estruturas de Dados",
+    "Análise Matemática II",
+    "Física I",
+    "Sistemas Lógicos II",
+    "Teoria de Circuitos Elétricos",
+    "Análise Matemática III",
+    "Cálculo Numérico",
+    "Física III",
+    "Introdução às Telecomunicações",
+    "Teoria de Sinais",
+    "Eletrotecnia Teórica",
+    "Eletrónica II",
+    "Física II",
+    "Sistemas de Tempo Real"
+  ];
+
   @override
 
   Widget build(BuildContext context) {
@@ -20,22 +42,22 @@ class CoursesHomeState extends State<CoursesHome> {
 		);
 	}
 
-  Widget _buildList() => ListView(
-      children: [
-        _tile('Cadeira 1'),
-        _tile('Cadeira 2'),
-        _tile('Cadeira 3'),
-        _tile('Cadeira 4'),
-        _tile('Cadeira 5'),
+  Widget _buildList() {
+      return ListView.builder(
+      padding: new EdgeInsets.all(16.0),
+      itemBuilder: (context, i) {
+        final index = i;
+        if (i >= subjects.length)
+          return null;
         
-      ],
+        return buildRow(subjects[index]);
+      },
     );
+  }
 
-  ListTile _tile (String title) => ListTile(
-    title: Text(title,
-      style: TextStyle(
-        fontSize: 20,
-      )
-    ),
-  );
+  Widget buildRow(String subject) {
+    return ListTile(
+      title: new Text(subject)
+    );
+  }
 }

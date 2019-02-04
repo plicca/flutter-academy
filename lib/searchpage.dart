@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:test_drive/model/student.dart';
+import 'package:test_drive/networking/studentendpoint.dart';
 
 class Search extends StatefulWidget {
  SearchState createState() => new SearchState();
@@ -6,13 +8,32 @@ class Search extends StatefulWidget {
 
 class SearchState extends State<Search> with SingleTickerProviderStateMixin{
 
- static int _selected = 0;
+ static int _selected = 1;
 
  void onChanged(int value) {
    setState(() {
     _selected = value;
    });
  }
+  //List<Student> st;
+  Student st;
+  void initState() {
+    super.initState();
+    fetchStudents().then((List<Student> x){
+      print(x);
+      st = x.first;
+      print(st.firstName);
+      print(st.lastName);
+      print(st.cursoID);
+      print(st.date);
+      });
+    //print(st.id);
+    /*print(st.firstName);
+    print(st.lastName);
+    print(st.cursoID);
+    print(st.date);*/
+    //print(st);
+  }
 
  static int getSelectedState() {
    return _selected;
@@ -102,21 +123,6 @@ class SearchData extends SearchDelegate<String> {
     "Análise Matemática 1"
   ];
 
-  /* final recentSubjects = [
-    "Eletrónica 1",
-    "Eletrónica 2"
-  ];
-
-  final recentProfs = [
-    "Paulo",
-    "Gedeão"
-  ];
-
-  final recentStudents = [
-    "Tiago",
-    "Pedro"
-  ];*/
-
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -174,10 +180,12 @@ class SearchData extends SearchDelegate<String> {
               color: Colors.green,
               fontWeight: FontWeight.bold
             ),
-            children: [TextSpan(
+            children: [
+              TextSpan(
                 text: suggestionList[index].substring(query.length),
                 style: TextStyle(color: Colors.grey)
-            )]
+              )
+            ]
           ),
         ),
       ),
