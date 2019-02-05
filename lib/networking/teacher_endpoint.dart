@@ -32,18 +32,3 @@ Future<Professor> fetchTeacher(int id) async {
 
   return null;
 }
-
-//class GetAllProfessors extends StatefulWidget {
-//  _GetAllProfessorsState createState() => new _GetAllProfessorsState();
-//}
-//
-//class _GetAllProfessorsState extends State<GetAllProfessors> {
-//
-//  Widget build(BuildContext context) {
-//    final professors = [];
-//    for (int i = 1; i < 5 ; i++) {
-//      fetchPost("http://192.168.0.106/professor/" + i.toString());
-//
-//    }
-//  }
-//}
