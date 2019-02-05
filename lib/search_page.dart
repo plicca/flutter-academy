@@ -114,24 +114,27 @@ class _SearchState extends State<Search> {
         this._appBarTitle = new TextField(
           controller: _filter,
           decoration: new InputDecoration(
-              prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
+              prefixIcon: new Icon(Icons.search), hintText: 'Procurar...'),
         );
       } else {
         this._searchIcon = new Icon(Icons.search);
-        this._appBarTitle = new Text('Search');
+        this._appBarTitle = new Text('Procurar');
         _filter.clear();
       }
     });
   }
-
   Widget _buildList() {
     int itemCount = 0;
-    if (_selected == 0) {
-      itemCount = processedStudents.length;
-    } else if (_selected == 2) {
-      itemCount = processedTeachers.length;
-    } else if (_selected == 1) {
-      itemCount = processedSubjects.length;
+    switch (_selected) {
+      case 0:
+        itemCount = processedStudents.length;
+        break;
+      case 1:
+        itemCount = processedTeachers.length;
+        break;
+      case 2:
+        itemCount = processedSubjects.length;
+        break;
     }
 
     return ListView.builder(
@@ -144,12 +147,13 @@ class _SearchState extends State<Search> {
 
   Widget _buildRow(int i) {
     String name = "";
-    if (_selected == 0) {
-      name = processedStudents[i].firstName;
-    } else if (_selected == 2) {
-      name = processedTeachers[i].firstName;
-    } else if (_selected == 1) {
-      name = processedSubjects[i].name;
+    switch (_selected) {
+      case 0:
+        name = processedStudents[i].firstName + " " + processedStudents[i].lastName; break;
+      case 1:
+        name = processedSubjects[i].name; break;
+      case 2:
+        name = processedTeachers[i].firstName + " " + processedTeachers[i].lastName; break;
     }
 
     return ListTile(
@@ -158,7 +162,7 @@ class _SearchState extends State<Search> {
     );
   }
 
-  generateTextFilterListener() {
+  void generateTextFilterListener() {
     _filter.addListener(() {
       _searchText = _filter.text ?? "";
       filterText();
@@ -169,23 +173,29 @@ class _SearchState extends State<Search> {
     if (_selected == 0) {
       processedStudents = students
           .where((Student s) =>
-          s.firstName.toLowerCase().startsWith(_searchText.toLowerCase()))
+      s.firstName.toLowerCase().startsWith(_searchText.toLowerCase()) ||
+          s.lastName.toLowerCase().startsWith(_searchText.toLowerCase()))
           .toList();
-
       setState(() {
         processedStudents = processedStudents;
       });
-      print(processedStudents);
     } else if (_selected == 2) {
       processedTeachers = teachers
           .where((Professor p) =>
-          p.firstName.toLowerCase().startsWith(_searchText.toLowerCase()))
+      p.firstName.toLowerCase().startsWith(_searchText.toLowerCase()) ||
+          p.lastName.toLowerCase().startsWith(_searchText.toLowerCase()))
           .toList();
+      setState(() {
+        processedTeachers = processedTeachers;
+      });
     } else if (_selected == 1) {
       processedSubjects = subjects
           .where((Subject s) =>
           s.name.toLowerCase().startsWith(_searchText.toLowerCase()))
           .toList();
+      setState(() {
+        processedSubjects = processedSubjects;
+      });
     }
   }
 }

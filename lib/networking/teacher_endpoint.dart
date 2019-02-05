@@ -5,8 +5,8 @@ import 'package:clip/model/professor.dart';
 
 String endpoint = "http://192.168.0.107:8080/";
 
-Future<List<Professor>> fetchProfessors() async {
-  final profSufix = "professor/";
+Future<List<Professor>> fetchTeachers() async {
+  final profSufix = "professor";
   final response = await http.get(endpoint + profSufix);
 
   try {
