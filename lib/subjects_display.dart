@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:clip/model/subject.dart';
+import 'package:clip/networking/subject_endpoint.dart';
 import 'package:clip/networking/teacher_endpoint.dart';
+import 'package:flutter/material.dart';
 
 class Subjects extends StatefulWidget {
   @override
@@ -7,38 +9,16 @@ class Subjects extends StatefulWidget {
 }
 
 class _SubjectsState extends State<Subjects> {
-  final _subjects = [
-    "Álgebra Linear e Geometria Analítica",
-    "Análise Matemática I",
-    "Desenho Assistido por Computador",
-    "Programação de Microprocessadores",
-    "Sistemas Lógicos I",
-    "Algoritmos e Estruturas de Dados",
-    "Análise Matemática II B",
-    "Física I",
-    "Sistemas Lógicos II",
-    "Teoria de Circuitos Elétricos",
-    "Análise Matemática III B",
-    "Cálculo Numérico",
-    "Física III",
-    "Introdução às Telecomunicações",
-    "Microprocessadores",
-    "Análise Matemática IV B",
-    "Eletrónica I",
-    "Probabilidades e Estatística C",
-    "Sistemas de Telecomunicações",
-    "Teoria de Sinais",
-    "Eletrotecnia Teórica",
-    "Eletrónica II",
-    "Física II",
-    "Sistemas de Tempo Real",
-    "Teoria de Controlo",
-    "Controlo por Computador",
-    "Conversão Eletromecânica de Energia",
-    "Instrumentação de Medidas Elétricas",
-    "Modelação de Dados em Engenharia",
-    "Propagação e Radiação",
-  ];
+  List<Subject> _subjects = [];
+
+  void initState() {
+    super.initState();
+    fetchSubjectsbyProfessorID(1).then((List<Subject> x) {
+      setState(() {
+        _subjects = x;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +26,13 @@ class _SubjectsState extends State<Subjects> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.green,
-        title: Text('Subjects'),
+        title: Text('Disciplinas'),
       ),
       body: _buildSubjects(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
       ),
@@ -64,14 +46,13 @@ class _SubjectsState extends State<Subjects> {
           final index = i;
           if (i >= _subjects.length)
             return null;
-
           return _buildRow(_subjects[index]);
         });
   }
 
-  Widget _buildRow(String subject) {
+  Widget _buildRow(Subject subject) {
     return ListTile(
-      title: Text(subject),
+      title: Text(subject.name ?? ""),
     );
   }
 }

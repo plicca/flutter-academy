@@ -77,7 +77,6 @@ class _SearchState extends State<Search> {
     "Propagação e Radiação",
   ];
 
-
   Icon _searchIcon = new Icon(Icons.search);
   Widget _appBarTitle = new Text( 'Search' );
 
@@ -207,9 +206,7 @@ class _SearchState extends State<Search> {
   void filterText () {
     var i;
     for (i = 0; i < filteredNames.length; i++) {
-      if (!filteredNames.elementAt(i).toString().toLowerCase().contains(
-          _searchText.toLowerCase()))
-        //print(filteredNames.elementAt(i));
+      if (!filteredNames.elementAt(i).toString().toLowerCase().contains(_searchText.toLowerCase()))
         filteredNames.removeAt(i);
     }
     if (filteredNames.isEmpty) {

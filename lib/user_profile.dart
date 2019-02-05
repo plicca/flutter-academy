@@ -9,7 +9,7 @@ class User extends StatefulWidget {
 class UserState extends State<User> with SingleTickerProviderStateMixin {
 
   Professor currentProfessor =  Professor(id: 0, firstName: "", lastName: "",
-      cursoID: "", cadeiraID: "", startDate: "");
+      cursoID: 0, startDate: "");
 
   @override
   void initState() {
@@ -46,13 +46,11 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
               new Text(currentProfessor.id.toString()),
               new Padding(padding: EdgeInsets.only(bottom: 5.0)),
               new Text("Curso: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-              new Text(currentProfessor.cursoID),
+              new Text(currentProfessor.cursoID.toString()),
               new Padding(padding: EdgeInsets.only(bottom: 5.0)),
               new Text("Data de início: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
               new Text(currentProfessor.startDate),
               new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-              new Text("Cadeira: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-              new Text(currentProfessor.cadeiraID)
             ],
           ),
         ),

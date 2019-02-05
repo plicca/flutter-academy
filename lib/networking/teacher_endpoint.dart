@@ -31,3 +31,35 @@ Future<Professor> fetchProfessorbyID(int id) async  {
     print(e);
   }
 }
+
+Future<List<Professor>> fetchProfessorsbySubjectID (int subjectID) async {
+  final profSufix = "/subject/getprofessors/";
+
+  try {
+    final response = await http.get(endpoint + profSufix + subjectID.toString());
+    return  List<Professor>.from(json.decode(response.body).map((x) => Professor.fromJson(x)));
+  } catch (e) {
+    print(e);
+  }
+  return [];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
