@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 String endpoint = "http://192.168.0.106:8080/";
 
 Future<List<Professor>> fetchTeachers() async {
-  final profSufix = "professors";
+  final profSufix = "professor";
 
   try {
     final response = await http.get(endpoint + profSufix);
@@ -30,5 +30,5 @@ Future<Professor> fetchTeacher(int id) async {
   print(e);
   }
 
-  return null;
+  return Professor();
 }

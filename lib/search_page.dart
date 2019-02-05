@@ -1,7 +1,9 @@
+import 'package:clip/model/student.dart';
+import 'package:clip/model/subject.dart';
+import 'package:clip/networking/student_endpoint.dart';
+import 'package:clip/networking/subject_endpoint.dart';
 import 'package:clip/networking/teacher_endpoint.dart';
-
 import 'package:clip/model/professor.dart';
-
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {
@@ -14,80 +16,41 @@ class _SearchState extends State<Search> {
   final TextEditingController _filter = new TextEditingController();
 
   String _searchText = "";
+  List<Professor> teachers = [];
+  List<Professor> processedTeachers = [];
+  List<Subject> subjects = [];
+  List<Subject> processedSubjects = [];
+  List<Student> students = [];
+  List<Student> processedStudents = [];
 
-  List filteredNames;
+  void initState() {
+    super.initState();
+    fetchTeachers().then((List<Professor> x) {
+      setState(() {
+        teachers = x;
+        processedTeachers = x;
+      });
+    });
+    fetchSubjects().then((List<Subject> x) {
+      setState(() {
+        subjects = x;
+        processedSubjects = x;
+      });
+    });
+    fetchStudents().then((List<Student> x) {
+      setState(() {
+        students = x;
+        processedStudents = x;
+      });
+    });
+    generateTextFilterListener();
+  }
 
-  List studentsNames = [
-    "Lavern Colligan",
-    "Bob Coomes",
-    "Losonya Dematteo",
-    "Maryo Kyles",
-    "Carisa Watt",
-    "Beryl Buchman",
-    "Adrianna Aberle",
-    "Tiago Marques",
-    "Miguel Marcelo",
-    "Pedro Albuquerque",
-    "Shazia Sulemane",
-    "Yuliya Prytysyuk",
-    "Valeria Natasha",
-    "Ricardo Walker",
-  ];
-
-  List teachersNames = [
-    "Meagan Kravitz",
-    "Janey Parfait",
-    "Dayle Reddix",
-    "Jinny Kaester",
-    "Katherine Ganey",
-    "Kendrick Lalley",
-    "Marcelle Shaul",
-    "Fracie Giffen",
-    "Misha Retzlaff",
-    "Paulo Pinto",
-    "Paulo Montezuma",
-    "Fernanda Barbosa",
-    "Raul Rato",
-    "Rui Neves da Silva",
-  ];
-
-  List subjects = [
-    "Álgebra Linear e Geometria Analítica",
-    "Análise Matemática I",
-    "Desenho Assistido por Computador",
-    "Programação de Microprocessadores",
-    "Sistemas Lógicos I",
-    "Algoritmos e Estruturas de Dados",
-    "Análise Matemática II B",
-    "Física I",
-    "Sistemas Lógicos II",
-    "Teoria de Circuitos Elétricos",
-    "Análise Matemática III B",
-    "Cálculo Numérico",
-    "Física III",
-    "Introdução às Telecomunicações",
-    "Microprocessadores",
-    "Análise Matemática IV B",
-    "Eletrónica I",
-    "Probabilidades e Estatística C",
-    "Sistemas de Telecomunicações",
-    "Teoria de Sinais",
-    "Eletrotecnia Teórica",
-    "Eletrónica II",
-    "Física II",
-    "Sistemas de Tempo Real",
-    "Teoria de Controlo",
-    "Controlo por Computador",
-    "Conversão Eletromecânica de Energia",
-    "Instrumentação de Medidas Elétricas",
-    "Modelação de Dados em Engenharia",
-    "Propagação e Radiação",
-  ];
   Icon _searchIcon = new Icon(Icons.search);
-
   Widget _appBarTitle = new Text('Search');
   int _selected = 0;
   final TextEditingController controller = new TextEditingController();
+
   void onChanged(int v) {
     setState(() {
       _selected = v;
@@ -148,89 +111,99 @@ class _SearchState extends State<Search> {
     setState(() {
       if (this._searchIcon.icon == Icons.search) {
         this._searchIcon = new Icon(Icons.close);
-
         this._appBarTitle = new TextField(
           controller: _filter,
           decoration: new InputDecoration(
-              prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
+              prefixIcon: new Icon(Icons.search), hintText: 'Procurar...'),
         );
       } else {
         this._searchIcon = new Icon(Icons.search);
-
-        this._appBarTitle = new Text('Search');
-
+        this._appBarTitle = new Text('Procurar');
         _filter.clear();
       }
     });
   }
 
-  changeList() {
-    if (_selected == 0) {
-      filteredNames = studentsNames;
-    } else if (_selected == 2) {
-      filteredNames = teachersNames;
-    } else if (_selected == 1) {
-      filteredNames = subjects;
-    }
-  }
-
   Widget _buildList() {
-    changeList();
-
-    ExamplePageState();
+    int itemCount = 0;
+    switch (_selected) {
+      case 0:
+        itemCount = processedStudents.length;
+        break;
+      case 1:
+        itemCount = processedTeachers.length;
+        break;
+      case 2:
+        itemCount = processedSubjects.length;
+        break;
+    }
 
     return ListView.builder(
-        itemCount: filteredNames.length,
+        itemCount: itemCount,
         padding: const EdgeInsets.all(16.0),
         itemBuilder: (context, i) {
-          return _buildRow(filteredNames[i]);
+          return _buildRow(i);
         });
   }
 
-  Widget _buildRow(String name) {
+  Widget _buildRow(int i) {
+    String name = "";
+    switch (_selected) {
+      case 0:
+        name = processedStudents[i].firstName +
+            " " +
+            processedStudents[i].lastName;
+        break;
+      case 1:
+        name = processedSubjects[i].name;
+        break;
+      case 2:
+        name = processedTeachers[i].firstName +
+            " " +
+            processedTeachers[i].lastName;
+        break;
+    }
+
     return ListTile(
       title: Text(name),
       onTap: () => debugPrint(name),
     );
   }
 
-  ExamplePageState() {
+  void generateTextFilterListener() {
     _filter.addListener(() {
-      if (_filter.text.isEmpty) {
-        setState(() {
-          _searchText = "";
-        });
-      } else {
-        setState(() {
-          print(_filter.text);
-
-          _searchText = _filter.text;
-
-          filterText();
-        });
-      }
+      _searchText = _filter.text ?? "";
+      filterText();
     });
   }
 
   void filterText() {
-    var i;
-
-    for (i = 0; i < filteredNames.length; i++) {
-      if (!filteredNames
-          .elementAt(i)
-          .toString()
-          .toLowerCase()
-          .contains(_searchText.toLowerCase()))
-
-        //print(filteredNames.elementAt(i));
-
-        filteredNames.removeAt(i);
+    if (_selected == 0) {
+      processedStudents = students
+          .where((Student s) =>
+              s.firstName.toLowerCase().startsWith(_searchText.toLowerCase()) ||
+              s.lastName.toLowerCase().startsWith(_searchText.toLowerCase()))
+          .toList();
+      setState(() {
+        processedStudents = processedStudents;
+      });
+    } else if (_selected == 2) {
+      processedTeachers = teachers
+          .where((Professor p) =>
+              p.firstName.toLowerCase().startsWith(_searchText.toLowerCase()) ||
+              p.lastName.toLowerCase().startsWith(_searchText.toLowerCase()))
+          .toList();
+      setState(() {
+        processedTeachers = processedTeachers;
+      });
+    } else if (_selected == 1) {
+      processedSubjects = subjects
+          .where((Subject s) =>
+              s.name.toLowerCase().startsWith(_searchText.toLowerCase()))
+          .toList();
+      setState(() {
+        processedSubjects = processedSubjects;
+      });
     }
-
-    if (filteredNames.isEmpty) {
-      filteredNames.add("No Results");
-    }
-
-    print(filteredNames);
   }
 }

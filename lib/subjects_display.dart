@@ -1,6 +1,5 @@
 import 'package:clip/model/subject.dart';
 import 'package:clip/networking/subject_endpoint.dart';
-import 'package:clip/networking/teacher_endpoint.dart';
 import 'package:flutter/material.dart';
 
 class Subjects extends StatefulWidget {
@@ -9,7 +8,7 @@ class Subjects extends StatefulWidget {
 }
 
 class _SubjectsState extends State<Subjects> {
-  List<Subject> _subjects = [];
+  List<Subject> _subjects = []; //= [Subject(id: 0, name: "", description: "")];
 
   void initState() {
     super.initState();

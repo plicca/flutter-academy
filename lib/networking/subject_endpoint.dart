@@ -20,3 +20,16 @@ Future<List<Subject>> fetchSubjectsByProfessorID(int id) async {
 
   return [];
 }
+
+Future<List<Subject>> fetchSubjects() async {
+  final subjectSufix = "subject";
+
+  try {
+    final response = await http.get(endpoint + subjectSufix);
+    return List<Subject>.from(json.decode(response.body).map((x) => Subject.fromJson(x)));
+  } catch(e) {
+    print(e);
+  }
+
+  return [];
+}
