@@ -2,29 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:clip/model/student_subject_info.dart';
 import 'package:clip/networking/student_subject_endpoint.dart';
 
-  final subjects = [
-    "Álgebra Linear e Geometria Analítica",
-    "Análise Matemática I",
-    "Desenho Assistido por Computador",
-    "Programação de Microprocessadores",
-    "Sistemas Lógicos I",
-    "Algoritmos e Estruturas de Dados",
-    "Análise Matemática II",
-    "Física I",
-    "Sistemas Lógicos II",
-    "Teoria de Circuitos Elétricos",
-    "Análise Matemática III",
-    "Cálculo Numérico",
-    "Física III",
-    "Introdução às Telecomunicações",
-    "Teoria de Sinais",
-    "Eletrotecnia Teórica",
-    "Eletrónica II",
-    "Física II",
-    "Sistemas de Tempo Real"
-  ];
-
-  List<StudentSubjectsInfo> currentInfo = new List<StudentSubjectsInfo>();
+List<StudentSubjectsInfo> currentInfo = new List<StudentSubjectsInfo>();
 
 class Subjects extends StatefulWidget {
   @override

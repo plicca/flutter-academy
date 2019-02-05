@@ -1,48 +1,44 @@
 import 'package:flutter/material.dart';
 
-  final students = [
-    "Tiago",
-    "Pedro",
-    "Francisco",
-    "Shazia",
-  ];
-
-  final profs = [
-    "António",
-    "Manuel",
-    "Gedeão",
-    "Paulo"
-  ];
-
-  final subjects = [
-    "Eletrónica 1",
-    "Eletrónica 2",
-    "Programação de Microprocessadores",
-    "Análise Matemática 1"
-  ];
-
-  final recentSubjects = [
-    "Eletrónica 1",
-    "Eletrónica 2"
-  ];
-
-  final recentProfs = [
-    "Paulo",
-    "Gedeão"
-  ];
-
-  final recentStudents = [
-    "Tiago",
-    "Pedro"
-  ];
-
-  int selected = 1;
-
 class Search extends StatefulWidget {
-  SearchState createState() => new SearchState();
+  @override
+  SearchState createState() => SearchState();
 }
 
-class SearchState extends State<Search> with SingleTickerProviderStateMixin{
+class SearchState extends State<Search> {
+
+  final TextEditingController controller = new TextEditingController();
+  String searchText = "";
+  List<dynamic> filteredSearchs = [];
+  Icon searchIcon = new Icon(Icons.search);
+  Widget appBarTitle = new Text("Search Tool");
+  int selected = 0;
+
+  List students = [
+    "Tiago Marques",
+    "Pedro Oliveira",
+    "Shazia Sulemane",
+    "Ricardo Walker"
+  ];
+
+  List teachers = [
+    "Paulo Montezuma",
+    "Rui Dinis",
+    "Paulo Pinto",
+    "Rui Costa",
+    "Paulo Cortês"
+  ];
+
+  List subjects = [
+    "Álgebra Linear e Geometria Analítica",
+    "Análise Matemática I",
+    "Desenho Assistido por Computador",
+    "Programação de Microprocessadores",
+    "Sistemas Lógicos I",
+    "Algoritmos e Estruturas de Dados",
+    "Análise Matemática II B",
+    "Física I"
+  ];
 
   void onChanged(int value) {
     setState(() {
@@ -50,76 +46,134 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin{
     });
   }
 
-  List<Widget> makeRadios() {
-    List<Widget> list = new List<Widget>();
+  List<Widget> showRadiosAndList() {
 
-    list.add(new RadioListTile(
-      value: 1,
-      title: new Text("Students"),
-      groupValue: selected,
-      onChanged: (int value){onChanged(value);},
-      activeColor: Colors.green,
-      secondary: Icon(Icons.person)
-    ));
+    List<Widget> auxList = [];
 
-    list.add(new RadioListTile(
-      value: 2,
-      title: new Text("Teachers"),
+    auxList.add(new RadioListTile(
+      title: Text('Alunos'),
+      value: 0,
       groupValue: selected,
-      onChanged: (int value){onChanged(value);},
+      onChanged: (int value) => (onChanged(value)),
       activeColor: Colors.green,
       secondary: Icon(Icons.person),
     ));
 
-    list.add(new RadioListTile(
-      value: 3,
-      title: new Text("Subjects"),
+    auxList.add(new RadioListTile(
+      title: Text('Professores'),
+      value: 1,
       groupValue: selected,
-      onChanged: (int value){onChanged(value);},
+      onChanged: (int value) => (onChanged(value)),
       activeColor: Colors.green,
-      secondary: Icon(Icons.assignment)
+      secondary: Icon(Icons.person),
     ));
 
-    return list;
+    auxList.add(new RadioListTile(
+      title: Text('Professores'),
+      value: 2,
+      groupValue: selected,
+      onChanged: (int value) => (onChanged(value)),
+      activeColor: Colors.green,
+      secondary: Icon(Icons.assignment),
+    ));
+
+    auxList.add(new Container(
+      child: Expanded(
+        child: buildList(),
+      ),
+    ));
+
+    return auxList;
   }
 
-  @override
+  void searchPressed() {
+    setState(() {
+      if (this.searchIcon == Icon(Icons.search)) {
+        this.searchIcon = new Icon(Icons.close);
+        this.appBarTitle = new TextField(
+          controller: controller,
+          decoration: new InputDecoration(
+            prefixIcon: new Icon(Icons.search),
+            hintText: "Search..."
+          ),
+        );
+      } else {
+        this.searchIcon = new Icon(Icons.search);
+        this.appBarTitle = new Text("Search Tool");
+        controller.clear();
+      }
+    });
+  }
+
+  void searchListSpecifier() {
+    if (selected == 0) {
+      filteredSearchs = students;
+    } else if (selected == 1) {
+      filteredSearchs = teachers;
+    } else if (selected == 2) {
+      filteredSearchs = subjects;
+    }
+  }
+
+  Widget buildList() {
+    searchListSpecifier();
+
+    controller.addListener(() {
+      if (controller.text.isEmpty) {
+        setState(() {
+         searchText = ""; 
+        });
+      } else {
+        setState(() {
+          print(controller.text);
+          searchText = controller.text; 
+          List tempList = new List();
+
+          for (int i = 0; i < filteredSearchs.length; i++) {
+            if(!filteredSearchs[i].toLowerCase().contains(searchText.toLowerCase())) {
+              tempList.add(filteredSearchs[i]);
+            }
+          }
+         
+          if(tempList.isEmpty) {
+           tempList.add("No results...");
+          }
+
+          filteredSearchs = tempList;
+          print(filteredSearchs);
+        });
+      }
+    });
+
+    return ListView.builder(
+      itemCount: filteredSearchs.length,
+      padding: new EdgeInsets.all(10.0),
+      itemBuilder: (context, i) {
+        return ListTile(
+          title: filteredSearchs[i],
+          onTap: () => debugPrint(filteredSearchs[i]),
+        );
+      },
+    );
+  }
+
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: new Text("Search Tool"),
+      resizeToAvoidBottomPadding: false,
+      appBar: new AppBar(
         centerTitle: true,
-      ),
-      body: new Container(
-        child: new Column(
-          children: <Widget>[
-            new Column(
-              children: makeRadios()
-            ),
-            new Padding(
-              padding: new EdgeInsets.only(top: 10.0, right: 25.0, left: 25.0),
-              child: new Column(
-                children: <Widget>[
-                  new TextField(
-                    decoration: new InputDecoration(
-                      hintText: "Procurar..."
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      )
-      /* new Container(
-        padding: new EdgeInsets.all(32.0),
-        child: new Center(
-          child: new Column(
-            children: makeRadios(),
+        title: appBarTitle,
+        backgroundColor: Colors.green,
+        actions: <Widget>[
+          new IconButton(
+            icon: searchIcon,
+            onPressed: searchPressed,
           ),
-        ),
-      ), */
+        ],
+      ),
+      body: new Column(
+        children: showRadiosAndList(),
+      ),
     );
   }
 }

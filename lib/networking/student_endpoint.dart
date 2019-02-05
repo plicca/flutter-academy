@@ -18,7 +18,7 @@ Future<List<Student>> fetchStudents() async {
 }
 
 Future<Student> fetchStudent(int id) async {
-  final studentSufix = "/student/" + id.toString();
+  final studentSufix = "student/" + id.toString();
 
   try {
     final response = await http.get(endpoint + studentSufix);
@@ -26,5 +26,17 @@ Future<Student> fetchStudent(int id) async {
   } catch(err) {
     print(err);
   }
-  return null;
+  return new Student();
+}
+
+Future<Student> updateStudent(Student loggedStudent) async {
+  final studentSufix = "student/update";
+
+  try {
+    final response = await http.put(endpoint + studentSufix, body: loggedStudent.toJson());
+    return Student.fromJson(json.decode(response.body));
+  } catch(err) {
+    print(err);
+  }
+  return new Student();
 }
