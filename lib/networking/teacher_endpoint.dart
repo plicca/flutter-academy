@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:clip/config/variables.dart';
 
 Future<List<Professor>> fetchTeachers() async {
-  final profSufix = "professor";
+  final profSufix = "professor/";
 
   try {
     final response = await http.get(SERVER_ENDPOINT + profSufix);
@@ -19,7 +19,7 @@ Future<List<Professor>> fetchTeachers() async {
 }
 
 Future<Professor> fetchTeacher(int id) async {
-  final profSufix = "professor/" + id.toString();
+  final profSufix = "professor/" + id.toString() + "/";
 
   try {
     final response = await http.get(SERVER_ENDPOINT + profSufix);

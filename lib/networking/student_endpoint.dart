@@ -17,7 +17,7 @@ Future<List<Student>> fetchStudents() async {
 }
 
 Future<Student> fetchStudent(int id) async {
-  final studentSufix = "student/" + id.toString();
+  final studentSufix = "student/" + id.toString() + "/";
 
   try {
     final response = await http.get(SERVER_ENDPOINT + studentSufix);

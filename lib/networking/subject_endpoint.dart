@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:clip/model/professor.dart';
 import 'package:clip/model/subject.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:clip/config/variables.dart';
 
 Future<List<Subject>> fetchSubjectsByProfessorID(int id) async {
   final profSufix = "professor/";
-  final subjectSufix = "/subject";
+  final subjectSufix = "/subject/";
 
   try {
     final response =
@@ -23,7 +21,7 @@ Future<List<Subject>> fetchSubjectsByProfessorID(int id) async {
 }
 
 Future<List<Subject>> fetchSubjects() async {
-  final subjectSufix = "subject";
+  final subjectSufix = "subject/";
 
   try {
     final response = await http.get(SERVER_ENDPOINT + subjectSufix);
@@ -37,7 +35,7 @@ Future<List<Subject>> fetchSubjects() async {
 }
 
 Future<Subject> fetchSubject(int id) async {
-  final subjectSufix = "subject/" + id.toString();
+  final subjectSufix = "subject/" + id.toString() + "/";
 
   try {
     final response = await http.get(SERVER_ENDPOINT + subjectSufix);
@@ -50,7 +48,7 @@ Future<Subject> fetchSubject(int id) async {
 }
 
 Future<Subject> createSubject(String name, String description) async {
-  final subjectSufix = "subject/create";
+  final subjectSufix = "subject/";
   final subject = Subject(name: name, description: description);
 
   try {

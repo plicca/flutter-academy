@@ -34,7 +34,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
               padding: EdgeInsets.only(top:20.0, left: 50.0, right: 50.0),
               child: new TextField(
                 decoration: new InputDecoration(
-                hintText: student.firstName + "..."
+                hintText: "First name: " + student.firstName + "..."
               ),
                 onSubmitted: (String str) {
                  firstController.text = str;
@@ -46,7 +46,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
               padding: EdgeInsets.only(top:20.0, left: 50.0, right: 50.0),
               child: new TextField(
                 decoration: new InputDecoration(
-                hintText: student.lastName + "..."
+                hintText: "Last name: " + student.lastName + "..."
               ),
                 onSubmitted: (String str) {
                   lastController.text = str;

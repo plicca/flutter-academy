@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:clip/config/variables.dart';
 
 void createProfessorSubject(int professorID, subjectID) async {
- final subjectSufix = "professor/" + professorID.toString() + "/addtosubject/" + subjectID.toString();
+ final subjectSufix = "professor/" + professorID.toString() + "/subject/" + subjectID.toString() + "/";
  final teacher = ProfessorSubject(professorID: professorID, subjectID: subjectID);
 
  try {

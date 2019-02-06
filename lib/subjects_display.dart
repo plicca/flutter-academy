@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:clip/model/subject.dart';
 import 'package:clip/networking/subject_endpoint.dart';
 import 'package:clip/networking/teacher_subject_endpoint.dart';
@@ -11,11 +10,10 @@ class Subjects extends StatefulWidget {
 
 class _SubjectsState extends State<Subjects> {
   List<Subject> _subjects = [];
-  final professorID = 2;
 
   void initState() {
     super.initState();
-    fetchSubjectsByProfessorID(professorID).then((List<Subject> x) {
+    fetchSubjectsByProfessorID(2).then((List<Subject> x) {
       setState(() {
         _subjects = x;
       });
@@ -25,11 +23,6 @@ class _SubjectsState extends State<Subjects> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.green,
-        title: Text('Disciplinas'),
-      ),
       body: _buildSubjects(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -66,7 +59,6 @@ class CreateSubjectScreen extends StatefulWidget {
 }
 
 class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
-  final professorID = 2;
   final controllerName = TextEditingController();
   final controllerDescription = TextEditingController();
 
@@ -116,7 +108,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
                   onPressed: () async {
                     final subject = await createSubject(
                         controllerName.text, controllerDescription.text);
-                    createProfessorSubject(professorID, subject.id);
+                    createProfessorSubject(2, subject.id);
                     Navigator.pop(context);
                   },
                   child: Text("Criar"),
