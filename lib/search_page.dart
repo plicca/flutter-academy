@@ -43,6 +43,7 @@ class _SearchState extends State<Search> {
         processedStudents = x;
       });
     });
+    print(students);
     generateTextFilterListener();
   }
 
@@ -126,14 +127,11 @@ class _SearchState extends State<Search> {
   Widget _buildList() {
     int itemCount = 0;
     switch (_selected) {
-      case 0:
-        itemCount = processedStudents.length;
+      case 0: itemCount = processedStudents.length;
         break;
-      case 1:
-        itemCount = processedTeachers.length;
+      case 1: itemCount = processedSubjects.length;
         break;
-      case 2:
-        itemCount = processedSubjects.length;
+      case 2: itemCount = processedTeachers.length;
         break;
     }
 

@@ -11,8 +11,9 @@ Future<List<Professor>> fetchTeachers() async {
 
   try {
     // If server returns an OK response, parse the JSON
-    return List<Professor>.from(json.decode(response.body).map((x) => Professor.fromJson(x)));
-  } catch (e){
+    return List<Professor>.from(
+        json.decode(response.body).map((x) => Professor.fromJson(x)));
+  } catch (e) {
     // If that response was not OK, throw an error.
     //throw Exception('Failed to load post');
     print(e);
@@ -20,7 +21,7 @@ Future<List<Professor>> fetchTeachers() async {
   return [];
 }
 
-Future<Professor> fetchProfessorbyID(int id) async  {
+Future<Professor> fetchProfessorbyID(int id) async {
   final profSufix = "professor/";
 
   try {
@@ -32,34 +33,16 @@ Future<Professor> fetchProfessorbyID(int id) async  {
   }
 }
 
-Future<List<Professor>> fetchProfessorsbySubjectID (int subjectID) async {
+Future<List<Professor>> fetchProfessorsbySubjectID(int subjectID) async {
   final profSufix = "/subject/getprofessors/";
 
   try {
-    final response = await http.get(endpoint + profSufix + subjectID.toString());
-    return  List<Professor>.from(json.decode(response.body).map((x) => Professor.fromJson(x)));
+    final response =
+        await http.get(endpoint + profSufix + subjectID.toString());
+    return List<Professor>.from(
+        json.decode(response.body).map((x) => Professor.fromJson(x)));
   } catch (e) {
     print(e);
   }
   return [];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
