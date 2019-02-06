@@ -29,6 +29,7 @@ class _SearchState extends State<Search> {
       setState(() {
         teachers = x;
         processedTeachers = x;
+        print("Processed teachers: " + processedTeachers.length.toString());
       });
     });
     fetchSubjects().then((List<Subject> x) {
@@ -131,10 +132,10 @@ class _SearchState extends State<Search> {
         itemCount = processedStudents.length;
         break;
       case 1:
-        itemCount = processedTeachers.length;
+        itemCount = processedSubjects.length;
         break;
       case 2:
-        itemCount = processedSubjects.length;
+        itemCount = processedTeachers.length;
         break;
     }
 
@@ -181,28 +182,28 @@ class _SearchState extends State<Search> {
     if (_selected == 0) {
       processedStudents = students
           .where((Student s) =>
-              s.firstName.toLowerCase().startsWith(_searchText.toLowerCase()) ||
-              s.lastName.toLowerCase().startsWith(_searchText.toLowerCase()))
+      s.firstName.toLowerCase().startsWith(_searchText.toLowerCase()) ||
+          s.lastName.toLowerCase().startsWith(_searchText.toLowerCase()))
           .toList();
       setState(() {
         processedStudents = processedStudents;
       });
-    } else if (_selected == 2) {
-      processedTeachers = teachers
-          .where((Professor p) =>
-              p.firstName.toLowerCase().startsWith(_searchText.toLowerCase()) ||
-              p.lastName.toLowerCase().startsWith(_searchText.toLowerCase()))
-          .toList();
-      setState(() {
-        processedTeachers = processedTeachers;
-      });
     } else if (_selected == 1) {
       processedSubjects = subjects
           .where((Subject s) =>
-              s.name.toLowerCase().startsWith(_searchText.toLowerCase()))
+          s.name.toLowerCase().startsWith(_searchText.toLowerCase()))
           .toList();
       setState(() {
         processedSubjects = processedSubjects;
+      });
+    } else if (_selected == 2) {
+      processedTeachers = teachers
+          .where((Professor p) =>
+      p.firstName.toLowerCase().startsWith(_searchText.toLowerCase()) ||
+          p.lastName.toLowerCase().startsWith(_searchText.toLowerCase()))
+          .toList();
+      setState(() {
+        processedTeachers = processedTeachers;
       });
     }
   }

@@ -27,7 +27,7 @@ Future<Professor> fetchTeacher(int id) async {
     final response = await http.get(endpoint + profSufix);
     return Professor.fromJson(json.decode(response.body));
   } catch(e) {
-  print(e);
+    print(e);
   }
 
   return Professor();

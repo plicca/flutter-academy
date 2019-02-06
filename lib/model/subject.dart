@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Subject {
   final int id;
   final String name;
@@ -11,5 +13,9 @@ class Subject {
       name: json['Name'],
       description: json['Description']
     );
+  }
+
+  String toJson() {
+    return json.encode({"Name": name, "Description": description});
   }
 }

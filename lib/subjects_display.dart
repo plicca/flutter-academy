@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:clip/model/subject.dart';
 import 'package:clip/networking/subject_endpoint.dart';
+import 'package:clip/networking/teacher_subject_endpoint.dart';
 import 'package:flutter/material.dart';
 
 class Subjects extends StatefulWidget {
@@ -8,11 +11,13 @@ class Subjects extends StatefulWidget {
 }
 
 class _SubjectsState extends State<Subjects> {
-  List<Subject> _subjects = []; //= [Subject(id: 0, name: "", description: "")];
+  List<Subject> _subjects = [];
+  final professorID = 2;
+
 
   void initState() {
     super.initState();
-    fetchSubjectsByProfessorID(2).then((List<Subject> x) {
+    fetchSubjectsByProfessorID(professorID).then((List<Subject> x) {
       setState(() {
         _subjects = x;
       });
@@ -63,6 +68,7 @@ class CreateSubjectScreen extends StatefulWidget {
 }
 
 class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
+  final professorID = 2;
   final controllerName = TextEditingController();
   final controllerDescription = TextEditingController();
 
@@ -99,10 +105,10 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
                 new Padding(padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0)),
                 Center(
                   child: RaisedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        final subject = await createSubject(controllerName.text, controllerDescription.text);
+                        createProfessorSubject(professorID, subject.id);
                         Navigator.pop(context);
-                        print(controllerName.text);
-                        print(controllerDescription.text);
                       },
                       child: Text("Criar"),
                   ),
