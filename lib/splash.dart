@@ -11,7 +11,7 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5), () => Navigator.of(context).pushNamed("/Tabs")); // adicionar uma route para o main para depois do load
+    Timer(Duration(seconds: 5), () => Navigator.of(context).pushReplacementNamed("/Tabs")); // adicionar uma route para o main para depois do load
   }
   
   @override

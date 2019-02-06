@@ -1,3 +1,4 @@
+import 'package:clip/splash.dart';
 import 'package:flutter/material.dart';
 import './search_page.dart' as search;
 import './subjects_display.dart' as subjects;
@@ -7,9 +8,10 @@ import './splash.dart' as splash;
 
 void main() {
   runApp(new MaterialApp(
-    home: splash.SplashScreen(),
+    home: Tabs(),
     routes: <String, WidgetBuilder> {
-      "/Tabs": (BuildContext context) => new Tabs()
+      "/Tabs": (BuildContext context) => new Tabs(),
+      "/SplashScreen": (BuildContext context) => new SplashScreen()
     }
   ));
 }
@@ -51,9 +53,12 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
         child: new TabBar(
           controller: controller,
           tabs: <Widget>[
-            new Tab(icon: new Icon(Icons.assignment)),
-            new Tab(icon: new Icon(Icons.search)),
-            new Tab(icon: new Icon(Icons.person))
+            new Tab(icon: new Icon(Icons.assignment),
+                    text: "Subjects"),
+            new Tab(icon: new Icon(Icons.search),
+                    text: "Search"),
+            new Tab(icon: new Icon(Icons.person),
+                    text: "Profile")
           ],
         ),
       ),

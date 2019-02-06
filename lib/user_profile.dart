@@ -23,11 +23,6 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Profile"),
-        backgroundColor: Colors.green,
-        centerTitle: true,
-      ),
       body: new ListView(
         children: <Widget>[
           new Container(
@@ -59,7 +54,7 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
       ),
       floatingActionButton: new FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProfile()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProfile(student: currentStudent)));
         },
         backgroundColor: Colors.green,
         label: new Text("Update"),

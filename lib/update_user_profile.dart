@@ -4,11 +4,19 @@ import 'package:clip/model/student.dart';
 import 'package:clip/networking/student_endpoint.dart';
 
 class UpdateProfile extends StatefulWidget {
-  UpdateProfileState createState() => new UpdateProfileState();
+
+  final Student student;
+
+  UpdateProfile({this.student}) : super();
+
+  UpdateProfileState createState() => new UpdateProfileState(student);
 }
 
 class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderStateMixin {
   
+  final Student student;
+  UpdateProfileState(this.student);
+
   final TextEditingController firstController = new TextEditingController();
   final TextEditingController lastController = new TextEditingController();
   
@@ -26,7 +34,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
               padding: EdgeInsets.only(top:20.0, left: 50.0, right: 50.0),
               child: new TextField(
                 decoration: new InputDecoration(
-                hintText: "First name..."
+                hintText: student.firstName + "..."
               ),
                 onSubmitted: (String str) {
                  firstController.text = str;
@@ -38,7 +46,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
               padding: EdgeInsets.only(top:20.0, left: 50.0, right: 50.0),
               child: new TextField(
                 decoration: new InputDecoration(
-                hintText: "Last name..."
+                hintText: student.lastName + "..."
               ),
                 onSubmitted: (String str) {
                   lastController.text = str;
@@ -53,9 +61,9 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
         label: new Text("Save"),
         onPressed: () {
           setState(() {
-            user.currentStudent.firstName = firstController.text;
-            user.currentStudent.lastName = lastController.text;
-            updateStudent(user.currentStudent).then((Student x) => Navigator.pop(context));
+            student.firstName = firstController.text;
+            student.lastName = lastController.text;
+            updateStudent(student).then((Student x) => Navigator.pop(context));
           });
         },
         backgroundColor: Colors.green,

@@ -42,11 +42,6 @@ class SubjectsState extends State<Subjects> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.green,
-        title: new Text("Subjects"),
-      ),
       body: buildSubjects(),
       floatingActionButton: new FloatingActionButton(
         onPressed: () {},
