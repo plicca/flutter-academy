@@ -1,179 +1,210 @@
+import 'package:clip/model/student.dart';
+import 'package:clip/model/subject.dart';
+import 'package:clip/networking/student_endpoint.dart';
+import 'package:clip/networking/subject_endpoint.dart';
+import 'package:clip/networking/teacher_endpoint.dart';
+import 'package:clip/model/professor.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {
   @override
-  SearchState createState() => SearchState();
+  _SearchState createState() => new _SearchState();
 }
 
-class SearchState extends State<Search> {
+class _SearchState extends State<Search> {
+  @override
+  final TextEditingController _filter = new TextEditingController();
 
+  String _searchText = "";
+  List<Professor> teachers = [];
+  List<Professor> processedTeachers = [];
+  List<Subject> subjects = [];
+  List<Subject> processedSubjects = [];
+  List<Student> students = [];
+  List<Student> processedStudents = [];
+
+  void initState() {
+    super.initState();
+    fetchTeachers().then((List<Professor> x) {
+      setState(() {
+        teachers = x;
+        processedTeachers = x;
+        print("Processed teachers: " + processedTeachers.length.toString());
+      });
+    });
+    fetchSubjects().then((List<Subject> x) {
+      setState(() {
+        subjects = x;
+        processedSubjects = x;
+      });
+    });
+    fetchStudents().then((List<Student> x) {
+      setState(() {
+        students = x;
+        processedStudents = x;
+      });
+    });
+    generateTextFilterListener();
+  }
+
+  Icon _searchIcon = new Icon(Icons.search);
+  Widget _appBarTitle = new Text('Search');
+  int _selected = 0;
   final TextEditingController controller = new TextEditingController();
-  String searchText = "";
-  List<dynamic> filteredSearchs = [];
-  Icon searchIcon = new Icon(Icons.search);
-  Widget appBarTitle = new Text("Search Tool");
-  int selected = 0;
 
-  List students = [
-    "Tiago Marques",
-    "Pedro Oliveira",
-    "Shazia Sulemane",
-    "Ricardo Walker"
-  ];
-
-  List teachers = [
-    "Paulo Montezuma",
-    "Rui Dinis",
-    "Paulo Pinto",
-    "Rui Costa",
-    "Paulo Cortês"
-  ];
-
-  List subjects = [
-    "Álgebra Linear e Geometria Analítica",
-    "Análise Matemática I",
-    "Desenho Assistido por Computador",
-    "Programação de Microprocessadores",
-    "Sistemas Lógicos I",
-    "Algoritmos e Estruturas de Dados",
-    "Análise Matemática II B",
-    "Física I"
-  ];
-
-  void onChanged(int value) {
+  void onChanged(int v) {
     setState(() {
-     selected = value; 
+      _selected = v;
     });
-  }
-
-  List<Widget> showRadiosAndList() {
-
-    List<Widget> auxList = [];
-
-    auxList.add(new RadioListTile(
-      title: Text('Alunos'),
-      value: 0,
-      groupValue: selected,
-      onChanged: (int value) => (onChanged(value)),
-      activeColor: Colors.green,
-      secondary: Icon(Icons.person),
-    ));
-
-    auxList.add(new RadioListTile(
-      title: Text('Professores'),
-      value: 1,
-      groupValue: selected,
-      onChanged: (int value) => (onChanged(value)),
-      activeColor: Colors.green,
-      secondary: Icon(Icons.person),
-    ));
-
-    auxList.add(new RadioListTile(
-      title: Text('Professores'),
-      value: 2,
-      groupValue: selected,
-      onChanged: (int value) => (onChanged(value)),
-      activeColor: Colors.green,
-      secondary: Icon(Icons.assignment),
-    ));
-
-    auxList.add(new Container(
-      child: Expanded(
-        child: buildList(),
-      ),
-    ));
-
-    return auxList;
-  }
-
-  void searchPressed() {
-    setState(() {
-      if (this.searchIcon == Icon(Icons.search)) {
-        this.searchIcon = new Icon(Icons.close);
-        this.appBarTitle = new TextField(
-          controller: controller,
-          decoration: new InputDecoration(
-            prefixIcon: new Icon(Icons.search),
-            hintText: "Search..."
-          ),
-        );
-      } else {
-        this.searchIcon = new Icon(Icons.search);
-        this.appBarTitle = new Text("Search Tool");
-        controller.clear();
-      }
-    });
-  }
-
-  void searchListSpecifier() {
-    if (selected == 0) {
-      filteredSearchs = students;
-    } else if (selected == 1) {
-      filteredSearchs = teachers;
-    } else if (selected == 2) {
-      filteredSearchs = subjects;
-    }
-  }
-
-  Widget buildList() {
-    searchListSpecifier();
-
-    controller.addListener(() {
-      if (controller.text.isEmpty) {
-        setState(() {
-         searchText = ""; 
-        });
-      } else {
-        setState(() {
-          print(controller.text);
-          searchText = controller.text; 
-          List tempList = new List();
-
-          for (int i = 0; i < filteredSearchs.length; i++) {
-            if(!filteredSearchs[i].toLowerCase().contains(searchText.toLowerCase())) {
-              tempList.add(filteredSearchs[i]);
-            }
-          }
-         
-          if(tempList.isEmpty) {
-           tempList.add("No results...");
-          }
-
-          filteredSearchs = tempList;
-          print(filteredSearchs);
-        });
-      }
-    });
-
-    return ListView.builder(
-      itemCount: filteredSearchs.length,
-      padding: new EdgeInsets.all(10.0),
-      itemBuilder: (context, i) {
-        return ListTile(
-          title: filteredSearchs[i],
-          onTap: () => debugPrint(filteredSearchs[i]),
-        );
-      },
-    );
   }
 
   Widget build(BuildContext context) {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
-      appBar: new AppBar(
+      appBar: AppBar(
         centerTitle: true,
-        title: appBarTitle,
+        title: _appBarTitle,
         backgroundColor: Colors.green,
         actions: <Widget>[
-          new IconButton(
-            icon: searchIcon,
-            onPressed: searchPressed,
+          IconButton(
+            icon: _searchIcon,
+            onPressed: _searchPressed,
           ),
         ],
       ),
       body: new Column(
-        children: showRadiosAndList(),
+        children: <Widget>[
+          new RadioListTile(
+            title: Text('Alunos '),
+            value: 0,
+            groupValue: _selected,
+            onChanged: (int v) => (onChanged(v)),
+            activeColor: Colors.green,
+            secondary: Icon(Icons.person_outline),
+          ),
+          new RadioListTile(
+            title: Text('Disciplinas '),
+            value: 1,
+            groupValue: _selected,
+            onChanged: (int v) => (onChanged(v)),
+            activeColor: Colors.green,
+            secondary: Icon(Icons.assignment),
+          ),
+          new RadioListTile(
+            title: Text('Professores '),
+            value: 2,
+            groupValue: _selected,
+            onChanged: (int v) => (onChanged(v)),
+            activeColor: Colors.green,
+            secondary: Icon(Icons.person),
+          ),
+          new Container(
+            child: Expanded(
+              child: _buildList(),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  void _searchPressed() {
+    setState(() {
+      if (this._searchIcon.icon == Icons.search) {
+        this._searchIcon = new Icon(Icons.close);
+        this._appBarTitle = new TextField(
+          controller: _filter,
+          decoration: new InputDecoration(
+              prefixIcon: new Icon(Icons.search), hintText: 'Procurar...'),
+        );
+      } else {
+        this._searchIcon = new Icon(Icons.search);
+        this._appBarTitle = new Text('Procurar');
+        _filter.clear();
+      }
+    });
+  }
+
+  Widget _buildList() {
+    int itemCount = 0;
+    switch (_selected) {
+      case 0:
+        itemCount = processedStudents.length;
+        break;
+      case 1:
+        itemCount = processedSubjects.length;
+        break;
+      case 2:
+        itemCount = processedTeachers.length;
+        break;
+    }
+
+    return ListView.builder(
+        itemCount: itemCount,
+        padding: const EdgeInsets.all(16.0),
+        itemBuilder: (context, i) {
+          return _buildRow(i);
+        });
+  }
+
+  Widget _buildRow(int i) {
+    String name = "";
+    switch (_selected) {
+      case 0:
+        name = processedStudents[i].firstName +
+            " " +
+            processedStudents[i].lastName;
+        break;
+      case 1:
+        name = processedSubjects[i].name;
+        break;
+      case 2:
+        name = processedTeachers[i].firstName +
+            " " +
+            processedTeachers[i].lastName;
+        break;
+    }
+
+    return ListTile(
+      title: Text(name),
+      onTap: () => debugPrint(name),
+    );
+  }
+
+  void generateTextFilterListener() {
+    _filter.addListener(() {
+      _searchText = _filter.text ?? "";
+      filterText();
+    });
+  }
+
+  void filterText() {
+    if (_selected == 0) {
+      processedStudents = students
+          .where((Student s) =>
+              s.firstName.toLowerCase().startsWith(_searchText.toLowerCase()) ||
+              s.lastName.toLowerCase().startsWith(_searchText.toLowerCase()))
+          .toList();
+      setState(() {
+        processedStudents = processedStudents;
+      });
+    } else if (_selected == 1) {
+      processedSubjects = subjects
+          .where((Subject s) =>
+              s.name.toLowerCase().startsWith(_searchText.toLowerCase()))
+          .toList();
+      setState(() {
+        processedSubjects = processedSubjects;
+      });
+    } else if (_selected == 2) {
+      processedTeachers = teachers
+          .where((Professor p) =>
+              p.firstName.toLowerCase().startsWith(_searchText.toLowerCase()) ||
+              p.lastName.toLowerCase().startsWith(_searchText.toLowerCase()))
+          .toList();
+      setState(() {
+        processedTeachers = processedTeachers;
+      });
+    }
   }
 }

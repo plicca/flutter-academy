@@ -1,10 +1,8 @@
+import 'package:clip/search_page.dart';
 import 'package:clip/splash.dart';
+import 'package:clip/subjects_display.dart';
+import 'package:clip/user_profile.dart';
 import 'package:flutter/material.dart';
-import './search_page.dart' as search;
-import './subjects_display.dart' as subjects;
-import './user_profile.dart' as user;
-import './splash.dart' as splash;
-
 
 void main() {
   runApp(new MaterialApp(
@@ -65,9 +63,9 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
       body: new TabBarView(
         controller: controller,
         children: <Widget>[
-          new subjects.Subjects(),
-          new search.Search(),
-          new user.User()
+          new Subjects(),
+          new Search(),
+          new User()
         ],
       ),
     );
