@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:date_format/date_format.dart';
 
 class Student {
   int id;
@@ -8,6 +9,12 @@ class Student {
   String startDate;
 
   Student({this.id, this.firstName, this.lastName, this.cursoID, this.startDate});
+
+  void convertDateFromString(String strDate){
+    DateTime todayDate = DateTime.parse(strDate);
+    print(todayDate);
+    print(formatDate(todayDate, [yyyy, '/', mm, '/', dd, ' ', hh, ':', mm, ':', ss, ' ', am]));
+ }
 
   String toJson(){
     return json.encode({'ID': this.id, 'first_name': this.firstName, 'last_name': this.lastName, 'CursoID': this.cursoID, 'StartDate': this.startDate});

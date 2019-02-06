@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 String endpoint = "http://192.168.0.108:8080/";
 
 Future<List<StudentSubjectsInfo>> fetchStudentSubjects(int studentID) async {
- final studentSufix = "student/" + studentID.toString() + "/info";
+ final studentSufix = "student/" + studentID.toString() + "/info/";
 
   try {
     final response = await http.get(endpoint + studentSufix);
