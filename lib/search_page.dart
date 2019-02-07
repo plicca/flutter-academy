@@ -29,7 +29,6 @@ class _SearchState extends State<Search> {
       setState(() {
         teachers = x;
         processedTeachers = x;
-        print("Processed teachers: " + processedTeachers.length.toString());
       });
     });
     fetchSubjects().then((List<Subject> x) {

@@ -1,7 +1,7 @@
 import 'package:clip/model/subject.dart';
 import 'package:clip/networking/subject_endpoint.dart';
-import 'package:clip/networking/teacher_subject_endpoint.dart';
 import 'package:flutter/material.dart';
+import 'package:clip/create_subjects_screen.dart';
 
 class Subjects extends StatefulWidget {
   @override
@@ -25,11 +25,11 @@ class _SubjectsState extends State<Subjects> {
     return Scaffold(
       body: _buildSubjects(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CreateSubjectScreen()),
-          );
+        onPressed: () async {
+          final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
+          setState(() {
+            _subjects.add(result);
+          });
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
@@ -51,71 +51,5 @@ class _SubjectsState extends State<Subjects> {
     return ListTile(
       title: Text(subject.name),
     );
-  }
-}
-
-class CreateSubjectScreen extends StatefulWidget {
-  _CreateSubjectScreenState createState() => new _CreateSubjectScreenState();
-}
-
-class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
-  final controllerName = TextEditingController();
-  final controllerDescription = TextEditingController();
-
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is disposed
-    controllerName.dispose();
-    controllerDescription.dispose();
-    super.dispose();
-  }
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.green,
-          title: Text("Criar Disciplina"),
-        ),
-        body: Container(
-          padding: EdgeInsets.only(left: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              new Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0)),
-              new Text("Nome da disciplina: ",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16.0)),
-              TextFormField(
-                controller: controllerName,
-              ),
-              new Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0)),
-              new Text("Descrição: ",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16.0)),
-              TextFormField(
-                controller: controllerDescription,
-              ),
-              new Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0)),
-              Center(
-                child: RaisedButton(
-                  onPressed: () async {
-                    final subject = await createSubject(
-                        controllerName.text, controllerDescription.text);
-                    createProfessorSubject(2, subject.id);
-                    Navigator.pop(context);
-                  },
-                  child: Text("Criar"),
-                ),
-              ),
-            ],
-          ),
-        ));
   }
 }
