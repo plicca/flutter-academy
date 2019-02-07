@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './user_profile.dart' as user;
 import 'package:clip/model/student.dart';
 import 'package:clip/networking/student_endpoint.dart';
 

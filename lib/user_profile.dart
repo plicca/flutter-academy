@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:clip/model/student.dart';
 import 'package:clip/networking/student_endpoint.dart';
 import 'package:clip/update_user_profile.dart';
+import 'package:date_format/date_format.dart';
 
 Student currentStudent = new Student(firstName: "", lastName: "");
 
@@ -10,6 +11,8 @@ class User extends StatefulWidget {
 }
 
 class UserState extends State<User> with SingleTickerProviderStateMixin {
+
+  final dateFormat = [dd, '/', mm, '/', yyyy];
 
   void initState() {
     super.initState();
@@ -45,7 +48,7 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
                 new Text(currentStudent.cursoID.toString(), style: new TextStyle(fontSize: 16.0)),
                 new Padding(padding: EdgeInsets.only(bottom: 5.0)),
                 new Text("Data de início: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-                new Text(currentStudent.startDate, style: new TextStyle(fontSize: 16.0)),
+                new Text(formatDate(currentStudent.startDate, dateFormat), style: new TextStyle(fontSize: 16.0)),
                 new Padding(padding: EdgeInsets.only(bottom: 5.0)),
               ],
             ),
