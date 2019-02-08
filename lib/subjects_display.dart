@@ -1,5 +1,6 @@
 import 'package:clip/model/subject.dart';
 import 'package:clip/networking/subject_endpoint.dart';
+import 'package:clip/subject_info.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/create_subjects_screen.dart';
 
@@ -13,7 +14,7 @@ class _SubjectsState extends State<Subjects> {
 
   void initState() {
     super.initState();
-    fetchSubjectsByProfessorID(2).then((List<Subject> x) {
+    fetchSubjectsByProfessorID(3).then((List<Subject> x) {
       setState(() {
         _subjects = x;
       });
@@ -50,6 +51,9 @@ class _SubjectsState extends State<Subjects> {
   Widget _buildRow(Subject subject) {
     return ListTile(
       title: Text(subject.name),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectInfo(subject: subject)));
+      },
     );
   }
 }
