@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 class Professor {
- final int     id;
- final String  firstName;
- final String  lastName;
- final int     cursoID;
- final String  startDate;
+  int     id;
+  String  firstName;
+  String  lastName;
+  int     cursoID;
+  DateTime startDate;
 
  Professor({this.id, this.firstName, this.lastName, this.cursoID, this.startDate});
 
@@ -15,7 +15,7 @@ class Professor {
      firstName: json['first_name'],
      lastName: json['last_name'],
      cursoID: json['CursoID'],
-     startDate: json['StartDate'],
+     startDate: DateTime.fromMillisecondsSinceEpoch(json['StartDate'] * 1000),
    );
  }
 

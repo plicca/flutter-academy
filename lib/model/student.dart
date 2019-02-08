@@ -10,7 +10,7 @@ class Student {
   Student({this.id, this.firstName, this.lastName, this.cursoID, this.startDate});
 
   String toJson(){
-    return json.encode({'ID': this.id, 'first_name': this.firstName, 'last_name': this.lastName, 'CursoID': this.cursoID, 'StartDate': this.startDate});
+    return json.encode({'ID': this.id, 'first_name': this.firstName, 'last_name': this.lastName, 'CursoID': this.cursoID, 'StartDate': this.startDate.millisecondsSinceEpoch});
   }
 
   factory Student.fromJson(Map<String, dynamic> json) {
@@ -19,7 +19,7 @@ class Student {
       firstName: json['first_name'],
       lastName: json['last_name'],
       cursoID: json['CursoID'],
-      startDate: DateTime.parse(json['StartDate']),
+      startDate: DateTime.fromMillisecondsSinceEpoch(json['StartDate'] * 1000),
     );
   }
 }

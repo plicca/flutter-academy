@@ -52,8 +52,7 @@ Future<Subject> createSubject(String name, String description) async {
   final subject = Subject(name: name, description: description);
 
   try {
-    final response = await http.post(Uri.encodeFull(SERVER_ENDPOINT + subjectSufix),
-        body: subject.toJson());
+    final response = await http.post(Uri.encodeFull(SERVER_ENDPOINT + subjectSufix), body: subject.toJson());
     return Subject.fromJson(json.decode(response.body));
   } catch (e) {
     print(e);

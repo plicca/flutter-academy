@@ -25,6 +25,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
       appBar: new AppBar(
         title: new Text("Update User Profile"),
         backgroundColor: Colors.green,
+        centerTitle: true,
       ),
       body: new Container(
         child: new Column(
@@ -46,7 +47,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
               child: new TextField(
                 decoration: new InputDecoration(
                 hintText: "Last name: " + student.lastName + "..."
-              ),
+                ),
                 onSubmitted: (String str) {
                   lastController.text = str;
                 },
@@ -59,10 +60,11 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
       floatingActionButton: new FloatingActionButton.extended(
         label: new Text("Save"),
         onPressed: () {
-          setState(() {
+          setState(() async {
             student.firstName = firstController.text;
             student.lastName = lastController.text;
-            updateStudent(student).then((Student x) => Navigator.pop(context));
+            final updatedStudent = await updateStudent(student);
+            Navigator.of(context).pop(updatedStudent);
           });
         },
         backgroundColor: Colors.green,

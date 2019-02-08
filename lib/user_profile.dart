@@ -16,7 +16,7 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
 
   void initState() {
     super.initState();
-    fetchStudent(5).then((Student receivedStudent) {
+    fetchStudent(2).then((Student receivedStudent) {
       setState(() {
         currentStudent = receivedStudent;
       });
@@ -56,8 +56,11 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
         ],
       ),
       floatingActionButton: new FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProfile(student: currentStudent)));
+        onPressed: () async {
+          final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProfile(student: currentStudent)));
+          setState(() {
+            currentStudent = result; 
+          });
         },
         backgroundColor: Colors.green,
         label: new Text("Update"),

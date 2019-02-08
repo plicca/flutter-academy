@@ -28,11 +28,11 @@ Future<Student> fetchStudent(int id) async {
   return new Student();
 }
 
-Future<Student> updateStudent(Student loggedStudent) async {
+Future<Student> updateStudent(Student student) async {
   final studentSufix = "student/";
 
   try {
-    final response = await http.put(SERVER_ENDPOINT + studentSufix, body: loggedStudent.toJson());
+    final response = await http.put(SERVER_ENDPOINT + studentSufix, body: student.toJson());
     return Student.fromJson(json.decode(response.body));
   } catch(err) {
     print(err);
