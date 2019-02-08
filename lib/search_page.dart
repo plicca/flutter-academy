@@ -4,6 +4,7 @@ import 'package:clip/networking/student_endpoint.dart';
 import 'package:clip/networking/subject_endpoint.dart';
 import 'package:clip/networking/teacher_endpoint.dart';
 import 'package:clip/model/professor.dart';
+import 'package:clip/subject_info.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {
@@ -113,8 +114,7 @@ class _SearchState extends State<Search> {
         this._searchIcon = new Icon(Icons.close);
         this._appBarTitle = new TextField(
           controller: _filter,
-          decoration: new InputDecoration(
-              prefixIcon: new Icon(Icons.search), hintText: 'Procurar...'),
+          decoration: new InputDecoration(prefixIcon: new Icon(Icons.search), hintText: 'Procurar...'),
         );
       } else {
         this._searchIcon = new Icon(Icons.search);
@@ -150,23 +150,23 @@ class _SearchState extends State<Search> {
     String name = "";
     switch (_selected) {
       case 0:
-        name = processedStudents[i].firstName +
-            " " +
-            processedStudents[i].lastName;
+        name = processedStudents[i].firstName + " " + processedStudents[i].lastName;
         break;
       case 1:
         name = processedSubjects[i].name;
         break;
       case 2:
-        name = processedTeachers[i].firstName +
-            " " +
-            processedTeachers[i].lastName;
+        name = processedTeachers[i].firstName + " " + processedTeachers[i].lastName;
         break;
     }
 
     return ListTile(
       title: Text(name),
-      onTap: () => debugPrint(name),
+      onTap: () {
+        if (_selected == 1) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectInfo(subject: processedSubjects[i])));
+        }
+      },
     );
   }
 
@@ -188,10 +188,7 @@ class _SearchState extends State<Search> {
         processedStudents = processedStudents;
       });
     } else if (_selected == 1) {
-      processedSubjects = subjects
-          .where((Subject s) =>
-              s.name.toLowerCase().startsWith(_searchText.toLowerCase()))
-          .toList();
+      processedSubjects = subjects.where((Subject s) => s.name.toLowerCase().startsWith(_searchText.toLowerCase())).toList();
       setState(() {
         processedSubjects = processedSubjects;
       });
