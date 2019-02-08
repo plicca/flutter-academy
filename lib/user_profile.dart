@@ -16,7 +16,7 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
 
   void initState() {
     super.initState();
-    fetchStudent(3).then((Student receivedStudent) {
+    fetchStudent(2).then((Student receivedStudent) {
       setState(() {
         currentStudent = receivedStudent;
       });
@@ -59,7 +59,7 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
         onPressed: () async {
           final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProfile(student: currentStudent)));
           setState(() {
-           currentStudent = result; 
+            currentStudent = result; 
           });
         },
         backgroundColor: Colors.green,

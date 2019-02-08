@@ -60,10 +60,11 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
       floatingActionButton: new FloatingActionButton.extended(
         label: new Text("Save"),
         onPressed: () {
-          setState(() {
+          setState(() async {
             student.firstName = firstController.text;
             student.lastName = lastController.text;
-            updateStudent(student).then((Student x) => Navigator.pop(context));
+            final updatedStudent = await updateStudent(student);
+            Navigator.of(context).pop(updatedStudent);
           });
         },
         backgroundColor: Colors.green,

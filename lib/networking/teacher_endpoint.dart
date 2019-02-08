@@ -9,8 +9,7 @@ Future<List<Professor>> fetchTeachers() async {
 
   try {
     final response = await http.get(SERVER_ENDPOINT + profSufix);
-    return List<Professor>.from(
-        json.decode(response.body).map((x) => Professor.fromJson(x)));
+    return List<Professor>.from(json.decode(response.body).map((x) => Professor.fromJson(x)));
   } catch (e) {
     print(e);
   }
