@@ -74,37 +74,48 @@ class _SearchState extends State<Search> {
       ),
       body: new Column(
         children: <Widget>[
-          new RadioListTile(
-            title: Text('Alunos '),
-            value: 0,
-            groupValue: _selected,
-            onChanged: (int v) => (onChanged(v)),
-            activeColor: Colors.green,
-            secondary: Icon(Icons.person_outline),
-          ),
-          new RadioListTile(
-            title: Text('Disciplinas '),
-            value: 1,
-            groupValue: _selected,
-            onChanged: (int v) => (onChanged(v)),
-            activeColor: Colors.green,
-            secondary: Icon(Icons.assignment),
-          ),
-          new RadioListTile(
-            title: Text('Professores '),
-            value: 2,
-            groupValue: _selected,
-            onChanged: (int v) => (onChanged(v)),
-            activeColor: Colors.green,
-            secondary: Icon(Icons.person),
+          new Center(
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(
+                  "Search Option:",
+                  style: new TextStyle(
+                    fontSize: 16.0, 
+                    fontWeight: FontWeight.bold
+                  )
+                ),
+                new Padding(
+                  padding: new EdgeInsets.only(left: 10.0),
+                ),
+                new DropdownButton(
+                  value: _selected,
+                  items: [
+                    new DropdownMenuItem(
+                      child: new Text("Students"),
+                      value: 0,
+                    ),
+                    new DropdownMenuItem(
+                      child: new Text("Teachers"),
+                      value: 1,
+                    ),
+                    new DropdownMenuItem(
+                      child: new Text("Subjects"),
+                      value: 2,
+                    )
+                  ],
+                  onChanged: onChanged,
+                ),
+              ],
+            )
           ),
           new Container(
             child: Expanded(
               child: _buildList(),
             ),
-          ),
+          )
         ],
-      ),
+      )
     );
   }
 
@@ -131,10 +142,10 @@ class _SearchState extends State<Search> {
         itemCount = processedStudents.length;
         break;
       case 1:
-        itemCount = processedSubjects.length;
+        itemCount = processedTeachers.length;
         break;
       case 2:
-        itemCount = processedTeachers.length;
+        itemCount = processedSubjects.length;
         break;
     }
 
@@ -153,10 +164,12 @@ class _SearchState extends State<Search> {
         name = processedStudents[i].firstName + " " + processedStudents[i].lastName;
         break;
       case 1:
-        name = processedSubjects[i].name;
+        name = processedTeachers[i].firstName +
+            " " +
+            processedTeachers[i].lastName;
         break;
       case 2:
-        name = processedTeachers[i].firstName + " " + processedTeachers[i].lastName;
+        name = processedSubjects[i].name;
         break;
     }
 
@@ -188,11 +201,6 @@ class _SearchState extends State<Search> {
         processedStudents = processedStudents;
       });
     } else if (_selected == 1) {
-      processedSubjects = subjects.where((Subject s) => s.name.toLowerCase().startsWith(_searchText.toLowerCase())).toList();
-      setState(() {
-        processedSubjects = processedSubjects;
-      });
-    } else if (_selected == 2) {
       processedTeachers = teachers
           .where((Professor p) =>
               p.firstName.toLowerCase().startsWith(_searchText.toLowerCase()) ||
@@ -200,6 +208,14 @@ class _SearchState extends State<Search> {
           .toList();
       setState(() {
         processedTeachers = processedTeachers;
+      });
+    } else if (_selected == 2) {
+      processedSubjects = subjects
+          .where((Subject s) =>
+              s.name.toLowerCase().startsWith(_searchText.toLowerCase()))
+          .toList();
+      setState(() {
+      processedSubjects = processedSubjects;
       });
     }
   }
