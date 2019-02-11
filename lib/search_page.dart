@@ -60,31 +60,25 @@ class _SearchState extends State<Search> {
 
   Widget build(BuildContext context) {
     return new Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        centerTitle: true,
-        title: _appBarTitle,
-        backgroundColor: Colors.green,
-        actions: <Widget>[
-          IconButton(
-            icon: _searchIcon,
-            onPressed: _searchPressed,
-          ),
-        ],
-      ),
-      body: new Column(
-        children: <Widget>[
-          new Center(
-            child: new Row(
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          centerTitle: true,
+          title: _appBarTitle,
+          backgroundColor: Colors.green,
+          actions: <Widget>[
+            IconButton(
+              icon: _searchIcon,
+              onPressed: _searchPressed,
+            ),
+          ],
+        ),
+        body: new Column(
+          children: <Widget>[
+            new Center(
+                child: new Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                new Text(
-                  "Search Option:",
-                  style: new TextStyle(
-                    fontSize: 16.0, 
-                    fontWeight: FontWeight.bold
-                  )
-                ),
+                new Text("Search Option:", style: new TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
                 new Padding(
                   padding: new EdgeInsets.only(left: 10.0),
                 ),
@@ -107,16 +101,14 @@ class _SearchState extends State<Search> {
                   onChanged: onChanged,
                 ),
               ],
+            )),
+            new Container(
+              child: Expanded(
+                child: _buildList(),
+              ),
             )
-          ),
-          new Container(
-            child: Expanded(
-              child: _buildList(),
-            ),
-          )
-        ],
-      )
-    );
+          ],
+        ));
   }
 
   void _searchPressed() {
@@ -164,9 +156,7 @@ class _SearchState extends State<Search> {
         name = processedStudents[i].firstName + " " + processedStudents[i].lastName;
         break;
       case 1:
-        name = processedTeachers[i].firstName +
-            " " +
-            processedTeachers[i].lastName;
+        name = processedTeachers[i].firstName + " " + processedTeachers[i].lastName;
         break;
       case 2:
         name = processedSubjects[i].name;
@@ -176,7 +166,7 @@ class _SearchState extends State<Search> {
     return ListTile(
       title: Text(name),
       onTap: () {
-        if (_selected == 1) {
+        if (_selected == 2) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectInfo(subject: processedSubjects[i])));
         }
       },
@@ -210,12 +200,9 @@ class _SearchState extends State<Search> {
         processedTeachers = processedTeachers;
       });
     } else if (_selected == 2) {
-      processedSubjects = subjects
-          .where((Subject s) =>
-              s.name.toLowerCase().startsWith(_searchText.toLowerCase()))
-          .toList();
+      processedSubjects = subjects.where((Subject s) => s.name.toLowerCase().startsWith(_searchText.toLowerCase())).toList();
       setState(() {
-      processedSubjects = processedSubjects;
+        processedSubjects = processedSubjects;
       });
     }
   }

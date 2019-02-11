@@ -27,7 +27,7 @@ class _SubjectsState extends State<Subjects> {
       body: _buildSubjects(),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
+          final Subject result = await Navigator.push(context, MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
           if (result != null) {
             setState(() {
               _subjects.add(result);

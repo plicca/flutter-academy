@@ -50,10 +50,14 @@ Future<Subject> createSubject(String name, String description) async {
 
   try {
     final response = await http.post(SERVER_ENDPOINT + subjectSufix, body: subject.toJson());
+    if (response.statusCode != 200) {
+      print("statusCode: " + response.statusCode.toString());
+      return null;
+    }
     return Subject.fromJson(json.decode(response.body));
   } catch (e) {
     print(e);
   }
 
-  return null;
+  return Subject();
 }
