@@ -8,7 +8,6 @@ class CreateSubjectScreen extends StatefulWidget {
 }
 
 class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
-
   final TextEditingController controllerName = new TextEditingController();
   final TextEditingController controllerDescription = new TextEditingController();
 
@@ -17,56 +16,37 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.green,
-        title: Text("Create Subject"),
+        title: Text("Criar Disciplina"),
       ),
       body: Container(
         child: Column(
           children: <Widget>[
             new Padding(
-              padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
-              child: new Column(
-                children: <Widget>[
-                  new Text(
-                    "Subject Name:",
-                    style: new TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0
-                    )
-                  ),
-                  new TextField(
-                    decoration: new InputDecoration(
-                    hintText: "Ex.: Eletrónica 1"
-                  ),
-                    onSubmitted: (String str) {
-                      controllerName.text = str;
-                    },
-                    controller: controllerName,
-                  ),                
-                ],
-              )
-            ),
+                padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
+                child: new Column(
+                  children: <Widget>[
+                    new Text("Nome:", style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16.0)),
+                    new TextField(
+                      decoration: new InputDecoration(hintText: "Ex.: Eletrónica 1"),
+                      onSubmitted: (String str) {
+                        controllerName.text = str;
+                      },
+                      controller: controllerName,
+                    ),
+                  ],
+                )),
             new Padding(
               padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
               child: new Column(
                 children: <Widget>[
-                  new Text(
-                    "Subject's Description:",
-                    style: new TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0
-                    )
-                  ),
+                  new Text("Descrição:", style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16.0)),
                   new TextField(
-                    decoration: new InputDecoration(
-                    hintText: "Ex.: It's very"
-                  ),
+                    decoration: new InputDecoration(hintText: "Temas abordados"),
                     onSubmitted: (String str) {
                       controllerDescription.text = str;
                     },
                     controller: controllerDescription,
-                  ), 
+                  ),
                 ],
               ),
             )
@@ -74,16 +54,63 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
         ),
       ),
       floatingActionButton: new FloatingActionButton.extended(
-        label: new Text("Create"),
+        label: new Text("Criar"),
         onPressed: () {
-          setState(() async {
-            final subject = await createSubject(controllerName.text, controllerDescription.text);
-            createProfessorSubject(2, subject.id).then((ProfessorSubject x) => Navigator.of(context).pop(subject)); 
-          });
+          if (controllerName.text == "") {
+            ErrNoNameSubject(context);
+          } else {
+            setState(() async {
+              final subject = await createSubject(controllerName.text, controllerDescription.text);
+              if (subject != null) {
+                createProfessorSubject(2, subject.id);
+                final profSubject = await (ProfessorSubject x) => Navigator.of(context).pop(subject);
+              } else {
+                ErrDuplicateSubject(context);
+              }
+            });
+          }
         },
         backgroundColor: Colors.green,
         icon: new Icon(Icons.create_new_folder),
       ),
     );
+  }
+
+  Future<bool> ErrNoNameSubject(BuildContext context) {
+    return showDialog<bool>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Não é possível criar uma cadeira sem nome.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  Future<bool> ErrDuplicateSubject(BuildContext context) {
+    return showDialog<bool>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Já existe uma cadeira com esse nome.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
+          );
+        });
   }
 }

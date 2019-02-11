@@ -27,10 +27,12 @@ class _SubjectsState extends State<Subjects> {
       body: _buildSubjects(),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
-          setState(() {
-            _subjects.add(result);
-          });
+          final Subject result = await Navigator.push(context, MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
+          if (result != null) {
+            setState(() {
+              _subjects.add(result);
+            });
+          }
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
