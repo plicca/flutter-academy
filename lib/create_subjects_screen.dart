@@ -8,7 +8,6 @@ class CreateSubjectScreen extends StatefulWidget {
 }
 
 class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
-
   final TextEditingController controllerName = new TextEditingController();
   final TextEditingController controllerDescription = new TextEditingController();
 
@@ -23,50 +22,32 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
         child: Column(
           children: <Widget>[
             new Padding(
-              padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
-              child: new Column(
-                children: <Widget>[
-                  new Text(
-                    "Subject Name:",
-                    style: new TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0
-                    )
-                  ),
-                  new TextField(
-                    decoration: new InputDecoration(
-                    hintText: "Ex.: Eletrónica 1"
-                  ),
-                    onSubmitted: (String str) {
-                      controllerName.text = str;
-                    },
-                    controller: controllerName,
-                  ),                
-                ],
-              )
-            ),
+                padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
+                child: new Column(
+                  children: <Widget>[
+                    new Text("Subject Name:", style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16.0)),
+                    new TextField(
+                      decoration: new InputDecoration(hintText: "Ex.: Eletrónica 1"),
+                      onSubmitted: (String str) {
+                        controllerName.text = str;
+                      },
+                      controller: controllerName,
+                    ),
+                  ],
+                )),
             new Padding(
               padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
               child: new Column(
                 children: <Widget>[
-                  new Text(
-                    "Subject's Description:",
-                    style: new TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0
-                    )
-                  ),
+                  new Text("Subject's Description:",
+                      style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16.0)),
                   new TextField(
-                    decoration: new InputDecoration(
-                    hintText: "Ex.: It's very"
-                  ),
+                    decoration: new InputDecoration(hintText: "Ex.: It's very"),
                     onSubmitted: (String str) {
                       controllerDescription.text = str;
                     },
                     controller: controllerDescription,
-                  ), 
+                  ),
                 ],
               ),
             )
@@ -78,7 +59,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
         onPressed: () {
           setState(() async {
             final subject = await createSubject(controllerName.text, controllerDescription.text);
-            createProfessorSubject(2, subject.id).then((ProfessorSubject x) => Navigator.of(context).pop(subject)); 
+            createProfessorSubject(2, subject.id).then((ProfessorSubject x) => Navigator.of(context).pop(subject));
           });
         },
         backgroundColor: Colors.green,

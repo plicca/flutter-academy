@@ -1,1 +1,1 @@
-final SERVER_ENDPOINT = "http://192.168.0.108:8080/";
+final SERVER_ENDPOINT = "http://192.168.0.106:8080/";
