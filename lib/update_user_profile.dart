@@ -61,10 +61,14 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
         label: new Text("Save"),
         onPressed: () {
           setState(() async {
-            student.firstName = firstController.text;
-            student.lastName = lastController.text;
-            final updatedStudent = await updateStudent(student);
-            Navigator.of(context).pop(updatedStudent);
+            if(firstController.text != "" && lastController.text != "") {
+              student.firstName = firstController.text;
+              student.lastName = lastController.text;
+              final updatedStudent = await updateStudent(student);
+              Navigator.of(context).pop(updatedStudent);
+            } else {
+              Navigator.of(context).pop(student);
+            }
           });
         },
         backgroundColor: Colors.green,

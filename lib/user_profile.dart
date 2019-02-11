@@ -58,9 +58,11 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
       floatingActionButton: new FloatingActionButton.extended(
         onPressed: () async {
           final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProfile(student: currentStudent)));
-          setState(() {
-            currentStudent = result; 
-          });
+          if(result != null){
+            setState(() {
+              currentStudent = result; 
+            });
+          }
         },
         backgroundColor: Colors.green,
         label: new Text("Update"),
