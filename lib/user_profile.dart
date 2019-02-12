@@ -35,7 +35,7 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
     double average = 0;
 
     for(int i = 0; i < studentGradesList.length; i++) {
-      average += (studentGradesList[i].rank/studentGradesList.length);
+      average += (double.parse(studentGradesList[i].rank)/studentGradesList.length);
     }
     return average;
   }

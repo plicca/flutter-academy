@@ -44,17 +44,18 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
           ),
         ),
         floatingActionButton: new FloatingActionButton.extended(
-            onPressed: () {
-              if (gradeController.text == "") {
-                ErrNoGrade(context);
-              } else {
-                setState(() async {
-                  updateGrade(subjectID, studentID, gradeController.text.toString());
-                });
-              }
-            },
-            icon: new Icon(Icons.add_circle),
-            label: new Text("Atribuir"),
+          backgroundColor: Colors.green,
+          onPressed: () {
+            if (gradeController.text == "") {
+              ErrNoGrade(context);
+            } else {
+              setState(() async {
+                updateGrade(subjectID, studentID, gradeController.text.toString());
+              });
+            }
+          },
+          icon: new Icon(Icons.add_circle),
+          label: new Text("Atribuir"),
         ),
       );
   }

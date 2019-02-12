@@ -16,7 +16,7 @@ Future<List<Grade>> fetchGradesByStudent(int id) async{
   return [];
 }
 
-Future<Grade> createGrade (int subjectID, int studentID, String rank) async {
+Future<Grade> createGrade(int subjectID, int studentID, String rank) async {
   final gradeSufix = "grade/";
   final grade = Grade(subjectID: subjectID, studentID: studentID, rank: rank);
 
@@ -35,7 +35,7 @@ Future<Grade> createGrade (int subjectID, int studentID, String rank) async {
 
 }
 
-Future<Grade> updateGrade (int subjectID, int studentID, String rank) async {
+Future<Grade> updateGrade(int subjectID, int studentID, String rank) async {
   final gradeSufix = "grade/";
   final grade = Grade(subjectID: subjectID, studentID: studentID, rank: rank);
 
