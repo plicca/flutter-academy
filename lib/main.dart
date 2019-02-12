@@ -46,7 +46,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
           tabs: <Widget>[
             new Tab(icon: new Icon(Icons.assignment), text: "Subjects"),
             new Tab(icon: new Icon(Icons.search), text: "Search"),
-            new Tab(icon: new Icon(Icons.person), text: "Profile")
+            new Tab(icon: new Icon(Icons.person), text: "Profile"),
           ],
         ),
       ),

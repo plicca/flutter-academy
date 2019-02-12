@@ -14,4 +14,41 @@ Future<List<Grade>> fetchGradesByStudent(int id) async{
     print(err);
   }
   return [];
-} 
+}
+
+Future<Grade> createGrade (int subjectID, int studentID, String rank) async {
+  final gradeSufix = "grade/";
+  final grade = Grade(subjectID: subjectID, studentID: studentID, rank: rank);
+
+  try {
+    final response = await http.post(SERVER_ENDPOINT + gradeSufix, body: grade.toJson());
+    if (response.statusCode != 200) {
+      print("statusCode: " + response.statusCode.toString());
+      return null;
+    }
+    return Grade.fromJson(json.decode(response.body));
+  } catch (e) {
+    print(e);
+  }
+
+  return Grade();
+
+}
+
+Future<Grade> updateGrade (int subjectID, int studentID, String rank) async {
+  final gradeSufix = "grade/";
+  final grade = Grade(subjectID: subjectID, studentID: studentID, rank: rank);
+
+
+  try {
+    final response = await http.put(SERVER_ENDPOINT+gradeSufix, body: grade.toJson());
+    if (response.statusCode != 200) {
+      print("statusCode: " + response.statusCode.toString());
+      return null;
+    }
+    return Grade.fromJson(json.decode(response.body));
+  } catch (e) {
+    print(e);
+  }
+  return Grade();
+}

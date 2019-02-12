@@ -52,7 +52,7 @@ class _SubjectsState extends State<Subjects> {
 
   Widget _buildRow(Subject subject) {
     return ListTile(
-      title: Text(subject.name),
+      title: Text("(" + subject.id.toString() + ") " + subject.name),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectInfo(subject: subject)));
       },
