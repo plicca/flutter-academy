@@ -153,13 +153,13 @@ class _SearchState extends State<Search> {
     String name = "";
     switch (_selected) {
       case 0:
-        name = processedStudents[i].firstName + " " + processedStudents[i].lastName;
+        name = "(" + processedStudents[i].id.toString() + ") " + processedStudents[i].firstName + " " + processedStudents[i].lastName;
         break;
       case 1:
-        name = processedTeachers[i].firstName + " " + processedTeachers[i].lastName;
+        name = "(" + processedTeachers[i].id.toString() + ") " + processedTeachers[i].firstName + " " + processedTeachers[i].lastName;
         break;
       case 2:
-        name = processedSubjects[i].name;
+        name = "(" + processedSubjects[i].id.toString() + ") " + processedSubjects[i].name;
         break;
     }
 
