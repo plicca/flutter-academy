@@ -25,6 +25,5 @@ Future<List<StudentSubjectsInfo>> fetchSubjectStudents(int subjectID) async {
   } catch (err) {
     print(err);
   }
-
   return [];
 }

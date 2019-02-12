@@ -7,19 +7,15 @@ class Grade {
 
   Grade({this.subjectID, this.studentID, this.rank});
 
-  String toJson() {
-    return json.encode({
-      'subject_id': this.subjectID,
-      'student_id': this.studentID,
-      'rank': this.rank,
-    });
-  }
-
   factory Grade.fromJson(Map<String, dynamic> json) {
     return Grade(
       subjectID: json['subject_id'],
       studentID: json['student_id'],
       rank: json['rank'],
     );
+  }
+
+  String toJson() {
+    return json.encode({"subject_id": subjectID, "student_id": studentID, "rank": rank});
   }
 }
