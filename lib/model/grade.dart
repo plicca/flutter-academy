@@ -1,25 +1,21 @@
 import 'dart:convert';
 
 class Grade {
-  int subjectid;
-  int studentid;
-  String rank;
+  int subjectID;
+  int studentID;
+  double rank;
 
-  Grade({this.subjectid, this.studentid, this.rank});
-
-  String toJson() {
-    return json.encode({
-      'subject_id': this.subjectid,
-      'student_id': this.studentid,
-      'rank': this.rank,
-    });
-  }
+  Grade({this.subjectID, this.studentID, this.rank});
 
   factory Grade.fromJson(Map<String, dynamic> json) {
     return Grade(
-      subjectid: json['subject_id'],
-      studentid: json['student_id'],
-      rank: json['rank'],
+      subjectID: json["subject_id"],
+      studentID: json["student_id"],
+      rank: double.parse(json["rank"])
     );
+  }
+
+  String toJson() {
+    return json.encode({"subject_id": subjectID, "student_id": studentID, "rank": rank});
   }
 }

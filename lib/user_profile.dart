@@ -1,10 +1,13 @@
+import 'package:clip/model/grade.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/model/student.dart';
 import 'package:clip/networking/student_endpoint.dart';
+import 'package:clip/networking/grade_endpoint.dart';
 import 'package:clip/update_user_profile.dart';
 import 'package:date_format/date_format.dart';
 
 Student currentStudent = new Student(firstName: "", lastName: "");
+List<Grade> studentGradesList = [];
 
 class User extends StatefulWidget {
   UserState createState() => new UserState();
@@ -21,6 +24,20 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
         currentStudent = receivedStudent;
       });
     });
+    fetchGradesByStudent(2).then((List<Grade> receivedList) {
+      setState(() {
+        studentGradesList = receivedList;
+      });
+    });
+  }
+
+  double getAverageGrade() {
+    double average = 0;
+
+    for(int i = 0; i < studentGradesList.length; i++) {
+      average += (studentGradesList[i].rank/studentGradesList.length);
+    }
+    return average;
   }
 
   @override
@@ -50,6 +67,8 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
                 new Text("Data de início: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
                 new Text(formatDate(currentStudent.startDate, dateFormat), style: new TextStyle(fontSize: 16.0)),
                 new Padding(padding: EdgeInsets.only(bottom: 5.0)),
+                new Text("Média de Curso: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+                new Text(getAverageGrade().toStringAsPrecision(3), style: new TextStyle(fontSize: 16.0))
               ],
             ),
           ),
