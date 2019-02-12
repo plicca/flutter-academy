@@ -1,6 +1,7 @@
 import 'package:clip/search_page.dart';
 import 'package:clip/splash.dart';
 import 'package:clip/subjects_display.dart';
+import 'package:clip/timtable_display.dart';
 import 'package:clip/user_profile.dart';
 import 'package:flutter/material.dart';
 
@@ -46,13 +47,14 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
           tabs: <Widget>[
             new Tab(icon: new Icon(Icons.assignment), text: "Subjects"),
             new Tab(icon: new Icon(Icons.search), text: "Search"),
-            new Tab(icon: new Icon(Icons.person), text: "Profile")
+            new Tab(icon: new Icon(Icons.person), text: "Profile"),
+            new Tab(icon: new Icon(Icons.assignment),text: "Timetable",)
           ],
         ),
       ),
       body: new TabBarView(
         controller: controller,
-        children: <Widget>[new Subjects(), new Search(), new User()],
+        children: <Widget>[new Subjects(), new Search(), new User(), new Timetable()],
       ),
     );
   }

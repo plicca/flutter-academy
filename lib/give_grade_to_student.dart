@@ -1,4 +1,4 @@
-import 'package:clip/grade_endpoint.dart';
+import 'package:clip/networking/grade_endpoint.dart';
 import 'package:flutter/material.dart';
 
 class GiveGradeToStudent extends StatefulWidget {
