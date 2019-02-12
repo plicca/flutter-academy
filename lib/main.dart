@@ -1,7 +1,7 @@
 import 'package:clip/search_page.dart';
 import 'package:clip/splash.dart';
 import 'package:clip/subjects_display.dart';
-import 'package:clip/timtable_display.dart';
+import 'package:clip/timetable_display.dart';
 import 'package:clip/user_profile.dart';
 import 'package:flutter/material.dart';
 
