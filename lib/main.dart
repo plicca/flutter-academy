@@ -54,6 +54,43 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
         controller: controller,
         children: <Widget>[new Subjects(), new Search(), new User()],
       ),
+      drawer: new Drawer(
+        child: new ListView(
+          children: <Widget>[
+            new UserAccountsDrawerHeader(
+              decoration: new BoxDecoration(
+                color: Colors.green
+              ),
+              accountName: new Text("Tiago Marques"),
+              accountEmail: new Text("tf.marques@campus.fct.unl.pt"),
+              currentAccountPicture: new CircleAvatar(
+                backgroundColor: Colors.white,
+                child: new Text("T", style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: Colors.green)),
+              ),
+            ),
+            new ListTile(
+              trailing: new Icon(Icons.schedule, color: Colors.green),
+              title: Text("Horário", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.green)),
+              onTap: (){
+                Navigator.pop(context);
+              },
+            ),
+            new Divider(
+              color: Colors.green,
+            ),
+            new ListTile(
+              trailing: new Icon(Icons.assignment_turned_in, color: Colors.green),
+              title: Text("Resumo", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.green)),
+              onTap: (){
+                Navigator.pop(context);
+              },
+            ),
+            new Divider(
+              color: Colors.green
+            )
+          ],
+        ),
+      ),
     );
   }
 }
