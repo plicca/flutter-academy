@@ -1,3 +1,4 @@
+import 'package:clip/give_grade_to_student.dart';
 import 'package:clip/model/student_subject_info.dart';
 import 'package:clip/model/subject.dart';
 import 'package:clip/networking/student_subject_endpoint.dart';
@@ -28,6 +29,7 @@ class _SubjectInfoState extends State<SubjectInfo> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text(subject.name),
         backgroundColor: Colors.green,
@@ -68,6 +70,7 @@ class _SubjectInfoState extends State<SubjectInfo> {
     return ListTile(
         title: Text(enrolled.studentID.toString() + ": " + enrolled.studentFirstName + " " + enrolled.studentLastName),
         onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => GiveGradeToStudent(subjectID: enrolled.subjectID, studentID: enrolled.studentID)));
           debugPrint(enrolled.studentFirstName);
         });
   }
