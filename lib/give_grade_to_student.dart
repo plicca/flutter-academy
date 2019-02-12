@@ -30,7 +30,7 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
           RaisedButton (
             onPressed: () {
               print(gradeController.text);
-              createGrade (subjectID, studentID, gradeController.toString());
+              updateGrade(subjectID, studentID, gradeController.text.toString());
             },
           ),
         ],
