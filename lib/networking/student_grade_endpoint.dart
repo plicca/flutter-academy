@@ -6,7 +6,6 @@ import 'package:clip/config/variables.dart';
 
 Future<List<StudentGrade>> fetchStudentGrade(int id) async {
   final studentGradeSufix = "grade/" + id.toString() + "/info/";
-
   try {
     final response = await http.get(SERVER_ENDPOINT + studentGradeSufix);
     return List<StudentGrade>.from(json.decode(response.body).map((x) => StudentGrade.fromJson(x)));
