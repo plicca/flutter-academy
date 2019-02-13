@@ -71,8 +71,7 @@ class _SubjectInfoState extends State<SubjectInfo> {
     return ListTile(
         title: Text(enrolled.studentID.toString() + ": " + enrolled.studentFirstName + " " + enrolled.studentLastName),
         onTap: () {
-          //Navigator.push(context, MaterialPageRoute(builder: (context) => GiveGradeToStudent(subjectID: enrolled.subjectID, studentID: enrolled.studentID)));
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Overview(studentID: enrolled.studentID)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => GiveGradeToStudent(subjectID: enrolled.subjectID, studentID: enrolled.studentID)));
           debugPrint(enrolled.studentFirstName);
         });
   }
