@@ -52,7 +52,11 @@ class _Overview extends State<Overview> {
       title: Text(
           "(" + grade.subjectID.toString() + ") "
           + grade.subjectName + " "
-          + grade.rank
+          //+ grade.rank
+      ),
+      subtitle: Text(
+        "Avaliação: " + grade.rank,
+        style: TextStyle(fontSize: 16.0,),
       ),
       onTap: () {
         debugPrint(grade.subjectID.toString());
