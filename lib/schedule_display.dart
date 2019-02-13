@@ -8,11 +8,16 @@ class ScheduleDisplay extends StatefulWidget {
 class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProviderStateMixin{
   TabController controller;
   ScrollController scroller;
+  List<Widget> mondayShifts = [];
+  List<Widget> tuesdayShifts = [];
+  List<Widget> wednesdayShifts = [];
+  List<Widget> thursdayShifts = [];
+  List<Widget> fridayShifts = [];
   
   @override
   void initState() {
     super.initState();
-    controller = new TabController(vsync: this, length: 7);
+    controller = new TabController(vsync: this, length: 5);
     scroller = new ScrollController();
   }
 
@@ -23,45 +28,55 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
     return new Row(
       children: <Widget>[
         new Container(
-          margin: EdgeInsets.symmetric(horizontal: w *0.02),
-          padding: EdgeInsets.all(w * 0.01),
+          margin: EdgeInsets.only(right: w *0.01),
+          padding: EdgeInsets.symmetric(horizontal: w * 0.02),
           height: h * 0.12,
-          //width: w * 0.20,
           decoration: new BoxDecoration(
             color: Colors.green,
             border: Border.all(width: 2.5, color: Colors.green),
             borderRadius: const BorderRadius.all(const Radius.circular(5))
           ),
           child: new Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              new Padding(padding: EdgeInsets.only(top: 5)),
               new Text(startHour, style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-              new Padding(padding: EdgeInsets.only(bottom: 22.5)),
               new Text(endHour, style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold))
             ],
           ),
         ),
         //new Padding(padding: EdgeInsets.only(right: w * 0.02)),
         new Expanded(
-
           child: new Container(
-                     height: h * 0.12,
-         //width: w * 0.70,
-         decoration: new BoxDecoration(
-           border: Border.all(width: 2.5, color: Colors.green),
-           borderRadius: const BorderRadius.all(const Radius.circular(5))
-         ),
+            height: h * 0.12,
+            decoration: new BoxDecoration(
+              border: Border.all(width: 2.5, color: Colors.green),
+              borderRadius: const BorderRadius.all(const Radius.circular(5))
+            ),
             child: new Column(
-            children: <Widget>[
-              new Padding(padding: EdgeInsets.only(top: 7.5)),
-              new Text(subjectName, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
-              new Padding(padding: EdgeInsets.only(bottom: 15)),
-              new Text(location + " - " + shift, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold))
-            ],
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                new Text(subjectName, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                new Text(location + " - " + shift, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold))
+              ],
+            ),
           ),
-        ),
-          )
+        )
       ],
+    );
+  }
+
+  Widget buildNewScheduleDay(List<Widget> weekdayShifts){
+    return new ListView(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      children: <Widget> [
+        buildNewShift("08h00", "09h30", "Análise Matemática", "Ed.VII - Auditório 1A", "T1"),
+        new Padding(padding: EdgeInsets.all(2.0)),
+        buildNewShift("09h30", "11h00", "Programação de Microprocessadores", "Ed.Dep. - Sala 2.2", "T1"),
+        new Padding(padding: EdgeInsets.all(2.0)),
+        buildNewShift("11h00", "13h00", "Sistemas Lógicos 1", "Ed.X - Lab 2.1", "P2"),
+        new Padding(padding: EdgeInsets.all(2.0)),
+        buildNewShift("14h00", "17h00", "Programação de Microprocessadores", "Ed.X - Lab 1.2", "P2"),
+      ]
     );
   }
 
@@ -79,33 +94,18 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
             new Tab(text: "Tuesday"),
             new Tab(text: "Wednesday"),
             new Tab(text: "Thursday"),
-            new Tab(text: "Friday"),
-            new Tab(text: "Saturday"),
-            new Tab(text: "Sunday")
+            new Tab(text: "Friday")
           ],
         ),
       ),
       body: new TabBarView(
         controller: controller,
         children: <Widget>[
-          new ListView(
-            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-            children: <Widget>[
-              buildNewShift("8h00", "9h30", "Análise Matemática", "Ed.VII - Auditório 1A", "T1"),
-              new Padding(padding: EdgeInsets.all(2.0)),
-              buildNewShift("9h30", "11h00", "Programação de Microprocessadores", "Ed.Dep. - Sala 2.2", "T1"),
-              new Padding(padding: EdgeInsets.all(2.0)),
-              buildNewShift("11h00", "13h00", "Sistemas Lógicos 1", "Ed.X - Lab 2.1", "P2"),
-              new Padding(padding: EdgeInsets.all(2.0)),
-              buildNewShift("14h00", "17h00", "Programação de Microprocessadores", "Ed.X - Lab 1.2", "P2"),
-            ],
-          ),
-          Icon(Icons.directions_car),
-          Icon(Icons.directions_transit),
-          Icon(Icons.directions_bike),
-          Icon(Icons.directions_car),
-          Icon(Icons.directions_transit),
-          Icon(Icons.directions_bike)
+          buildNewScheduleDay(mondayShifts),
+          buildNewScheduleDay(tuesdayShifts),
+          buildNewScheduleDay(wednesdayShifts),
+          buildNewScheduleDay(thursdayShifts),
+          buildNewScheduleDay(fridayShifts)
         ],
       ),
     );
