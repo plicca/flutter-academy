@@ -2,6 +2,7 @@ import 'package:clip/give_grade_to_student.dart';
 import 'package:clip/model/student_subject_info.dart';
 import 'package:clip/model/subject.dart';
 import 'package:clip/networking/student_subject_endpoint.dart';
+import 'package:clip/overview_display.dart';
 import 'package:flutter/material.dart';
 
 class SubjectInfo extends StatefulWidget {
