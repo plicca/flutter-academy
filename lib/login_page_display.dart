@@ -11,8 +11,7 @@ class _LoginPage extends State<LoginPage> {
   final passwordController = TextEditingController();
 
   Widget build (BuildContext context) {
-    final logo = Hero(
-      tag: 'hero',
+    final logo = new Container (
       child: CircleAvatar(
         backgroundColor: Colors.green,
         radius: 48.0,
@@ -44,15 +43,15 @@ class _LoginPage extends State<LoginPage> {
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
         borderRadius: BorderRadius.circular(30.0),
-        //shadowColor: Colors.green.shade50,
+        shadowColor: Colors.green.shade50,
         elevation: 5.0,
         child: MaterialButton(
           minWidth: 280.0,
           height: 42.0,
           onPressed: () {
-
+            //ADD AUTH request
           },
-          child: Text('Log In', style: TextStyle(color: Colors.black54),),
+          child: Text('Log In', style: TextStyle(color: Colors.green, fontSize: 16.0),),
         ),
       ),
     );
@@ -66,7 +65,7 @@ class _LoginPage extends State<LoginPage> {
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
           children: <Widget>[
             logo,
-            SizedBox(height: 20.0,),
+            SizedBox(height: 48.0,),
             email,
             SizedBox(height: 20.0,),
             password,

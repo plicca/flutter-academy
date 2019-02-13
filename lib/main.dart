@@ -1,4 +1,4 @@
-import 'package:clip/config/login_page_display.dart';
+import 'package:clip/login_page_display.dart';
 import 'package:clip/search_page.dart';
 import 'package:clip/schedule_display.dart';
 import 'package:clip/splash.dart';
@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(new MaterialApp(home: Tabs(), routes: <String, WidgetBuilder>{
     "/Tabs": (BuildContext context) => new Tabs(),
-    "/SplashScreen": (BuildContext context) => new SplashScreen()
+    "/SplashScreen": (BuildContext context) => new SplashScreen(),
+    "/LoginPage": (BuildContext context) => new LoginPage(),
   }));
 }
 
@@ -54,7 +55,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
       ),
       body: new TabBarView(
         controller: controller,
-        children: <Widget>[new Subjects(), new Search(), new LoginPage()],//new User()
+        children: <Widget>[new Subjects(), new Search(), new User()],//
       ),
       drawer: new Drawer(
         child: new ListView(
@@ -85,6 +86,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
               title: Text("Resumo", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.green)),
               onTap: (){
                 Navigator.pop(context);
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => Overview(studentID: 2,)));
               },
             ),
             new Divider(
