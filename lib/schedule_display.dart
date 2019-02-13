@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:clip/subject_info.dart';
+import 'package:clip/networking/subject_endpoint.dart';
 
 class ScheduleDisplay extends StatefulWidget {
   @override
@@ -44,23 +46,28 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
             ],
           ),
         ),
-        //new Padding(padding: EdgeInsets.only(right: w * 0.02)),
         new Expanded(
-          child: new Container(
-            height: h * 0.12,
-            decoration: new BoxDecoration(
-              border: Border.all(width: 2.5, color: Colors.green),
-              borderRadius: const BorderRadius.all(const Radius.circular(5))
+          child: new GestureDetector(
+            child: new Container(
+              height: h * 0.12,
+              decoration: new BoxDecoration(
+                border: Border.all(width: 2.5, color: Colors.green),
+                borderRadius: const BorderRadius.all(const Radius.circular(5))
+              ),
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  new Text(subjectName, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                  new Text(location + " - " + shift, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold))
+                ],
+              ),
             ),
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                new Text(subjectName, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
-                new Text(location + " - " + shift, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold))
-              ],
-            ),
-          ),
-        )
+            onTap: () async {
+              final result = await fetchSubject(1);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectInfo(subject: result)));
+            },
+          ) 
+        ),
       ],
     );
   }
@@ -69,7 +76,7 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
     return new ListView(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       children: <Widget> [
-        buildNewShift("08h00", "09h30", "Análise Matemática", "Ed.VII - Auditório 1A", "T1"),
+        buildNewShift("08h00", "09h30", "Análise Matemática 1", "Ed.VII - Auditório 1A", "T1"),
         new Padding(padding: EdgeInsets.all(2.0)),
         buildNewShift("09h30", "11h00", "Programação de Microprocessadores", "Ed.Dep. - Sala 2.2", "T1"),
         new Padding(padding: EdgeInsets.all(2.0)),
@@ -87,6 +94,7 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
         title: new Text("Schedule"),
         backgroundColor: Colors.green,
         bottom: new TabBar(
+          indicatorColor: Colors.white,
           isScrollable: true,
           controller: controller,
           tabs: <Widget>[
