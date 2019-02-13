@@ -19,12 +19,12 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
 
   void initState() {
     super.initState();
-    fetchStudent(2).then((Student receivedStudent) {
+    fetchStudent(6).then((Student receivedStudent) {
       setState(() {
         currentStudent = receivedStudent;
       });
     });
-    fetchGradesByStudent(2).then((List<Grade> receivedList) {
+    fetchGradesByStudent(6).then((List<Grade> receivedList) {
       setState(() {
         studentGradesList = receivedList;
       });

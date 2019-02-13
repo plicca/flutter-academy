@@ -44,23 +44,27 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
             ],
           ),
         ),
-        //new Padding(padding: EdgeInsets.only(right: w * 0.02)),
         new Expanded(
-          child: new Container(
-            height: h * 0.12,
-            decoration: new BoxDecoration(
-              border: Border.all(width: 2.5, color: Colors.green),
-              borderRadius: const BorderRadius.all(const Radius.circular(5))
+          child: new GestureDetector(
+            child: new Container(
+              height: h * 0.12,
+              decoration: new BoxDecoration(
+                border: Border.all(width: 2.5, color: Colors.green),
+                borderRadius: const BorderRadius.all(const Radius.circular(5))
+              ),
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  new Text(subjectName, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                  new Text(location + " - " + shift, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold))
+                ],
+              ),
             ),
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                new Text(subjectName, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
-                new Text(location + " - " + shift, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold))
-              ],
-            ),
-          ),
-        )
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ) 
+        ),
       ],
     );
   }
@@ -87,6 +91,7 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
         title: new Text("Schedule"),
         backgroundColor: Colors.green,
         bottom: new TabBar(
+          indicatorColor: Colors.white,
           isScrollable: true,
           controller: controller,
           tabs: <Widget>[

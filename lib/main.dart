@@ -43,6 +43,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
       bottomNavigationBar: new Material(
         color: Colors.green,
         child: new TabBar(
+          indicatorColor: Colors.white,
           controller: controller,
           tabs: <Widget>[
             new Tab(icon: new Icon(Icons.assignment), text: "Subjects"),
@@ -88,7 +89,17 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
             ),
             new Divider(
               color: Colors.green
-            )
+            ),
+            new ListTile(
+              trailing: new Icon(Icons.calendar_today, color: Colors.green),
+              title: Text("Calendário", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.green)),
+              onTap: (){
+                Navigator.pop(context);
+              },
+            ),
+            new Divider(
+              color: Colors.green
+            ),
           ],
         ),
       ),
