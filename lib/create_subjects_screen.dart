@@ -1,3 +1,4 @@
+import 'package:clip/config/variables.dart';
 import 'package:clip/model/teacher_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/networking/subject_endpoint.dart';
@@ -15,7 +16,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
         title: Text("Criar Disciplina"),
       ),
       body: Container(
@@ -25,7 +26,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
                 padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
                 child: new Column(
                   children: <Widget>[
-                    new Text("Nome:", style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16.0)),
+                    new Text("Nome:", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0)),
                     new TextField(
                       decoration: new InputDecoration(hintText: "Ex.: Eletrónica 1"),
                       onSubmitted: (String str) {
@@ -39,7 +40,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
               padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
               child: new Column(
                 children: <Widget>[
-                  new Text("Descrição:", style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16.0)),
+                  new Text("Descrição:", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0)),
                   new TextField(
                     decoration: new InputDecoration(hintText: "Temas abordados"),
                     onSubmitted: (String str) {
@@ -62,15 +63,15 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
             setState(() async {
               final subject = await createSubject(controllerName.text, controllerDescription.text);
               if (subject != null) {
-                createProfessorSubject(2, subject.id);
-                final profSubject = await (ProfessorSubject x) => Navigator.of(context).pop(subject);
+                await createProfessorSubject(2, subject.id);
+                Navigator.of(context).pop(subject);
               } else {
                 ErrDuplicateSubject(context);
               }
             });
           }
         },
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
         icon: new Icon(Icons.create_new_folder),
       ),
     );

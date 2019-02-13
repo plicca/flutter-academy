@@ -1,9 +1,11 @@
+import 'package:clip/config/variables.dart';
 import 'package:clip/search_page.dart';
 import 'package:clip/schedule_display.dart';
 import 'package:clip/splash.dart';
 import 'package:clip/subjects_display.dart';
 import 'package:clip/user_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:clip/networking/student_endpoint.dart';
 
 void main() {
   runApp(new MaterialApp(home: Tabs(), routes: <String, WidgetBuilder>{
@@ -23,6 +25,11 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    if(IS_STUDENT){
+      USER_COLOR = Colors.green;
+    } else {
+      USER_COLOR = Colors.blue;
+    }
     controller = new TabController(vsync: this, length: 3);
   }
 
@@ -37,11 +44,27 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("MyCLIP", style: new TextStyle(fontSize: 22.5)),
-        actions: <Widget>[new Icon(Icons.attach_file, size: 30.0), new Padding(padding: EdgeInsets.only(right: 10.0))],
-        backgroundColor: Colors.green,
+        actions: <Widget>[
+          new IconButton(
+            icon: Icon(Icons.attach_file, size: 30.0),
+            onPressed: () {
+              setState(() {
+               if(IS_STUDENT){
+                 IS_STUDENT = false;
+                 USER_COLOR = Colors.blue;
+               } else {
+                 IS_STUDENT = true;
+                 USER_COLOR = Colors.green;
+               }
+              });
+            },
+          ),
+          new Padding(padding: EdgeInsets.only(right: 5.0))
+        ],
+        backgroundColor: USER_COLOR,
       ),
       bottomNavigationBar: new Material(
-        color: Colors.green,
+        color: USER_COLOR,
         child: new TabBar(
           indicatorColor: Colors.white,
           controller: controller,
@@ -61,44 +84,44 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
           children: <Widget>[
             new UserAccountsDrawerHeader(
               decoration: new BoxDecoration(
-                color: Colors.green
+                color: USER_COLOR
               ),
               accountName: new Text("Tiago Marques"),
               accountEmail: new Text("tf.marques@campus.fct.unl.pt"),
               currentAccountPicture: new CircleAvatar(
                 backgroundColor: Colors.white,
-                child: new Text("T", style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: Colors.green)),
+                child: new Text("T", style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
               ),
             ),
             new ListTile(
-              trailing: new Icon(Icons.schedule, color: Colors.green),
-              title: Text("Horário", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.green)),
+              trailing: new Icon(Icons.schedule, color: USER_COLOR),
+              title: Text("Horário", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleDisplay()));
               },
             ),
             new Divider(
-              color: Colors.green,
+              color: USER_COLOR,
             ),
             new ListTile(
-              trailing: new Icon(Icons.assignment_turned_in, color: Colors.green),
-              title: Text("Resumo", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.green)),
+              trailing: new Icon(Icons.assignment_turned_in, color: USER_COLOR),
+              title: Text("Resumo", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
               onTap: (){
                 Navigator.pop(context);
               },
             ),
             new Divider(
-              color: Colors.green
+              color: USER_COLOR
             ),
             new ListTile(
-              trailing: new Icon(Icons.calendar_today, color: Colors.green),
-              title: Text("Calendário", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.green)),
+              trailing: new Icon(Icons.calendar_today, color: USER_COLOR),
+              title: Text("Calendário", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
               onTap: (){
                 Navigator.pop(context);
               },
             ),
             new Divider(
-              color: Colors.green
+              color: USER_COLOR
             ),
           ],
         ),

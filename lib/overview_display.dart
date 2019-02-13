@@ -1,3 +1,4 @@
+import 'package:clip/config/variables.dart';
 import 'package:clip/model/grade.dart';
 import 'package:clip/model/student_grade.dart';
 import 'package:clip/model/subject.dart';
@@ -31,7 +32,7 @@ class _Overview extends State<Overview> {
     return Scaffold (
       appBar: AppBar(
         title: Text("Overview"),
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
       ),
       body: _buildOverview(),
     );

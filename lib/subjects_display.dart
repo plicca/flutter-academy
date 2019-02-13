@@ -1,3 +1,4 @@
+import 'package:clip/config/variables.dart';
 import 'package:clip/model/subject.dart';
 import 'package:clip/networking/subject_endpoint.dart';
 import 'package:clip/subject_info.dart';
@@ -35,7 +36,7 @@ class _SubjectsState extends State<Subjects> {
           }
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
       ),
     );
   }

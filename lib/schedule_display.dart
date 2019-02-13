@@ -1,3 +1,4 @@
+import 'package:clip/config/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/subject_info.dart';
 import 'package:clip/networking/subject_endpoint.dart';
@@ -34,8 +35,8 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
           padding: EdgeInsets.symmetric(horizontal: w * 0.02),
           height: h * 0.12,
           decoration: new BoxDecoration(
-            color: Colors.green,
-            border: Border.all(width: 2.5, color: Colors.green),
+            color: USER_COLOR,
+            border: Border.all(width: 2.5, color: USER_COLOR),
             borderRadius: const BorderRadius.all(const Radius.circular(5))
           ),
           child: new Column(
@@ -51,14 +52,14 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
             child: new Container(
               height: h * 0.12,
               decoration: new BoxDecoration(
-                border: Border.all(width: 2.5, color: Colors.green),
+                border: Border.all(width: 2.5, color: USER_COLOR),
                 borderRadius: const BorderRadius.all(const Radius.circular(5))
               ),
               child: new Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  new Text(subjectName, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
-                  new Text(location + " - " + shift, style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold))
+                  new Text(subjectName, style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold)),
+                  new Text(location + " - " + shift, style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold))
                 ],
               ),
             ),
@@ -92,9 +93,9 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Schedule"),
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
         bottom: new TabBar(
-          indicatorColor: Colors.white,
+          indicatorColor: USER_COLOR,
           isScrollable: true,
           controller: controller,
           tabs: <Widget>[

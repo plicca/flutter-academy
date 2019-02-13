@@ -1,3 +1,4 @@
+import 'package:clip/config/variables.dart';
 import 'package:clip/model/student.dart';
 import 'package:clip/model/subject.dart';
 import 'package:clip/networking/student_endpoint.dart';
@@ -64,7 +65,7 @@ class _SearchState extends State<Search> {
         appBar: AppBar(
           centerTitle: true,
           title: _appBarTitle,
-          backgroundColor: Colors.green,
+          backgroundColor: USER_COLOR,
           actions: <Widget>[
             IconButton(
               icon: _searchIcon,

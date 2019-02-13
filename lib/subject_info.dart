@@ -1,3 +1,4 @@
+import 'package:clip/config/variables.dart';
 import 'package:clip/give_grade_to_student.dart';
 import 'package:clip/model/student_subject_info.dart';
 import 'package:clip/model/subject.dart';
@@ -33,7 +34,7 @@ class _SubjectInfoState extends State<SubjectInfo> {
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text(subject.name),
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
       ),
       body: Container(
           padding: EdgeInsets.all(20.0),
@@ -44,7 +45,7 @@ class _SubjectInfoState extends State<SubjectInfo> {
               Container(
                 margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
                 height: 2.0,
-                color: Colors.green,
+                color: USER_COLOR,
               ),
               Center(
                 child: Text("Lista de inscritos", textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)),

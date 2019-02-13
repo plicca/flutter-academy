@@ -1,3 +1,4 @@
+import 'package:clip/config/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/model/student.dart';
 import 'package:clip/networking/student_endpoint.dart';
@@ -24,7 +25,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Update User Profile"),
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
         centerTitle: true,
       ),
       body: new Container(
@@ -71,7 +72,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
             }
           });
         },
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
         icon: new Icon(Icons.save),
       )
     );

@@ -1,3 +1,4 @@
+import 'package:clip/config/variables.dart';
 import 'package:clip/model/grade.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/model/student.dart';
@@ -83,7 +84,7 @@ class UserState extends State<User> with SingleTickerProviderStateMixin {
             });
           }
         },
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
         label: new Text("Update"),
         icon: new Icon(Icons.update),
       )
