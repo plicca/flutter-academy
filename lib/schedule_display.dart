@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:clip/subject_info.dart';
+import 'package:clip/networking/subject_endpoint.dart';
 
 class ScheduleDisplay extends StatefulWidget {
   @override
@@ -60,8 +62,9 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
                 ],
               ),
             ),
-            onTap: () {
-              Navigator.pop(context);
+            onTap: () async {
+              final result = await fetchSubject(1);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectInfo(subject: result)));
             },
           ) 
         ),
@@ -73,7 +76,7 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
     return new ListView(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       children: <Widget> [
-        buildNewShift("08h00", "09h30", "Análise Matemática", "Ed.VII - Auditório 1A", "T1"),
+        buildNewShift("08h00", "09h30", "Análise Matemática 1", "Ed.VII - Auditório 1A", "T1"),
         new Padding(padding: EdgeInsets.all(2.0)),
         buildNewShift("09h30", "11h00", "Programação de Microprocessadores", "Ed.Dep. - Sala 2.2", "T1"),
         new Padding(padding: EdgeInsets.all(2.0)),
