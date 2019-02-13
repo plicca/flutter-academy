@@ -14,17 +14,29 @@ class _SubjectsState extends State<Subjects> {
 
   void initState() {
     super.initState();
-    fetchSubjectsByProfessorID(3).then((List<Subject> x) {
+    fetchSubjectsByProfessorID(2).then((List<Subject> x) {
       setState(() {
         _subjects = x;
       });
     });
   }
 
+  Future<Null> refreshPage () async {
+    fetchSubjectsByProfessorID(2).then((List<Subject> x) {
+      setState(() {
+        _subjects = x;
+      });
+    });
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildSubjects(),
+      body: RefreshIndicator(
+        child: _buildSubjects(),
+        onRefresh: refreshPage,
+      ),//_buildSubjects(),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final Subject result = await Navigator.push(context, MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
