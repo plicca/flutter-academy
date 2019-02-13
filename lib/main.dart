@@ -1,4 +1,5 @@
 import 'package:clip/search_page.dart';
+import 'package:clip/schedule_display.dart';
 import 'package:clip/splash.dart';
 import 'package:clip/subjects_display.dart';
 import 'package:clip/user_profile.dart';
@@ -72,7 +73,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
               trailing: new Icon(Icons.schedule, color: Colors.green),
               title: Text("Horário", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.green)),
               onTap: (){
-                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleDisplay()));
               },
             ),
             new Divider(
