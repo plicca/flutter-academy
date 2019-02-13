@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
   @override
-  _LoginPage createState() => new _LoginPage();
+  _LoginPageState createState() => new _LoginPageState();
 }
 
-class _LoginPage extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -16,7 +16,6 @@ class _LoginPage extends State<LoginPage> {
         backgroundColor: Colors.green,
         radius: 48.0,
         child: Icon(Icons.attach_file, size: 50.0,),
-        //add image logo
       ),
     );
     final email = TextFormField(
