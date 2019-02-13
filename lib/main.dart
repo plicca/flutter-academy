@@ -1,3 +1,4 @@
+import 'package:clip/config/login_page_display.dart';
 import 'package:clip/search_page.dart';
 import 'package:clip/schedule_display.dart';
 import 'package:clip/splash.dart';
@@ -53,7 +54,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
       ),
       body: new TabBarView(
         controller: controller,
-        children: <Widget>[new Subjects(), new Search(), new User()],
+        children: <Widget>[new Subjects(), new Search(), new LoginPage()],//new User()
       ),
       drawer: new Drawer(
         child: new ListView(
