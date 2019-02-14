@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:clip/model/professor.dart';
+import 'package:clip/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:clip/config/variables.dart';
 
@@ -17,15 +18,27 @@ Future<List<Professor>> fetchTeachers() async {
   return [];
 }
 
-Future<Professor> fetchTeacher(int id) async {
+Future<User> fetchTeacher(int id) async {
   final profSufix = "professor/" + id.toString() + "/";
 
   try {
     final response = await http.get(SERVER_ENDPOINT + profSufix);
-    return Professor.fromJson(json.decode(response.body));
+    return User.fromJson(json.decode(response.body));
   } catch (e) {
     print(e);
   }
 
-  return Professor();
+  return new User();
+}
+
+Future<User> updateTeacher(User teacher) async {
+  final teacherSufix = "professor/";
+
+  try {
+    final response = await http.put(SERVER_ENDPOINT + teacherSufix, body: teacher.toJson());
+    return User.fromJson(json.decode(response.body));
+  } catch(err) {
+    print(err);
+  }
+  return new User();
 }

@@ -1,27 +1,19 @@
 import 'package:clip/config/variables.dart';
-import 'package:clip/model/grade.dart';
 import 'package:clip/model/student_grade.dart';
-import 'package:clip/model/subject.dart';
 import 'package:clip/networking/student_grade_endpoint.dart';
-import 'package:clip/networking/subject_endpoint.dart';
 import 'package:flutter/material.dart';
 
 class Overview extends StatefulWidget {
-  @override
-  final int studentID;
-  Overview({this.studentID});
-  _Overview createState() => new _Overview(studentID: studentID);
+
+  _Overview createState() => new _Overview();
 }
 
 class _Overview extends State<Overview> {
-  final int studentID;
   List<StudentGrade> _grades = [];
-
-  _Overview ({this.studentID});
 
   void initState () {
     super.initState();
-    fetchStudentGrade(studentID).then((List<StudentGrade> x) {
+    fetchStudentGrade(USER_STUDENT.id).then((List<StudentGrade> x) {
       setState(() {
        _grades = x;
       });

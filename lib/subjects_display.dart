@@ -15,18 +15,24 @@ class _SubjectsState extends State<Subjects> {
 
   void initState() {
     super.initState();
-    fetchSubjectsByProfessorID(3).then((List<Subject> x) {
-      setState(() {
-        _subjects = x;
+    if(IS_STUDENT){
+      fetchSubjectsByStudentID(USER_STUDENT.id).then((List<Subject> subjectsList) {
+        setState(() {
+          _subjects = subjectsList;
+        });
       });
-    });
+    } else {
+      fetchSubjectsByProfessorID(USER_TEACHER.id).then((List<Subject> subjectsList) {
+        setState(() {
+          _subjects = subjectsList;
+        });
+      });
+    }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildSubjects(),
-      floatingActionButton: FloatingActionButton(
+  Widget createSubjectsButton() {
+    if(!IS_STUDENT){
+      return new FloatingActionButton(
         onPressed: () async {
           final Subject result = await Navigator.push(context, MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
           if (result != null) {
@@ -37,7 +43,17 @@ class _SubjectsState extends State<Subjects> {
         },
         child: Icon(Icons.add),
         backgroundColor: USER_COLOR,
-      ),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _buildSubjects(),
+      floatingActionButton: createSubjectsButton()
     );
   }
 

@@ -1,11 +1,11 @@
 import 'package:clip/config/variables.dart';
+import 'package:clip/overview_display.dart';
 import 'package:clip/search_page.dart';
 import 'package:clip/schedule_display.dart';
 import 'package:clip/splash.dart';
 import 'package:clip/subjects_display.dart';
 import 'package:clip/user_profile.dart';
 import 'package:flutter/material.dart';
-import 'package:clip/networking/student_endpoint.dart';
 
 void main() {
   runApp(new MaterialApp(home: Tabs(), routes: <String, WidgetBuilder>{
@@ -37,6 +37,25 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+
+  List<Widget> overviewDisplay() {
+    if(IS_STUDENT){
+      return [
+        new ListTile(
+          trailing: new Icon(Icons.assignment_turned_in, color: USER_COLOR),
+          title: Text("Resumo", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Overview()));
+          },
+        ),
+        new Divider(
+          color: USER_COLOR
+        ),
+      ];
+    } else {
+      return [];
+    }
   }
 
   @override
@@ -77,7 +96,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
       ),
       body: new TabBarView(
         controller: controller,
-        children: <Widget>[new Subjects(), new Search(), new User()],
+        children: <Widget>[new Subjects(), new Search(), new UserProfile()],
       ),
       drawer: new Drawer(
         child: new ListView(
@@ -104,16 +123,6 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
               color: USER_COLOR,
             ),
             new ListTile(
-              trailing: new Icon(Icons.assignment_turned_in, color: USER_COLOR),
-              title: Text("Resumo", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
-              onTap: (){
-                Navigator.pop(context);
-              },
-            ),
-            new Divider(
-              color: USER_COLOR
-            ),
-            new ListTile(
               trailing: new Icon(Icons.calendar_today, color: USER_COLOR),
               title: Text("Calendário", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
               onTap: (){
@@ -123,7 +132,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
             new Divider(
               color: USER_COLOR
             ),
-          ],
+          ] + overviewDisplay()
         ),
       ),
     );
