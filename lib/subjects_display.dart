@@ -1,3 +1,4 @@
+import 'package:clip/config/variables.dart';
 import 'package:clip/model/subject.dart';
 import 'package:clip/networking/subject_endpoint.dart';
 import 'package:clip/subject_info.dart';
@@ -21,19 +22,55 @@ class _SubjectsState extends State<Subjects> {
 
   void initState() {
     super.initState();
-    fetchSubjectsByProfessorID(2).then((List<Subject> x) {
-      setState(() {
-        _subjects = x;
+    if(IS_STUDENT){
+      fetchSubjectsByStudentID(USER_STUDENT.id).then((List<Subject> subjectsList) {
+        setState(() {
+          _subjects = subjectsList;
+        });
       });
-    });
+    } else {
+      fetchSubjectsByProfessorID(USER_TEACHER.id).then((List<Subject> subjectsList) {
+        setState(() {
+          _subjects = subjectsList;
+        });
+      });
+    }
+  }
+
+  Widget createSubjectsButton() {
+    if(!IS_STUDENT){
+      return new FloatingActionButton(
+        onPressed: () async {
+          final Subject result = await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
+          if (result != null) {
+            setState(() {
+              _subjects.add(result);
+            });
+          }
+        },
+        child: Icon(Icons.add),
+        backgroundColor: USER_COLOR,
+      );
+    } else {
+      return null;
+    }
   }
 
   Future<Null> refreshPage() async {
-    fetchSubjectsByProfessorID(2).then((List<Subject> x) {
-      setState(() {
-        _subjects = x;
+    if(IS_STUDENT){
+      fetchSubjectsByStudentID(USER_STUDENT.id).then((List<Subject> subjectsList) {
+        setState(() {
+          _subjects = subjectsList;
+        });
       });
-    });
+    } else {
+      fetchSubjectsByProfessorID(USER_TEACHER.id).then((List<Subject> subjectsList) {
+        setState(() {
+          _subjects = subjectsList;
+        });
+      });
+    }
     return null;
   }
 
@@ -77,24 +114,12 @@ class _SubjectsState extends State<Subjects> {
               child: RefreshIndicator(
                 child: _buildSubjects(),
                 onRefresh: refreshPage,
-              ), //_buildSubjects(),
+              ),
             ),
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final Subject result = await Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
-          if (result != null) {
-            setState(() {
-              _subjects.add(result);
-            });
-          }
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.green,
-      ),
+      floatingActionButton: createSubjectsButton()
     );
   }
 

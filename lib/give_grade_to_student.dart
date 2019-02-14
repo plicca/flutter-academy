@@ -1,3 +1,4 @@
+import 'package:clip/config/variables.dart';
 import 'package:clip/networking/grade_endpoint.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
     return Scaffold (
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
         title: Text("Avaliação"),
       ),
       body: Container(
@@ -29,7 +30,7 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
                 padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
                 child: new Column(
                   children: <Widget>[
-                    new Text("Avaliação: ", style: new TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16.0),),
+                    new Text("Avaliação: ", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0),),
                     new TextField(
                       decoration: new InputDecoration(hintText: "Ex: 9.5"),
                       onSubmitted: (String str) {
@@ -44,7 +45,7 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
           ),
         ),
         floatingActionButton: new FloatingActionButton.extended(
-          backgroundColor: Colors.green,
+          backgroundColor: USER_COLOR,
           onPressed: () {
             if (gradeController.text == "") {
               ErrNoGrade(context);

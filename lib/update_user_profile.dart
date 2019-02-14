@@ -1,20 +1,20 @@
+import 'package:clip/config/variables.dart';
+import 'package:clip/model/user.dart';
+import 'package:clip/networking/teacher_endpoint.dart';
 import 'package:flutter/material.dart';
-import 'package:clip/model/student.dart';
 import 'package:clip/networking/student_endpoint.dart';
 
 class UpdateProfile extends StatefulWidget {
+  final User user;
 
-  final Student student;
+  UpdateProfile({this.user}) : super();
 
-  UpdateProfile({this.student}) : super();
-
-  UpdateProfileState createState() => new UpdateProfileState(student);
+  UpdateProfileState createState() => new UpdateProfileState(user);
 }
 
 class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderStateMixin {
-  
-  final Student student;
-  UpdateProfileState(this.student);
+  final User user;
+  UpdateProfileState(this.user);
 
   final TextEditingController firstController = new TextEditingController();
   final TextEditingController lastController = new TextEditingController();
@@ -24,7 +24,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Update User Profile"),
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
         centerTitle: true,
       ),
       body: new Container(
@@ -34,7 +34,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
               padding: EdgeInsets.only(top:20.0, left: 50.0, right: 50.0),
               child: new TextField(
                 decoration: new InputDecoration(
-                hintText: "First name: " + student.firstName + "..."
+                hintText: "First name: " + user.firstName + "..."
               ),
                 onSubmitted: (String str) {
                  firstController.text = str;
@@ -46,7 +46,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
               padding: EdgeInsets.only(top:20.0, left: 50.0, right: 50.0),
               child: new TextField(
                 decoration: new InputDecoration(
-                hintText: "Last name: " + student.lastName + "..."
+                hintText: "Last name: " + user.lastName + "..."
                 ),
                 onSubmitted: (String str) {
                   lastController.text = str;
@@ -62,16 +62,16 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
         onPressed: () {
           setState(() async {
             if(firstController.text != "" && lastController.text != "") {
-              student.firstName = firstController.text;
-              student.lastName = lastController.text;
-              final updatedStudent = await updateStudent(student);
-              Navigator.of(context).pop(updatedStudent);
+              user.firstName = firstController.text;
+              user.lastName = lastController.text;
+              final result = await (IS_STUDENT ?  updateStudent(user) : updateTeacher(user));
+              Navigator.of(context).pop(result);
             } else {
-              Navigator.of(context).pop(student);
+              Navigator.of(context).pop(user);
             }
           });
         },
-        backgroundColor: Colors.green,
+        backgroundColor: USER_COLOR,
         icon: new Icon(Icons.save),
       )
     );
