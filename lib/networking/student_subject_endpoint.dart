@@ -27,3 +27,18 @@ Future<List<StudentSubjectsInfo>> fetchSubjectStudents(int subjectID) async {
   }
   return [];
 }
+
+Future<List<StudentSubjectsInfo>> fetchSubjectsByStudentIDAndSchoolYear (int studentID, String schoolYear) async {
+  final studentSufix = "student/" + studentID.toString() + "/info/" + schoolYear +"/";
+  try {
+    final response = await http.get(SERVER_ENDPOINT + studentSufix);
+    return List<StudentSubjectsInfo>.from(json.decode(response.body).map((x) => StudentSubjectsInfo.fromJson(x)));
+  } catch (e) {
+    print(e);
+  }
+  return [];
+}
+
+
+
+
