@@ -57,13 +57,20 @@ class _SubjectsState extends State<Subjects> {
     }
   }
 
-  @override
   Future<Null> refreshPage() async {
-    fetchSubjectsByProfessorID(2).then((List<Subject> x) {
-      setState(() {
-        _subjects = x;
+    if(IS_STUDENT){
+      fetchSubjectsByStudentID(USER_STUDENT.id).then((List<Subject> subjectsList) {
+        setState(() {
+          _subjects = subjectsList;
+        });
       });
-    });
+    } else {
+      fetchSubjectsByProfessorID(USER_TEACHER.id).then((List<Subject> subjectsList) {
+        setState(() {
+          _subjects = subjectsList;
+        });
+      });
+    }
     return null;
   }
 
@@ -107,7 +114,7 @@ class _SubjectsState extends State<Subjects> {
               child: RefreshIndicator(
                 child: _buildSubjects(),
                 onRefresh: refreshPage,
-              ), //_buildSubjects(),
+              ),
             ),
           )
         ],

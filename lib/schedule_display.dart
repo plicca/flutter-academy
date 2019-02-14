@@ -82,6 +82,7 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
       appBar: new AppBar(
         elevation: 0.0,
         title: new Text("Schedule"),
+        backgroundColor: USER_COLOR,
       ),
       body: PageView.builder(
         controller: PageController(initialPage: DateTime.now().weekday + 49),
@@ -89,7 +90,7 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
           return Column(
             children: <Widget>[
               Container(
-                color: Colors.blue,
+                color: USER_COLOR,
                 margin: EdgeInsets.only(bottom: 4.0),
                 padding: EdgeInsets.only(top: 0.0, bottom: 8.0),
                 width: double.infinity,
