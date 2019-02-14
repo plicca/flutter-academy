@@ -1,5 +1,8 @@
 import 'package:clip/config/variables.dart';
 import 'package:clip/login_page_display.dart';
+import 'package:clip/model/user.dart';
+import 'package:clip/networking/student_endpoint.dart';
+import 'package:clip/networking/teacher_endpoint.dart';
 import 'package:clip/overview_display.dart';
 import 'package:clip/search_page.dart';
 import 'package:clip/schedule_display.dart';
@@ -29,8 +32,18 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
     super.initState();
     if(IS_STUDENT){
       USER_COLOR = Colors.green;
+      fetchStudent(USER_STUDENT.id).then((User receivedStudent) {
+        setState(() {
+          USER_STUDENT = receivedStudent;
+        });
+      });
     } else {
       USER_COLOR = Colors.blue;
+      fetchTeacher(USER_TEACHER.id).then((User receivedTeacher) {
+        setState(() {
+          USER_TEACHER = receivedTeacher;
+        });
+      });
     }
     controller = new TabController(vsync: this, length: 3);
   }
@@ -60,6 +73,30 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
     }
   }
 
+  Widget setAccountName(){
+    if(IS_STUDENT){
+      return new Text(USER_STUDENT.firstName + " " + USER_STUDENT.lastName);
+    } else {
+      return new Text(USER_TEACHER.firstName + " " + USER_TEACHER.lastName);
+    }
+  }
+
+  Widget setAccountEmail(){
+    if(IS_STUDENT){
+      return new Text(USER_STUDENT.email);
+    } else {
+      return new Text(USER_TEACHER.email);
+    }
+  }
+
+  Widget setAccountImage(){
+    if(IS_STUDENT){
+      return new Text(USER_STUDENT.firstName[0], style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: USER_COLOR));
+    } else {
+      return new Text(USER_TEACHER.firstName[0], style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: USER_COLOR));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -70,13 +107,23 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
             icon: Icon(Icons.attach_file, size: 30.0),
             onPressed: () {
               setState(() {
-               if(IS_STUDENT){
-                 IS_STUDENT = false;
-                 USER_COLOR = Colors.blue;
-               } else {
-                 IS_STUDENT = true;
-                 USER_COLOR = Colors.green;
-               }
+                if(IS_STUDENT){
+                  IS_STUDENT = false;
+                  USER_COLOR = Colors.blue;
+                  fetchTeacher(USER_TEACHER.id).then((User receivedTeacher) {
+                    setState(() {
+                      USER_TEACHER = receivedTeacher;
+                    });
+                  });
+                } else {
+                  IS_STUDENT = true;
+                  USER_COLOR = Colors.green;
+                  fetchStudent(USER_STUDENT.id).then((User receivedStudent) {
+                    setState(() {
+                      USER_STUDENT = receivedStudent;
+                    });
+                  });
+                }
               });
             },
           ),
@@ -107,11 +154,11 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
               decoration: new BoxDecoration(
                 color: USER_COLOR
               ),
-              accountName: new Text("Tiago Marques"),
-              accountEmail: new Text("tf.marques@campus.fct.unl.pt"),
+              accountName: setAccountName(),
+              accountEmail: setAccountEmail(),
               currentAccountPicture: new CircleAvatar(
                 backgroundColor: Colors.white,
-                child: new Text("T", style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
+                child: setAccountImage(),
               ),
             ),
             new ListTile(
