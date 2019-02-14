@@ -1,4 +1,5 @@
 import 'package:clip/config/variables.dart';
+import 'package:clip/login_page_display.dart';
 import 'package:clip/overview_display.dart';
 import 'package:clip/search_page.dart';
 import 'package:clip/schedule_display.dart';
@@ -10,7 +11,8 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(new MaterialApp(home: Tabs(), routes: <String, WidgetBuilder>{
     "/Tabs": (BuildContext context) => new Tabs(),
-    "/SplashScreen": (BuildContext context) => new SplashScreen()
+    "/SplashScreen": (BuildContext context) => new SplashScreen(),
+    "/LoginPage": (BuildContext context) => new LoginPage(),
   }));
 }
 

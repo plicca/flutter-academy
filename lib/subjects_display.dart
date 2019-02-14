@@ -12,6 +12,13 @@ class Subjects extends StatefulWidget {
 
 class _SubjectsState extends State<Subjects> {
   List<Subject> _subjects = [];
+  int _selected = 0;
+
+  void onChanged(int v) {
+    setState(() {
+      _selected = v;
+    });
+  }
 
   void initState() {
     super.initState();
@@ -34,7 +41,8 @@ class _SubjectsState extends State<Subjects> {
     if(!IS_STUDENT){
       return new FloatingActionButton(
         onPressed: () async {
-          final Subject result = await Navigator.push(context, MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
+          final Subject result = await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
           if (result != null) {
             setState(() {
               _subjects.add(result);
@@ -50,9 +58,60 @@ class _SubjectsState extends State<Subjects> {
   }
 
   @override
+  Future<Null> refreshPage() async {
+    fetchSubjectsByProfessorID(2).then((List<Subject> x) {
+      setState(() {
+        _subjects = x;
+      });
+    });
+    return null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildSubjects(),
+      body: new Column(
+        children: <Widget>[
+          new Center(
+              child: new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text("Search Option:",
+                  style: new TextStyle(
+                      fontSize: 16.0, fontWeight: FontWeight.bold)),
+              new Padding(
+                padding: new EdgeInsets.only(left: 10.0),
+              ),
+              new DropdownButton(
+                value: _selected,
+                items: [
+                  new DropdownMenuItem(
+                    child: new Text("2016/2017"),
+                    value: 0,
+                  ),
+                  new DropdownMenuItem(
+                    child: new Text("2017/2018"),
+                    value: 1,
+                  ),
+                  new DropdownMenuItem(
+                    child: new Text("2018/2019"),
+                    value: 2,
+                  )
+                ],
+                onChanged: onChanged,
+              ),
+            ],
+          )),
+          new Container(
+            child: Expanded(
+              child: RefreshIndicator(
+                child: _buildSubjects(),
+                onRefresh: refreshPage,
+              ), //_buildSubjects(),
+            ),
+          )
+        ],
+      ),
       floatingActionButton: createSubjectsButton()
     );
   }
@@ -71,7 +130,10 @@ class _SubjectsState extends State<Subjects> {
     return ListTile(
       title: Text("(" + subject.id.toString() + ") " + subject.name),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectInfo(subject: subject)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SubjectInfo(subject: subject)));
       },
     );
   }
