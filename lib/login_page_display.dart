@@ -27,97 +27,104 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final logo = new Column(
+      children: <Widget> [
+        new CircleAvatar(
+          backgroundColor: Colors.white,
+          radius: 60.0,
+          child: new Icon(
+            Icons.attach_file,
+            color: Colors.green,
+            size: 100.0,
+          ),
+        ),
+        new Padding(
+          padding: EdgeInsets.only(bottom: 10.0),
+        ),
+        new Text(
+          "MyCLIP",
+          style: new TextStyle(
+            color: Colors.white,
+            fontSize: 24.0,
+            fontWeight: FontWeight.bold)
+          )
+      ]
+    );
+
+    final email = new Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      color: Colors.white,
+      child: new TextFormField(
+        validator: (input) {
+          if(input.isEmpty) {
+            return "Please type an email!";
+          }
+        },
+        onSaved: (input) => _email = input,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          icon: new Icon(Icons.mail, color: Colors.green, size: 18.0),
+          labelText: "Email",
+          labelStyle: new TextStyle(color: Colors.green)
+        ),
+      ),
+    );
+
+    final password =  new Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      color: Colors.white,
+      child: new TextFormField(
+        validator: (input) {
+          if(input.length < 6) {
+            return "Your password needs to be atleast 6 characters";
+          }
+        },
+        onSaved: (input) => _password = input,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          icon: new Icon(Icons.vpn_key, color: Colors.green, size: 18.0),
+          labelText: "Password",
+          labelStyle: new TextStyle(color: Colors.green)
+        ),
+        obscureText: true,
+      ),
+    );
+
+    final loginButton = Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(30.0),
+        shadowColor: Colors.green.shade50,
+        elevation: 5.0,
+        child: MaterialButton(
+          minWidth: 280.0,
+          height: 42.0,
+          onPressed: signIn,
+          child: Text('Log In', style: TextStyle(color: Colors.green, fontSize: 16.0),),
+        ),
+      ),
+    );
+
     return new Scaffold(
       backgroundColor: Colors.green,
       body: Form(
         key: _formKey,
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 30.0),
-            child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+        child: Center(
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
             children: <Widget>[
-              new Container(
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 60.0,
-                      child: new Icon(
-                        Icons.attach_file,
-                        color: Colors.green,
-                        size: 100.0,
-                      ),
-                    ),
-                    new Padding(
-                      padding: EdgeInsets.only(top: 10.0),
-                    ),
-                    new Text(
-                      "MyCLIP",
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
-              new Padding(
-                padding: EdgeInsets.only(bottom: 50.0),
-              ),
-              new Container(
-                decoration: new BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(30.0))
-                ),
-                child: new TextFormField(
-                  validator: (input) {
-                    if(input.isEmpty) {
-                      return "Please type an email!";
-                    }
-                  },
-                  onSaved: (input) => _email = input,
-                  decoration: InputDecoration(
-                    icon: new Icon(Icons.mail, color: Colors.green, size: 18.0),
-                    labelText: "Email"
-                  ),
-                ),
-              ),
-              new Padding(
-                padding: new EdgeInsets.only(bottom: 10.0),
-              ),
-              new Container(
-                decoration: new BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(30.0))
-                ),
-                child: new TextFormField(
-                  validator: (input) {
-                    if(input.length < 6) {
-                      return "Your password needs to be atleast 6 characters";
-                    }
-                  },
-                  onSaved: (input) => _password = input,
-                  decoration: InputDecoration(
-                    icon: new Icon(Icons.vpn_key, color: Colors.green, size: 18.0),
-                    labelText: "Password"
-                  ),
-                  obscureText: true,
-                ),
-              ),
-              new Padding(
-                padding: new EdgeInsets.only(bottom: 20.0),
-              ),
-              new RaisedButton(
-                color: Colors.white,
-                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                onPressed: signIn,
-                child: new Text("Sign in", style: new TextStyle(color: Colors.green)),
-              )
+              logo,
+              SizedBox(height: 30.0),
+              email,
+              SizedBox(height: 10.0),
+              password,
+              SizedBox(height: 15.0),
+              loginButton
             ],
-          ),
+          )
         ),
-      )
+      ),
     );
   }
 }
