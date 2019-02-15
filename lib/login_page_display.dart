@@ -1,4 +1,7 @@
+import 'package:clip/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -6,73 +9,115 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _email, _password;
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  Future<void> signIn() async {
+    final formState = _formKey.currentState;
+    if(formState.validate()){
+      formState.save();
+      try {
+        FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SplashScreen()));
+      } catch(err) {
+        print(err);
+      }
+    }
+  }
 
-  Widget build (BuildContext context) {
-    final logo = new Container (
-      child: CircleAvatar(
-        backgroundColor: Colors.green,
-        radius: 48.0,
-        child: Icon(Icons.attach_file, size: 50.0,),
-      ),
-    );
-    final email = TextFormField(
-      controller: emailController,
-      decoration: InputDecoration(
-        hintText: 'Email',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(32.0)
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      backgroundColor: Colors.green,
+      body: Form(
+        key: _formKey,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 30.0),
+            child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Container(
+                child: new Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 60.0,
+                      child: new Icon(
+                        Icons.attach_file,
+                        color: Colors.green,
+                        size: 100.0,
+                      ),
+                    ),
+                    new Padding(
+                      padding: EdgeInsets.only(top: 10.0),
+                    ),
+                    new Text(
+                      "MyCLIP",
+                      style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              new Padding(
+                padding: EdgeInsets.only(bottom: 50.0),
+              ),
+              new Container(
+                decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(30.0))
+                ),
+                child: new TextFormField(
+                  validator: (input) {
+                    if(input.isEmpty) {
+                      return "Please type an email!";
+                    }
+                  },
+                  onSaved: (input) => _email = input,
+                  decoration: InputDecoration(
+                    icon: new Icon(Icons.mail, color: Colors.green, size: 18.0),
+                    labelText: "Email"
+                  ),
+                ),
+              ),
+              new Padding(
+                padding: new EdgeInsets.only(bottom: 10.0),
+              ),
+              new Container(
+                decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(30.0))
+                ),
+                child: new TextFormField(
+                  validator: (input) {
+                    if(input.length < 6) {
+                      return "Your password needs to be atleast 6 characters";
+                    }
+                  },
+                  onSaved: (input) => _password = input,
+                  decoration: InputDecoration(
+                    icon: new Icon(Icons.vpn_key, color: Colors.green, size: 18.0),
+                    labelText: "Password"
+                  ),
+                  obscureText: true,
+                ),
+              ),
+              new Padding(
+                padding: new EdgeInsets.only(bottom: 20.0),
+              ),
+              new RaisedButton(
+                color: Colors.white,
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                onPressed: signIn,
+                child: new Text("Sign in", style: new TextStyle(color: Colors.green)),
+              )
+            ],
+          ),
         ),
-      ),
-    );
-    final password = TextFormField(
-      controller: passwordController,
-      decoration: InputDecoration(
-        hintText: 'Password',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(32.0)
-        ),
-      ),
-    );
-    final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: Material(
-        borderRadius: BorderRadius.circular(30.0),
-        shadowColor: Colors.green.shade50,
-        elevation: 5.0,
-        child: MaterialButton(
-          minWidth: 280.0,
-          height: 42.0,
-          onPressed: () {
-            //ADD AUTH request
-          },
-          child: Text('Log In', style: TextStyle(color: Colors.green, fontSize: 16.0),),
-        ),
-      ),
-    );
-
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      backgroundColor: Colors.white,
-      body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          children: <Widget>[
-            logo,
-            SizedBox(height: 48.0,),
-            email,
-            SizedBox(height: 20.0,),
-            password,
-            SizedBox(height: 48.0,),
-            loginButton,
-          ],
-        ),
-      ),
+      )
     );
   }
 }

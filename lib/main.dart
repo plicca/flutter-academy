@@ -12,11 +12,14 @@ import 'package:clip/user_profile.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(new MaterialApp(home: Tabs(), routes: <String, WidgetBuilder>{
-    "/Tabs": (BuildContext context) => new Tabs(),
-    "/SplashScreen": (BuildContext context) => new SplashScreen(),
-    "/LoginPage": (BuildContext context) => new LoginPage(),
-  }));
+  runApp(new MaterialApp(
+    home: LoginPage(),
+    routes: <String, WidgetBuilder>{
+      "/Tabs": (BuildContext context) => new Tabs(),
+      "/SplashScreen": (BuildContext context) => new SplashScreen(),
+      "/LoginPage": (BuildContext context) => new LoginPage(),
+    })
+  );
 }
 
 class Tabs extends StatefulWidget {
