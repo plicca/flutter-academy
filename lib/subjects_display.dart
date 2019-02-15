@@ -49,11 +49,11 @@ class _SubjectsState extends State<Subjects> {
           _list2016 = List2018;
         });
       });
-//      fetchSubjectsByStudentID(USER_STUDENT.id).then((List<Subject> subjectsList) {
-//        setState(() {
-//          _subjects = subjectsList;
-//        });
-//      });
+      fetchSubjectsByStudentID(USER_STUDENT.id).then((List<Subject> subjectsList) {
+        setState(() {
+          _subjects = subjectsList;
+        });
+      });
     } else {
       fetchSubjectsByProfessorID(USER_TEACHER.id).then((List<Subject> subjectsList) {
         setState(() {
@@ -180,5 +180,5 @@ class _SubjectsState extends State<Subjects> {
                 builder: (context) => SubjectInfo(subject: subject)));
       },
     );
-  }
+  }z
 }
