@@ -1,14 +1,6 @@
 import 'dart:convert';
 
 class StudentGrade {
-//  type StudentGrade struct {
-//  StudentID        int
-//  StudentFirstName string `gorm:"column:first_name"`
-//  StudentLastName  string `gorm:"column:last_name"`
-//  SubjectName      string `gorm:"column:name"`
-//  SubjectID        int
-//  Rank             string
-//  }
 
   int studentID;
   String studentFirstName;
@@ -16,6 +8,7 @@ class StudentGrade {
   String subjectName;
   int subjectID;
   String rank;
+  DateTime date;
 
   StudentGrade({
     this.studentID,
@@ -23,7 +16,8 @@ class StudentGrade {
     this.studentLastName,
     this.subjectName,
     this.subjectID,
-    this.rank
+    this.rank,
+    this.date
   });
 
   String toJson () {
@@ -33,7 +27,8 @@ class StudentGrade {
       'StudentLastName': this.studentLastName,
       'SubjectName': this.subjectName,
       'SubjectID': this.subjectID,
-      'Rank':this.rank
+      'Rank':this.rank,
+      'Date': this.date.millisecondsSinceEpoch ~/ 1000,
     });
   }
 
@@ -45,6 +40,7 @@ class StudentGrade {
       subjectName: json['SubjectName'],
       subjectID: json['SubjectID'],
       rank: json['Rank'],
+      date: DateTime.fromMillisecondsSinceEpoch(json['Date'] * 1000),
     );
   }
 

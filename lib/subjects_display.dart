@@ -1,11 +1,27 @@
 import 'package:clip/config/variables.dart';
-import 'package:clip/model/student_subject_info.dart';
+import 'package:clip/model/professor.dart';
+import 'package:clip/model/student.dart';
+import 'package:clip/model/student_subject.dart';
 import 'package:clip/model/subject.dart';
+import 'package:clip/model/teacher_subject.dart';
+import 'package:clip/model/user.dart';
+import 'package:clip/networking/student_endpoint.dart';
 import 'package:clip/networking/student_subject_endpoint.dart';
 import 'package:clip/networking/subject_endpoint.dart';
-import 'package:clip/subject_info.dart';
+import 'package:clip/networking/teacher_endpoint.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/create_subjects_screen.dart';
+import 'package:clip/model/student_grade.dart';
+import 'package:clip/networking/student_grade_endpoint.dart';
+import 'package:clip/networking/teacher_subject_endpoint.dart';
+
+
+class YearValue {
+  final int dateYear;
+  final int buttonValue;
+
+  YearValue ({this.dateYear, this.buttonValue});
+}
 
 class Subjects extends StatefulWidget {
   @override
@@ -13,42 +29,46 @@ class Subjects extends StatefulWidget {
 }
 
 class _SubjectsState extends State<Subjects> {
-  List<Subject> _subjects = [];
+
   int _selected = 0;
+  List<YearValue> values = [];
 
-  List<StudentSubjectsInfo> _list2016;
-  List<StudentSubjectsInfo> _list2017;
-  List<StudentSubjectsInfo> _list2018;
+  List<StudentGrade> _studentGrade = [];
+  List<StudentGrade> processedStudentGrade = [];
 
-  List<Subject> _listProf2016;
-  List<Subject> _listProf2017;
-  List<Subject> _listProf2018;
+  List<Subject> _subjects = [];
+
+//  List<StudentGrade> studentSubjectsGrades = [];
+//  List<Subject> teacherSubjects = [];
+//  List<ProfessorSubject> _teacher_subject = [];
+//  List<Subject> processedTeacherSubjects = [];
+
 
 
   void onChanged(int v) {
     setState(() {
       _selected = v;
     });
+    filterSubjects();
   }
 
   void initState() {
     super.initState();
     if(IS_STUDENT){
-      fetchSubjectsByStudentIDAndSchoolYear(USER_STUDENT.id, "2016/2017").then((List<StudentSubjectsInfo> List2016) {
+      fetchStudentGrade(USER_STUDENT.id).then((List<StudentGrade> subjectsInfo){
         setState(() {
-          _list2016 = List2016;
+          _studentGrade = subjectsInfo;
         });
       });
-      fetchSubjectsByStudentIDAndSchoolYear(USER_STUDENT.id, "2017/2018").then((List<StudentSubjectsInfo> List2017) {
-        setState(() {
-          _list2016 = List2017;
-        });
+    } else {
+      fetchSubjectsByProfessorID(USER_TEACHER.id).then((List<Subject> subjects){
+        _subjects = subjects;
       });
-      fetchSubjectsByStudentIDAndSchoolYear(USER_STUDENT.id, "2018/2019").then((List<StudentSubjectsInfo> List2018) {
-        setState(() {
-          _list2016 = List2018;
-        });
-      });
+    }
+  }
+
+  Future<Null> refreshPage() async {
+    if(IS_STUDENT){
       fetchSubjectsByStudentID(USER_STUDENT.id).then((List<Subject> subjectsList) {
         setState(() {
           _subjects = subjectsList;
@@ -61,6 +81,7 @@ class _SubjectsState extends State<Subjects> {
         });
       });
     }
+    return null;
   }
 
   Widget createSubjectsButton() {
@@ -83,23 +104,6 @@ class _SubjectsState extends State<Subjects> {
     }
   }
 
-  Future<Null> refreshPage() async {
-    if(IS_STUDENT){
-      fetchSubjectsByStudentID(USER_STUDENT.id).then((List<Subject> subjectsList) {
-        setState(() {
-          _subjects = subjectsList;
-        });
-      });
-    } else {
-      fetchSubjectsByProfessorID(USER_TEACHER.id).then((List<Subject> subjectsList) {
-        setState(() {
-          _subjects = subjectsList;
-        });
-      });
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,20 +121,7 @@ class _SubjectsState extends State<Subjects> {
               ),
               new DropdownButton(
                 value: _selected,
-                items: [
-                  new DropdownMenuItem(
-                    child: new Text("2016/2017"),
-                    value: 0,
-                  ),
-                  new DropdownMenuItem(
-                    child: new Text("2017/2018"),
-                    value: 1,
-                  ),
-                  new DropdownMenuItem(
-                    child: new Text("2018/2019"),
-                    value: 2,
-                  )
-                ],
+                items: SchoolYears(SubjectIterator()),
                 onChanged: onChanged,
               ),
             ],
@@ -151,34 +142,94 @@ class _SubjectsState extends State<Subjects> {
 
   Widget _buildSubjects() {
     int itemCount = 0;
-    switch(_selected) {
-      case 0: itemCount = _list2016.length; break;
-      case 1: itemCount = _list2017.length; break;
-      case 2: itemCount = _list2018.length; break;
+    if (IS_STUDENT) {
+      itemCount = processedStudentGrade.length;
+    } else {
+      //todo:add teacher
     }
+    print(itemCount);
     return ListView.builder(
       itemCount: itemCount,
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, i) {
-//        final index = i;
-//        if (i >= _subjects.length) return null;
         return _buildRow(i);
       });
   }
 
   Widget _buildRow(int i) {
-//    String name;
-//    switch (_selected) {
-//
-//    }
+    String title, subtitle;
+    if(IS_STUDENT) {
+      title = "(" + processedStudentGrade[i].subjectID.toString() + ") " + processedStudentGrade[i].subjectName;
+      subtitle = "Avalicação: " + processedStudentGrade[i].rank;
+    } else {
+      //todo: add teacher
+    }
     return ListTile(
-      title: Text("(" + subject.id.toString() + ") " + subject.name),
+      title: Text(title),
+      subtitle: Text(subtitle),
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SubjectInfo(subject: subject)));
+//        Navigator.push(
+//            context,
+//            MaterialPageRoute(
+//                builder: (context) => SubjectInfo(subject: subject)));
       },
     );
-  }z
+  }
+
+  List<DropdownMenuItem<int>> SchoolYears (List<String> schoolYears) {
+    List<DropdownMenuItem<int>> textWidgets = new List<DropdownMenuItem<int>>();
+    for (int i = 0; i < schoolYears.length; i++) {
+       textWidgets.add(
+           DropdownMenuItem(
+             child: Text(schoolYears.elementAt(i)),
+             value: i,
+           )
+       );
+    }
+    return textWidgets;
+  }
+
+  List<String> SubjectIterator () {
+    List<int> temp = new List<int>();
+    temp.add(_studentGrade.elementAt(0).date.year);
+    for (int i = 1; i < _studentGrade.length; i++) {
+      var year = _studentGrade.elementAt(i).date.year;
+      if (_studentGrade.elementAt(i).date.isBefore(DateTime.parse(year.toString()+"-08-31 00:00:00"))) {
+        year -= 1;
+      }
+      if (!temp.contains(year)) {
+        temp.add(year);
+      }
+    }
+    List<String> schoolYears = new List<String>();
+    for (int i = 0; i < temp.length; i++) {
+      String year = temp.elementAt(i).toString() + "/" + (temp.elementAt(i) + 1).toString();
+      schoolYears.add(year);
+      values.add(YearValue(dateYear: temp.elementAt(i), buttonValue: i));
+    }
+    return schoolYears;
+  }
+
+  void filterSubjects() {
+    if(IS_STUDENT) {
+      for (int i = 0; i < values.length; i++) {
+        var dateString = values
+            .elementAt(i)
+            .dateYear
+            .toString() + "-09-01 00:00:00";
+        var nextDate = values.elementAt(i).dateYear + 1;
+        var nextDateString = nextDate.toString() + "-08-31 00:00:00";
+        if (_selected == values
+            .elementAt(i)
+            .buttonValue) {
+          processedStudentGrade = _studentGrade.where((StudentGrade s) =>
+          s.date.isAfter(DateTime.parse(dateString)) &&
+              s.date.isBefore(DateTime.parse(nextDateString))
+          ).toList();
+        }
+      }
+    } else {
+      //TODO: add teacher
+    }
+  }
 }
