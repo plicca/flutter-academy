@@ -1,5 +1,6 @@
 import 'package:clip/model/subject.dart';
 import 'package:clip/model/teacher_subject.dart';
+import 'package:clip/model/teacher_subject_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:clip/config/variables.dart';
 import 'dart:convert';
@@ -29,3 +30,13 @@ Future<List<Subject>> fetchSubjectsByProfessorIDAndSchoolYear (int professorID, 
   return [];
 }
 
+Future<List<TeacherSubjectInfo>> fetchSubjectsByTeacherID (int id) async {
+  final subjectSufix = "professor/" + id.toString() + "/subject/";
+  try {
+    final response = await http.get(SERVER_ENDPOINT + subjectSufix);
+    return List<TeacherSubjectInfo>.from(json.decode(response.body).map((x) => TeacherSubjectInfo.fromJson(x)));
+  } catch (e) {
+    print(e);
+  }
+  return [];
+}

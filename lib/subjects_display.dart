@@ -4,11 +4,13 @@ import 'package:clip/model/student.dart';
 import 'package:clip/model/student_subject.dart';
 import 'package:clip/model/subject.dart';
 import 'package:clip/model/teacher_subject.dart';
+import 'package:clip/model/teacher_subject_info.dart';
 import 'package:clip/model/user.dart';
 import 'package:clip/networking/student_endpoint.dart';
 import 'package:clip/networking/student_subject_endpoint.dart';
 import 'package:clip/networking/subject_endpoint.dart';
 import 'package:clip/networking/teacher_endpoint.dart';
+import 'package:clip/subject_info.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/create_subjects_screen.dart';
 import 'package:clip/model/student_grade.dart';
@@ -36,14 +38,12 @@ class _SubjectsState extends State<Subjects> {
   List<StudentGrade> _studentGrade = [];
   List<StudentGrade> processedStudentGrade = [];
 
-  List<Subject> _subjects = [];
+  List<TeacherSubjectInfo> _teacherSubjects = [];
+  List<TeacherSubjectInfo> processedTeacherSubjects = [];
 
-//  List<StudentGrade> studentSubjectsGrades = [];
-//  List<Subject> teacherSubjects = [];
-//  List<ProfessorSubject> _teacher_subject = [];
-//  List<Subject> processedTeacherSubjects = [];
-
-
+  //MUDAR SUBJECTINFO para receber um id em vez de um subject
+  //adicioionar description no teacher subject info e na backend
+  //fazer merge do fix de bugs
 
   void onChanged(int v) {
     setState(() {
@@ -61,24 +61,22 @@ class _SubjectsState extends State<Subjects> {
         });
       });
     } else {
-      fetchSubjectsByProfessorID(USER_TEACHER.id).then((List<Subject> subjects){
-        _subjects = subjects;
+      fetchSubjectsByTeacherID (USER_TEACHER.id).then((List<TeacherSubjectInfo> subjects){
+        _teacherSubjects = subjects;
       });
     }
   }
 
   Future<Null> refreshPage() async {
     if(IS_STUDENT){
-      fetchSubjectsByStudentID(USER_STUDENT.id).then((List<Subject> subjectsList) {
+      fetchStudentGrade(USER_STUDENT.id).then((List<StudentGrade> subjectsInfo){
         setState(() {
-          _subjects = subjectsList;
+          _studentGrade = subjectsInfo;
         });
       });
     } else {
-      fetchSubjectsByProfessorID(USER_TEACHER.id).then((List<Subject> subjectsList) {
-        setState(() {
-          _subjects = subjectsList;
-        });
+      fetchSubjectsByTeacherID (USER_TEACHER.id).then((List<TeacherSubjectInfo> subjects){
+        _teacherSubjects = subjects;
       });
     }
     return null;
@@ -90,11 +88,11 @@ class _SubjectsState extends State<Subjects> {
         onPressed: () async {
           final Subject result = await Navigator.push(context,
               MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
-          if (result != null) {
-            setState(() {
-              _subjects.add(result);
-            });
-          }
+//          if (result != null) {
+//            setState(() {
+//              _teacherSubjects.add(result);
+//            });
+//          }
         },
         child: Icon(Icons.add),
         backgroundColor: USER_COLOR,
@@ -146,8 +144,8 @@ class _SubjectsState extends State<Subjects> {
       itemCount = processedStudentGrade.length;
     } else {
       //todo:add teacher
+      itemCount = processedTeacherSubjects.length;
     }
-    print(itemCount);
     return ListView.builder(
       itemCount: itemCount,
       padding: const EdgeInsets.all(16.0),
@@ -163,15 +161,19 @@ class _SubjectsState extends State<Subjects> {
       subtitle = "Avalicação: " + processedStudentGrade[i].rank;
     } else {
       //todo: add teacher
+      title = "(" + processedTeacherSubjects[i].subjectID.toString() + ") " + processedTeacherSubjects[i].subjectName;
+      subtitle = "";
     }
     return ListTile(
       title: Text(title),
       subtitle: Text(subtitle),
       onTap: () {
-//        Navigator.push(
-//            context,
-//            MaterialPageRoute(
-//                builder: (context) => SubjectInfo(subject: subject)));
+        if (!IS_STUDENT) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SubjectInfo(subject: subject)))
+        }
       },
     );
   }
@@ -191,21 +193,41 @@ class _SubjectsState extends State<Subjects> {
 
   List<String> SubjectIterator () {
     List<int> temp = new List<int>();
-    temp.add(_studentGrade.elementAt(0).date.year);
-    for (int i = 1; i < _studentGrade.length; i++) {
-      var year = _studentGrade.elementAt(i).date.year;
-      if (_studentGrade.elementAt(i).date.isBefore(DateTime.parse(year.toString()+"-08-31 00:00:00"))) {
-        year -= 1;
-      }
-      if (!temp.contains(year)) {
-        temp.add(year);
-      }
-    }
     List<String> schoolYears = new List<String>();
-    for (int i = 0; i < temp.length; i++) {
-      String year = temp.elementAt(i).toString() + "/" + (temp.elementAt(i) + 1).toString();
-      schoolYears.add(year);
-      values.add(YearValue(dateYear: temp.elementAt(i), buttonValue: i));
+
+    if(IS_STUDENT) {
+      temp.add(_studentGrade.elementAt(0).date.year);
+      for (int i = 1; i < _studentGrade.length; i++) {
+        var year = _studentGrade.elementAt(i).date.year;
+        if (_studentGrade.elementAt(i).date.isBefore(DateTime.parse(year.toString() + "-08-31 00:00:00"))) {
+          year -= 1;
+        }
+        if (!temp.contains(year)) {
+          temp.add(year);
+        }
+      }
+      for (int i = 0; i < temp.length; i++) {
+        String year = temp.elementAt(i).toString() + "/" + (temp.elementAt(i) + 1).toString();
+        schoolYears.add(year);
+        values.add(YearValue(dateYear: temp.elementAt(i), buttonValue: i));
+      }
+    } else {
+      //todo: add teacher
+      temp.add(_teacherSubjects.elementAt(0).date.year);
+      for (int i = 1; i < _teacherSubjects.length; i++) {
+        var year = _teacherSubjects.elementAt(i).date.year;
+        if (_teacherSubjects.elementAt(i).date.isBefore(DateTime.parse(year.toString() + "-08-31 00:00:00"))) {
+          year -= 1;
+        }
+        if (!temp.contains(year)) {
+          temp.add(year);
+        }
+      }
+      for (int i = 0; i < temp.length; i++) {
+        String year = temp.elementAt(i).toString() + "/" + (temp.elementAt(i) + 1).toString();
+        schoolYears.add(year);
+        values.add(YearValue(dateYear: temp.elementAt(i), buttonValue: i));
+      }
     }
     return schoolYears;
   }
@@ -213,10 +235,7 @@ class _SubjectsState extends State<Subjects> {
   void filterSubjects() {
     if(IS_STUDENT) {
       for (int i = 0; i < values.length; i++) {
-        var dateString = values
-            .elementAt(i)
-            .dateYear
-            .toString() + "-09-01 00:00:00";
+        var dateString = values.elementAt(i).dateYear.toString() + "-09-01 00:00:00";
         var nextDate = values.elementAt(i).dateYear + 1;
         var nextDateString = nextDate.toString() + "-08-31 00:00:00";
         if (_selected == values
@@ -230,6 +249,17 @@ class _SubjectsState extends State<Subjects> {
       }
     } else {
       //TODO: add teacher
+      for (int i = 0; i < values.length; i++) {
+        var dateString = values.elementAt(i).dateYear.toString() + "-09-01 00:00:00";
+        var nextDate = values.elementAt(i).dateYear + 1;
+        var nextDateString = nextDate.toString() + "-08-31 00:00:00";
+        if (_selected == values.elementAt(i).buttonValue) {
+          processedTeacherSubjects = _teacherSubjects.where((TeacherSubjectInfo s) =>
+          s.date.isAfter(DateTime.parse(dateString)) &&
+              s.date.isBefore(DateTime.parse(nextDateString))
+          ).toList();
+        }
+      }
     }
   }
 }

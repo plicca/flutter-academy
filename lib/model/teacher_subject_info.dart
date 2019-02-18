@@ -1,0 +1,35 @@
+import 'dart:convert';
+
+class TeacherSubjectInfo {
+
+  final int professorID;
+  final int subjectID;
+  final String subjectName;
+  final DateTime date;
+
+  TeacherSubjectInfo ({
+    this.professorID,
+    this.subjectID,
+    this.subjectName,
+    this.date,
+  });
+
+  String toJson(){
+    return json.encode({
+      'ProfessorID': this.professorID,
+      'SubjectID': this.subjectID,
+      'SubjectName': this.subjectName,
+      'Date': this.date.millisecondsSinceEpoch ~/ 1000,
+    });
+  }
+
+  factory TeacherSubjectInfo.fromJson(Map<String, dynamic> json) {
+    return TeacherSubjectInfo(
+      professorID: json['ProfessorID'],
+      subjectID: json['SubjectID'],
+      subjectName: json['SubjectName'],
+      date: DateTime.fromMillisecondsSinceEpoch(json['Date'] * 1000),
+    );
+  }
+
+}
