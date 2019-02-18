@@ -1,3 +1,4 @@
+import 'package:clip/config/presistent_variables.dart';
 import 'package:clip/config/variables.dart';
 import 'package:clip/login_page_display.dart';
 import 'package:clip/model/user.dart';
@@ -62,7 +63,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
       return [
         new ListTile(
           trailing: new Icon(Icons.assignment_turned_in, color: USER_COLOR),
-          title: Text("Resumo", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
+          title: Text("Overview", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
           onTap: (){
             Navigator.push(context, MaterialPageRoute(builder: (context) => Overview()));
           },
@@ -98,6 +99,33 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
     } else {
       return new Text(USER_TEACHER.firstName[0], style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: USER_COLOR));
     }
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Log out..."),
+          content: new Text("Are you sure?"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Yes"),
+              onPressed: () {
+                PreferencesHolder().persistLoginStatus(false);
+                Navigator.of(context).pushReplacementNamed("/LoginPage");
+              },
+            ),
+            new FlatButton(
+              child: new Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              }
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -166,7 +194,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
             ),
             new ListTile(
               trailing: new Icon(Icons.schedule, color: USER_COLOR),
-              title: Text("Horário", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
+              title: Text("Schedule", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleDisplay()));
               },
@@ -176,7 +204,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
             ),
             new ListTile(
               trailing: new Icon(Icons.calendar_today, color: USER_COLOR),
-              title: Text("Calendário", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
+              title: Text("Calendar", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
               onTap: (){
                 Navigator.pop(context);
               },
@@ -184,7 +212,39 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
             new Divider(
               color: USER_COLOR
             ),
-          ] + overviewDisplay()
+          ] + overviewDisplay() +
+          <Widget> [
+            new ListTile(
+              trailing: new Icon(Icons.star, color: USER_COLOR),
+              title: Text("Quick Access", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
+              onTap: (){
+                Navigator.pop(context);
+              },
+            ),
+            new Divider(
+              color: USER_COLOR,
+            ),
+            new ListTile(
+              trailing: new Icon(Icons.settings, color: USER_COLOR),
+              title: Text("Settings", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
+              onTap: (){
+                Navigator.pop(context);
+              },
+            ),
+            new Divider(
+              color: USER_COLOR,
+            ),
+            new ListTile(
+              trailing: new Icon(Icons.exit_to_app, color: USER_COLOR),
+              title: Text("Logout", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
+              onTap: (){
+                _showDialog();
+              },
+            ),
+            new Divider(
+              color: USER_COLOR,
+            )
+          ]
         ),
       ),
     );
