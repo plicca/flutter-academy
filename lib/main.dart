@@ -10,6 +10,7 @@ import 'package:clip/schedule_display.dart';
 import 'package:clip/splash.dart';
 import 'package:clip/subjects_display.dart';
 import 'package:clip/user_profile.dart';
+import 'package:clip/user_settings.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -228,7 +229,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
               trailing: new Icon(Icons.settings, color: USER_COLOR),
               title: Text("Settings", style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
               onTap: (){
-                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
               },
             ),
             new Divider(
