@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
-    home: LoginPage(),
+    home: SplashScreen(),
     routes: <String, WidgetBuilder>{
       "/Tabs": (BuildContext context) => new Tabs(),
       "/SplashScreen": (BuildContext context) => new SplashScreen(),

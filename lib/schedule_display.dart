@@ -2,8 +2,6 @@ import 'package:clip/config/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/subject_info.dart';
 import 'package:clip/networking/subject_endpoint.dart';
-import 'package:clip/subject_info.dart';
-import 'package:flutter/material.dart';
 
 class ScheduleDisplay extends StatefulWidget {
   @override

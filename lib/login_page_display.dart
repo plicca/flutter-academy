@@ -1,6 +1,9 @@
 import 'package:clip/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:clip/config/presistent_variables.dart';
 import 'dart:async';
 
 class LoginPage extends StatefulWidget {
@@ -9,6 +12,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = new GoogleSignIn();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _email, _password;
 
@@ -17,7 +23,10 @@ class _LoginPageState extends State<LoginPage> {
     if(formState.validate()){
       formState.save();
       try {
-        FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+        FirebaseUser user = await _auth.signInWithEmailAndPassword(email: _email, password: _password);
+        if(user != null){
+          PreferencesHolder().persistLoginStatus(true);
+        }
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SplashScreen()));
       } catch(err) {
         print(err);
@@ -25,8 +34,31 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<void> signInWithGoogle() async {
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    final AuthCredential credential =GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken
+    );
+
+    try{
+      final FirebaseUser user = await _auth.signInWithCredential(credential);
+      if(user != null){
+        PreferencesHolder().persistLoginStatus(true);
+      }
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SplashScreen()));
+    } catch(err) {
+      print(err);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final w = size.width;
+
     final logo = new Column(
       children: <Widget> [
         new CircleAvatar(
@@ -90,8 +122,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+    final signInButton = Container(
       child: Material(
         borderRadius: BorderRadius.circular(30.0),
         shadowColor: Colors.green.shade50,
@@ -100,9 +131,30 @@ class _LoginPageState extends State<LoginPage> {
           minWidth: 280.0,
           height: 42.0,
           onPressed: signIn,
-          child: Text('Log In', style: TextStyle(color: Colors.green, fontSize: 16.0),),
+          child: Text('Sign in', style: TextStyle(color: Colors.green, fontSize: 16.0),),
         ),
       ),
+    );
+
+    final googleSignInButton = Container(
+      child: Material(
+        borderRadius: BorderRadius.circular(30.0),
+        shadowColor: Colors.green.shade50,
+        elevation: 5.0,
+        child: MaterialButton(
+          minWidth: 280.0,
+          height: 42.0,
+          onPressed: signInWithGoogle,
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget> [
+              Icon(FontAwesomeIcons.google, color: Colors.red),
+              Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
+              Text('Sign in with Google', style: TextStyle(color: Colors.green, fontSize: 16.0)),
+            ] 
+          ),
+        ),
+      )
     );
 
     return new Scaffold(
@@ -120,7 +172,29 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 10.0),
               password,
               SizedBox(height: 15.0),
-              loginButton
+              signInButton,
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 7.5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: w * 0.30,
+                        height: 1.0,
+                        color: Colors.white,
+                      ),
+                      Text("  Or  ", style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                      Container(
+                        width: w * 0.30,
+                        height: 1.0,
+                        color: Colors.white,
+                      ),
+                    ],
+                  )
+                )
+              ),
+              googleSignInButton,
             ],
           )
         ),

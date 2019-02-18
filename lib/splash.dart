@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:clip/config/presistent_variables.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -7,11 +8,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
-  
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5), () => Navigator.of(context).pushReplacementNamed("/Tabs")); // adicionar uma route para o main para depois do load
+    Future.delayed(Duration(seconds: 1), () {
+      Timer(
+        Duration(seconds: 4),
+        () async {
+          final signedIn = await PreferencesHolder().isSignedIn();
+          if(signedIn){
+              Navigator.of(context).pushReplacementNamed("/Tabs");
+            } else {
+              Navigator.of(context).pushReplacementNamed("/LoginPage");
+            }
+        }
+      );
+    });
   }
   
   @override
