@@ -5,12 +5,14 @@ class TeacherSubjectInfo {
   final int professorID;
   final int subjectID;
   final String subjectName;
+  final String subjectDescription;
   final DateTime date;
 
   TeacherSubjectInfo ({
     this.professorID,
     this.subjectID,
     this.subjectName,
+    this.subjectDescription,
     this.date,
   });
 
@@ -19,6 +21,7 @@ class TeacherSubjectInfo {
       'ProfessorID': this.professorID,
       'SubjectID': this.subjectID,
       'SubjectName': this.subjectName,
+      'SubjectDescription': this.subjectDescription,
       'Date': this.date.millisecondsSinceEpoch ~/ 1000,
     });
   }

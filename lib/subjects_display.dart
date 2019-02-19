@@ -86,13 +86,11 @@ class _SubjectsState extends State<Subjects> {
     if(!IS_STUDENT){
       return new FloatingActionButton(
         onPressed: () async {
-          final Subject result = await Navigator.push(context,
+          await Navigator.push(context,
               MaterialPageRoute(builder: (context) => CreateSubjectScreen()));
-//          if (result != null) {
-//            setState(() {
-//              _teacherSubjects.add(result);
-//            });
-//          }
+          await refreshPage();
+          SchoolYears(SubjectIterator());
+          filterSubjects();
         },
         child: Icon(Icons.add),
         backgroundColor: USER_COLOR,
@@ -169,10 +167,15 @@ class _SubjectsState extends State<Subjects> {
       subtitle: Text(subtitle),
       onTap: () {
         if (!IS_STUDENT) {
+          Subject subject = new Subject(
+            id: processedTeacherSubjects[i].subjectID,
+            name: processedTeacherSubjects[i].subjectName,
+            description: processedTeacherSubjects[i].subjectDescription,
+          );
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => SubjectInfo(subject: subject)))
+                  builder: (context) => SubjectInfo(subject: subject)));
         }
       },
     );
