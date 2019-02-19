@@ -33,7 +33,7 @@ class _SubjectInfoState extends State<SubjectInfo> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text(subject.name),
+        title: Text(subject.name.toString()),
         backgroundColor: USER_COLOR,
       ),
       body: Container(
@@ -41,7 +41,7 @@ class _SubjectInfoState extends State<SubjectInfo> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(subject.description, style: TextStyle(fontSize: 20.0)),
+              Text(subject.description.toString(), style: TextStyle(fontSize: 20.0)),
               Container(
                 margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
                 height: 2.0,
@@ -73,8 +73,7 @@ class _SubjectInfoState extends State<SubjectInfo> {
         title: Text(enrolled.studentID.toString() + ": " + enrolled.studentFirstName + " " + enrolled.studentLastName),
         onTap: () {
           if(!IS_STUDENT){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => GiveGradeToStudent(subjectID: enrolled.subjectID, studentID: enrolled.studentID)));
-          debugPrint(enrolled.studentFirstName);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => GiveGradeToStudent(subjectID: enrolled.subjectID, studentID: enrolled.studentID)));
           }
         });
   }

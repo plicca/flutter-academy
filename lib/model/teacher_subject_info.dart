@@ -31,6 +31,7 @@ class TeacherSubjectInfo {
       professorID: json['ProfessorID'],
       subjectID: json['SubjectID'],
       subjectName: json['SubjectName'],
+      subjectDescription: json['SubjectDescription'],
       date: DateTime.fromMillisecondsSinceEpoch(json['Date'] * 1000),
     );
   }

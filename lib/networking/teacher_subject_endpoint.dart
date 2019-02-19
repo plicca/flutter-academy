@@ -10,7 +10,7 @@ Future<ProfessorSubject> createProfessorSubject(int professorID, subjectID) asyn
  final teacher = ProfessorSubject(professorID: professorID, subjectID: subjectID);
 
  try {
-   final response = await http.post(Uri.encodeFull(SERVER_ENDPOINT + subjectSufix), body: teacher.toJson());
+   final response = await http.post(Uri.encodeFull(SERVER_ENDPOINT + subjectSufix), body: {'ProfessorID':professorID.toString(), 'SubjectID':subjectID.toString()});
  } catch (e) {
    print(e);
  }
