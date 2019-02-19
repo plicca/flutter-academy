@@ -1,3 +1,4 @@
+import 'package:clip/config/locales.dart';
 import 'package:clip/config/variables.dart';
 import 'package:clip/model/user.dart';
 import 'package:clip/networking/teacher_endpoint.dart';
@@ -23,7 +24,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Update User Profile"),
+        title: new Text(LocaleHolder.getValue(UPDATE_PROFILE)),
         backgroundColor: USER_COLOR,
         centerTitle: true,
       ),
@@ -34,7 +35,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
               padding: EdgeInsets.only(top:20.0, left: 50.0, right: 50.0),
               child: new TextField(
                 decoration: new InputDecoration(
-                hintText: "First name: " + user.firstName + "..."
+                hintText: LocaleHolder.getValue(FIRST_NAME)+ user.firstName + "..."
               ),
                 onSubmitted: (String str) {
                  firstController.text = str;
@@ -46,7 +47,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
               padding: EdgeInsets.only(top:20.0, left: 50.0, right: 50.0),
               child: new TextField(
                 decoration: new InputDecoration(
-                hintText: "Last name: " + user.lastName + "..."
+                hintText: LocaleHolder.getValue(LAST_NAME) + user.lastName + "..."
                 ),
                 onSubmitted: (String str) {
                   lastController.text = str;
@@ -58,7 +59,7 @@ class UpdateProfileState extends State<UpdateProfile> with SingleTickerProviderS
         ),
       ),
       floatingActionButton: new FloatingActionButton.extended(
-        label: new Text("Save"),
+        label: new Text(LocaleHolder.getValue(SAVE)),
         onPressed: () {
           setState(() async {
             if(firstController.text != "" && lastController.text != "") {

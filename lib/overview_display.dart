@@ -1,3 +1,4 @@
+import 'package:clip/config/locales.dart';
 import 'package:clip/config/variables.dart';
 import 'package:clip/model/student_grade.dart';
 import 'package:clip/networking/student_grade_endpoint.dart';
@@ -23,7 +24,7 @@ class _Overview extends State<Overview> {
   Widget build (BuildContext context) {
     return Scaffold (
       appBar: AppBar(
-        title: Text("Overview"),
+        title: Text(LocaleHolder.getValue(OVERVIEW)),
         backgroundColor: USER_COLOR,
       ),
       body: _buildOverview(),
@@ -43,7 +44,7 @@ class _Overview extends State<Overview> {
   Widget _buildRow(StudentGrade grade) {
     return ListTile(
       title: Text("(" + grade.subjectID.toString() + ") "+ grade.subjectName),
-      subtitle: Text("Evaluation: " + grade.rank, style: TextStyle(fontSize: 16.0)),
+      subtitle: Text(LocaleHolder.getValue(OVERVIEW) + ": " + grade.rank, style: TextStyle(fontSize: 16.0)),
       onTap: () {
         debugPrint(grade.subjectID.toString());
       },

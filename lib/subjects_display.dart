@@ -1,3 +1,4 @@
+import 'package:clip/config/locales.dart';
 import 'package:clip/config/variables.dart';
 import 'package:clip/model/subject.dart';
 import 'package:clip/networking/subject_endpoint.dart';
@@ -83,7 +84,7 @@ class _SubjectsState extends State<Subjects> {
               child: new Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Text("Search Option:",
+              new Text(LocaleHolder.getValue(SEARCH_OPTION),
                   style: new TextStyle(
                       fontSize: 16.0, fontWeight: FontWeight.bold)),
               new Padding(

@@ -1,6 +1,6 @@
 class LocaleHolder {
   static String getValue(String key) {
-    final defaultLocale = "pt";
+    String defaultLocale = "en";
     return _localizedValues[defaultLocale][key] ?? capitalizeFirstLetterOnly(key);
   }
  
@@ -11,6 +11,7 @@ class LocaleHolder {
       NO: "No",
       CANCEL: "Cancel",
       CONFIRM: "Are you sure?",
+      SAVE: "Save",
       //Login
       GOOGLE_SIGN_IN: "Sign in with Google",
       SIGN_IN: "Sign in",
@@ -27,21 +28,47 @@ class LocaleHolder {
       ALERT_EMPTY_NAME: "Can't create a subject without a name!",
       ALERT_REPEATED_NAME: "There's alreay a subject with that name!",
       //Give Grade
-      EVALUATION: "Avaliação",
-      EVALUATION_EXAMPLE: "Ex.: 9.5",
+      EVALUATION: "Evaluation",
+      EVALUATION_EXAMPLE: "Example: 9.5",
       ASSIGN: "Assign",
       ALERT_EMPTY_GRADE: "Can't give a blank evaluation!",
       //Tabs
       OVERVIEW: "Overview",
       SIGNING_OFF: "Signing off...",
-      SUBJECTS: "Subjects",
-      SEARCH: "Search",
       PROFILE: "Profile",
       SCHEDULE: "Schedule",
       CALENDAR: "Calendar",
       QUICK_ACCESS: "Quick Access",
       SETTINGS: "Settings",
       SIGN_OFF: "Sign off",
+      //Schedule
+      MONDAY: "Monday",
+      TUESDAY: "Tuesday",
+      WEDNESDAY: "Wednesday",
+      THURSDAY: "Thursday",
+      FRIDAY: "Friday",
+      //Search Page
+      SEARCH_OPTION: "Search Options:",
+      STUDENTS: "Students",
+      TEACHERS: "Teachers",
+      SUBJECTS: "Subjects",
+      SEARCH: "Search",
+      //Subject Info
+      ENROLLED_STUDENTS: "Enrolled Students List",
+      //User Profile
+      UPDATE: "Update",
+      UPDATE_PROFILE: "Update User Profile",
+      FIRST_NAME: "First name: ",
+      LAST_NAME: "Last name: ",
+      COURSE_GPA: "Course GPA: ",
+      FULL_NAME: "Full Name: ",
+      USER_NUMBER: "User Number: ",
+      COURSE: "Course: ",
+      START_DATE: "Starting Date: ",
+      //Settings
+      LANGUAGE: "Language",
+      PORTUGUESE: "Portuguese",
+      ENGLISH: "English",
     },
     "pt": {
       //Recorrent
@@ -49,6 +76,7 @@ class LocaleHolder {
       NO: "Não",
       CANCEL: "Cancelar",
       CONFIRM: "Tem a certeza?",
+      SAVE: "Guardar",
       //Login
       GOOGLE_SIGN_IN: "Entrar com o Google",
       SIGN_IN: "Entrar",
@@ -72,14 +100,40 @@ class LocaleHolder {
       //Tabs
       OVERVIEW: "Resumo",
       SIGNING_OFF: "A sair da aplicação...",
-      SUBJECTS: "Cadeiras",
-      SEARCH: "Pesquisa",
       PROFILE: "Perfil",
       SCHEDULE: "Horário",
       CALENDAR: "Calendário",
       QUICK_ACCESS: "Atalhos",
       SETTINGS: "Definições",
       SIGN_OFF: "Sair da Aplicação",
+      //Schedule
+      MONDAY: "Segunda-feira",
+      TUESDAY: "Terça-feira",
+      WEDNESDAY: "Quarta-feira",
+      THURSDAY: "Quinta-feira",
+      FRIDAY: "Sexta-feira",
+      //Search Page
+      SEARCH_OPTION: "Opções de Procura:",
+      STUDENTS: "Estudantes",
+      TEACHERS: "Professores",
+      SUBJECTS: "Cadeiras",
+      SEARCH: "Pesquisa",
+      //Subject Info
+      ENROLLED_STUDENTS: "Lista de Alunos Inscritos",
+      //User Profile
+      UPDATE: "Atualizar",
+      UPDATE_PROFILE: "Atualizar Perfil de Utilizador",
+      FIRST_NAME: "Primeiro nome: ",
+      LAST_NAME: "Último nome: ",
+      COURSE_GPA: "Média de Curso: ",
+      FULL_NAME: "Nome Completo: ",
+      USER_NUMBER: "Número de Utilizador: ",
+      COURSE: "Curso: ",
+      START_DATE: "Data de Início: ",
+      //Settings
+      LANGUAGE: "Idioma",
+      PORTUGUESE: "Português",
+      ENGLISH: "Inglês",
     },
   };
  
@@ -90,6 +144,7 @@ class LocaleHolder {
     return input.toUpperCase();
   }
 }
+
 const YES = "YES";
 const NO = "NO";
 const CANCEL = "CANCEL";
@@ -121,3 +176,25 @@ const CALENDAR = "CALENDAR";
 const QUICK_ACCESS = "QUICK_ACCESS";
 const SETTINGS = "SETTINGS";
 const SIGN_OFF = "SIGN_OFF";
+const MONDAY = "MONDAY";
+const TUESDAY = "TUESDAY";
+const WEDNESDAY = "WEDNESDAY";
+const THURSDAY = "THURSDAY";
+const FRIDAY = "FRIDAY";
+const SEARCH_OPTION = "SEARCH_OPTION";
+const STUDENTS = "STUDENTS";
+const TEACHERS = "TEACHERS";
+const ENROLLED_STUDENTS = "ENROLLED_STUDENTS";
+const UPDATE_PROFILE = "UPDATE_PROFILE";
+const FIRST_NAME = "FIRST_NAME";
+const LAST_NAME = "LAST_NAME";
+const SAVE = "SAVE";
+const COURSE_GPA = "COURSE_GPA";
+const UPDATE = "UPDATE";
+const FULL_NAME = "FULL_NAME";
+const USER_NUMBER = "USER_NUMBER";
+const COURSE = "COURSE";
+const START_DATE = "START_DATE";
+const LANGUAGE = "LANGUAGE";
+const PORTUGUESE = "PORTUGUESE";
+const ENGLISH = "ENGLISH";

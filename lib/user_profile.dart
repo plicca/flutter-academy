@@ -1,3 +1,4 @@
+import 'package:clip/config/locales.dart';
 import 'package:clip/config/variables.dart';
 import 'package:clip/model/grade.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class UserProfileState extends State<UserProfile> with SingleTickerProviderState
     }
 
     return [
-      new Text("Course GPA: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+      new Text(LocaleHolder.getValue(COURSE_GPA), style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
       new Text(average.toStringAsPrecision(3), style: new TextStyle(fontSize: 16.0))
     ];
   }
@@ -60,16 +61,16 @@ class UserProfileState extends State<UserProfile> with SingleTickerProviderState
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
         new Center(child: new Icon(Icons.person, size: 150.0)),
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-        new Text("Full Name: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text(LocaleHolder.getValue(FULL_NAME), style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
         new Text(currentUser.firstName + " " + currentUser.lastName, style: new TextStyle(fontSize: 16.0)),
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-        new Text("User Number: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text(LocaleHolder.getValue(USER_NUMBER), style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
         new Text(currentUser.id.toString(), style: new TextStyle(fontSize: 16.0)),
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-        new Text("Course: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text(LocaleHolder.getValue(COURSE), style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
         new Text(currentUser.cursoID.toString(), style: new TextStyle(fontSize: 16.0)),
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-        new Text("Start Date: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text(LocaleHolder.getValue(START_DATE), style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
         new Text(formatDate(currentUser.startDate, dateFormat), style: new TextStyle(fontSize: 16.0)),
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
       ];
@@ -125,7 +126,7 @@ class UserProfileState extends State<UserProfile> with SingleTickerProviderState
           }
         },
         backgroundColor: USER_COLOR,
-        label: new Text("Update"),
+        label: new Text(LocaleHolder.getValue(UPDATE)),
         icon: new Icon(Icons.update),
       )
     );
