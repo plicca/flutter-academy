@@ -42,15 +42,8 @@ class _Overview extends State<Overview> {
 
   Widget _buildRow(StudentGrade grade) {
     return ListTile(
-      title: Text(
-          "(" + grade.subjectID.toString() + ") "
-          + grade.subjectName + " "
-          //+ grade.rank
-      ),
-      subtitle: Text(
-        "Avaliação: " + grade.rank,
-        style: TextStyle(fontSize: 16.0,),
-      ),
+      title: Text("(" + grade.subjectID.toString() + ") "+ grade.subjectName),
+      subtitle: Text("Avaliação: " + grade.rank, style: TextStyle(fontSize: 16.0)),
       onTap: () {
         debugPrint(grade.subjectID.toString());
       },
