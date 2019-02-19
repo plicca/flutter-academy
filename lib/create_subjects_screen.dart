@@ -1,5 +1,4 @@
 import 'package:clip/config/variables.dart';
-import 'package:clip/model/teacher_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/networking/subject_endpoint.dart';
 import 'package:clip/networking/teacher_subject_endpoint.dart';

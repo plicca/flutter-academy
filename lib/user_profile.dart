@@ -55,27 +55,48 @@ class UserProfileState extends State<UserProfile> with SingleTickerProviderState
   }
 
   List<Widget> renderProfileUser() {
-    return [
-      new Text("Nome Completo: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-      new Text(currentUser.firstName + " " + currentUser.lastName, style: new TextStyle(fontSize: 16.0)),
-      new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-      new Text("Número de Professor: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-      new Text(currentUser.id.toString(), style: new TextStyle(fontSize: 16.0)),
-      new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-      new Text("Curso: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-      new Text(currentUser.cursoID.toString(), style: new TextStyle(fontSize: 16.0)),
-      new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-      new Text("Data de início: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-      new Text(formatDate(currentUser.startDate, dateFormat), style: new TextStyle(fontSize: 16.0)),
-      new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-    ];
+    if(currentUser.startDate != null) {
+      return [
+        new Padding(padding: EdgeInsets.only(bottom: 5.0)),
+        new Center(child: new Icon(Icons.person, size: 150.0)),
+        new Padding(padding: EdgeInsets.only(bottom: 5.0)),
+        new Text("Nome Completo: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text(currentUser.firstName + " " + currentUser.lastName, style: new TextStyle(fontSize: 16.0)),
+        new Padding(padding: EdgeInsets.only(bottom: 5.0)),
+        new Text("Número de Professor: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text(currentUser.id.toString(), style: new TextStyle(fontSize: 16.0)),
+        new Padding(padding: EdgeInsets.only(bottom: 5.0)),
+        new Text("Curso: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text(currentUser.cursoID.toString(), style: new TextStyle(fontSize: 16.0)),
+        new Padding(padding: EdgeInsets.only(bottom: 5.0)),
+        new Text("Data de início: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text(formatDate(currentUser.startDate, dateFormat), style: new TextStyle(fontSize: 16.0)),
+        new Padding(padding: EdgeInsets.only(bottom: 5.0)),
+      ];
+    } else return null;
   }
 
   List<Widget> displayProfile() {
-    if(IS_STUDENT) {
-      return renderProfileUser() + averageGrade();
+    if(renderProfileUser() == null) {
+      return [
+        new Expanded(
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget> [
+              new CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(USER_COLOR),
+              ),
+            ] 
+          ),
+        )
+      ];
     } else {
-      return renderProfileUser();
+      if(IS_STUDENT) {
+        return renderProfileUser() + averageGrade();
+      } else {
+        return renderProfileUser();
+      }
     }
   }
 
@@ -84,10 +105,6 @@ class UserProfileState extends State<UserProfile> with SingleTickerProviderState
     return new Scaffold(
       body: new ListView(
         children: <Widget>[
-          new Container(
-            child: new Icon(Icons.person, size: 150.0),
-            padding: EdgeInsets.only(bottom: 15.0, top: 10.0),
-          ),
           new Container(
             padding: EdgeInsets.only(left: 10.0),
             alignment: Alignment.centerLeft,

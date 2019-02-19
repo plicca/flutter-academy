@@ -1,6 +1,6 @@
-import 'package:clip/config/variables.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:clip/config/presistent_variables.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -8,11 +8,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
-  
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5), () => Navigator.of(context).pushReplacementNamed("/Tabs")); // adicionar uma route para o main para depois do load
+    Future.delayed(Duration(seconds: 1), () {
+      Timer(
+        Duration(seconds: 4),
+        () async {
+          final signedIn = await PreferencesHolder().isSignedIn();
+          if(signedIn){
+              Navigator.of(context).pushReplacementNamed("/Tabs");
+            } else {
+              Navigator.of(context).pushReplacementNamed("/LoginPage");
+            }
+        }
+      );
+    });
   }
   
   @override
@@ -22,7 +33,7 @@ class SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           new Container(
-            decoration: BoxDecoration(color: USER_COLOR),
+            decoration: BoxDecoration(color: Colors.green),
           ),
           new Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -38,7 +49,7 @@ class SplashScreenState extends State<SplashScreen> {
                         radius: 60.0,
                         child: new Icon(
                           Icons.attach_file,
-                          color: USER_COLOR,
+                          color: Colors.green,
                           size: 100.0,
                         ),
                       ),

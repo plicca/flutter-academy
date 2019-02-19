@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1072091240409",
+    "firebase_url": "https://clip-academy.firebaseio.com",
+    "project_id": "clip-academy",
+    "storage_bucket": "clip-academy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072091240409:android:f4ae248de27a2652",
+        "android_client_info": {
+          "package_name": "com.example.clip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072091240409-5sioird5uf4up6nu8o0crffj9ia35b49.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.clip",
+            "certificate_hash": "e7a65e205262629424d7f25b8509bdde004bfb4b"
+          }
+        },
+        {
+          "client_id": "1072091240409-uh7eh63vkgjdlg86r6m6vhu6ed37b2d7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM0mRkBou-aqfFSPEuHIC_VqETkP1g2Eo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072091240409-uh7eh63vkgjdlg86r6m6vhu6ed37b2d7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
