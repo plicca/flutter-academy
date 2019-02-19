@@ -49,7 +49,7 @@ class UserProfileState extends State<UserProfile> with SingleTickerProviderState
     }
 
     return [
-      new Text("Média de Curso: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+      new Text("Course GPA: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
       new Text(average.toStringAsPrecision(3), style: new TextStyle(fontSize: 16.0))
     ];
   }
@@ -60,16 +60,16 @@ class UserProfileState extends State<UserProfile> with SingleTickerProviderState
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
         new Center(child: new Icon(Icons.person, size: 150.0)),
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-        new Text("Nome Completo: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text("Full Name: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
         new Text(currentUser.firstName + " " + currentUser.lastName, style: new TextStyle(fontSize: 16.0)),
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-        new Text("Número de Professor: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text("User Number: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
         new Text(currentUser.id.toString(), style: new TextStyle(fontSize: 16.0)),
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-        new Text("Curso: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text("Course: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
         new Text(currentUser.cursoID.toString(), style: new TextStyle(fontSize: 16.0)),
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
-        new Text("Data de início: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+        new Text("Start Date: ", style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
         new Text(formatDate(currentUser.startDate, dateFormat), style: new TextStyle(fontSize: 16.0)),
         new Padding(padding: EdgeInsets.only(bottom: 5.0)),
       ];

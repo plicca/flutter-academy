@@ -16,7 +16,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: USER_COLOR,
-        title: Text("Criar Disciplina"),
+        title: Text("Create Subjects"),
       ),
       body: Container(
         child: Column(
@@ -25,9 +25,9 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
                 padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
                 child: new Column(
                   children: <Widget>[
-                    new Text("Nome:", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0)),
+                    new Text("Name", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0)),
                     new TextField(
-                      decoration: new InputDecoration(hintText: "Ex.: Eletrónica 1"),
+                      decoration: new InputDecoration(hintText: "Example: Eletrónica 1"),
                       onSubmitted: (String str) {
                         controllerName.text = str;
                       },
@@ -39,9 +39,9 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
               padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
               child: new Column(
                 children: <Widget>[
-                  new Text("Descrição:", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0)),
+                  new Text("Description:", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0)),
                   new TextField(
-                    decoration: new InputDecoration(hintText: "Temas abordados"),
+                    decoration: new InputDecoration(hintText: "Explored themes..."),
                     onSubmitted: (String str) {
                       controllerDescription.text = str;
                     },
@@ -54,7 +54,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
         ),
       ),
       floatingActionButton: new FloatingActionButton.extended(
-        label: new Text("Criar"),
+        label: new Text("Create"),
         onPressed: () {
           if (controllerName.text == "") {
             ErrNoNameSubject(context);
@@ -82,7 +82,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Não é possível criar uma cadeira sem nome.'),
+            title: Text("Can't create a subject without a name!"),
             actions: <Widget>[
               FlatButton(
                 child: Text('OK'),
@@ -101,7 +101,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Já existe uma cadeira com esse nome.'),
+            title: Text("There's alreay a subject with that name!"),
             actions: <Widget>[
               FlatButton(
                 child: Text('OK'),

@@ -21,7 +21,7 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: USER_COLOR,
-        title: Text("Avaliação"),
+        title: Text("Evaluation"),
       ),
       body: Container(
         child: Column(
@@ -30,9 +30,9 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
                 padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
                 child: new Column(
                   children: <Widget>[
-                    new Text("Avaliação: ", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0),),
+                    new Text("Evaluation: ", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0),),
                     new TextField(
-                      decoration: new InputDecoration(hintText: "Ex: 9.5"),
+                      decoration: new InputDecoration(hintText: "Example: 9.5"),
                       onSubmitted: (String str) {
                         gradeController.text = str;
                       },
@@ -56,7 +56,7 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
             }
           },
           icon: new Icon(Icons.add_circle),
-          label: new Text("Atribuir"),
+          label: new Text("Atribute"),
         ),
       );
   }
@@ -67,7 +67,7 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Não é possível dar uma avaliação em branco'),
+            title: Text("Can't give a blank evaluation!"),
             actions: <Widget>[
               FlatButton(
                 child: Text('OK'),

@@ -118,11 +118,11 @@ class _SearchState extends State<Search> {
         this._searchIcon = new Icon(Icons.close);
         this._appBarTitle = new TextField(
           controller: _filter,
-          decoration: new InputDecoration(prefixIcon: new Icon(Icons.search), hintText: 'Procurar...'),
+          decoration: new InputDecoration(prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
         );
       } else {
         this._searchIcon = new Icon(Icons.search);
-        this._appBarTitle = new Text('Procurar');
+        this._appBarTitle = new Text('Search');
         _filter.clear();
       }
     });

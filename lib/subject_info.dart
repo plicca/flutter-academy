@@ -47,7 +47,7 @@ class _SubjectInfoState extends State<SubjectInfo> {
                 color: USER_COLOR,
               ),
               Center(
-                child: Text("Lista de inscritos", textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)),
+                child: Text("Enrolled Students List", textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)),
               ),
               Expanded(
                 child: _buildEnrolledStudents(),
