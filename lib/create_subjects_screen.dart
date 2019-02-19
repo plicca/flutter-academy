@@ -1,3 +1,4 @@
+import 'package:clip/config/locales.dart';
 import 'package:clip/config/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/networking/subject_endpoint.dart';
@@ -16,7 +17,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: USER_COLOR,
-        title: Text("Create Subjects"),
+        title: Text(LocaleHolder.getValue(CREATE_SUBJECTS)),
       ),
       body: Container(
         child: Column(
@@ -25,9 +26,9 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
                 padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
                 child: new Column(
                   children: <Widget>[
-                    new Text("Name", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0)),
+                    new Text(LocaleHolder.getValue(SUBJECT_NAME), style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0)),
                     new TextField(
-                      decoration: new InputDecoration(hintText: "Example: Eletrónica 1"),
+                      decoration: new InputDecoration(hintText: LocaleHolder.getValue(EXAMPLE_NAME)),
                       onSubmitted: (String str) {
                         controllerName.text = str;
                       },
@@ -39,9 +40,9 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
               padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
               child: new Column(
                 children: <Widget>[
-                  new Text("Description:", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0)),
+                  new Text(LocaleHolder.getValue(SUBJECT_DESCRIPTION), style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0)),
                   new TextField(
-                    decoration: new InputDecoration(hintText: "Explored themes..."),
+                    decoration: new InputDecoration(hintText: LocaleHolder.getValue(EXAMPLE_DESCRIPTION)),
                     onSubmitted: (String str) {
                       controllerDescription.text = str;
                     },
@@ -54,7 +55,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
         ),
       ),
       floatingActionButton: new FloatingActionButton.extended(
-        label: new Text("Create"),
+        label: new Text(LocaleHolder.getValue(CREATE)),
         onPressed: () {
           if (controllerName.text == "") {
             ErrNoNameSubject(context);
@@ -82,7 +83,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Can't create a subject without a name!"),
+            title: Text(LocaleHolder.getValue(ALERT_EMPTY_NAME)),
             actions: <Widget>[
               FlatButton(
                 child: Text('OK'),
@@ -101,7 +102,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("There's alreay a subject with that name!"),
+            title: Text(LocaleHolder.getValue(ALERT_REPEATED_NAME)),
             actions: <Widget>[
               FlatButton(
                 child: Text('OK'),

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:clip/config/presistent_variables.dart';
+import 'package:clip/config/locales.dart';
 import 'dart:async';
 
 class LoginPage extends StatefulWidget {
@@ -89,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
       child: new TextFormField(
         validator: (input) {
           if(input.isEmpty) {
-            return "Please type an email!";
+            return LocaleHolder.getValue(VALIDATE_EMAIL);
           }
         },
         onSaved: (input) => _email = input,
@@ -108,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
       child: new TextFormField(
         validator: (input) {
           if(input.length < 6) {
-            return "Your password needs to be atleast 6 characters";
+            return LocaleHolder.getValue(VALIDATE_PASS);
           }
         },
         onSaved: (input) => _password = input,
@@ -131,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
           minWidth: 280.0,
           height: 42.0,
           onPressed: signIn,
-          child: Text('Sign in', style: TextStyle(color: Colors.green, fontSize: 16.0),),
+          child: Text(LocaleHolder.getValue(SIGN_IN), style: TextStyle(color: Colors.green, fontSize: 16.0),),
         ),
       ),
     );
@@ -150,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget> [
               Icon(FontAwesomeIcons.google, color: Colors.red),
               Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-              Text('Sign in with Google', style: TextStyle(color: Colors.green, fontSize: 16.0)),
+              Text(LocaleHolder.getValue(GOOGLE_SIGN_IN), style: TextStyle(color: Colors.green, fontSize: 16.0)),
             ] 
           ),
         ),
@@ -184,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 1.0,
                         color: Colors.white,
                       ),
-                      Text("  Or  ", style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                      Text(LocaleHolder.getValue(OR_OPTION), style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                       Container(
                         width: w * 0.30,
                         height: 1.0,
