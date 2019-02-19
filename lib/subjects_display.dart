@@ -125,12 +125,13 @@ class _SubjectsState extends State<Subjects> {
 
   Widget _buildSubjects() {
     return ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemBuilder: (context, i) {
-          final index = i;
-          if (i >= _subjects.length) return null;
-          return _buildRow(_subjects[index]);
-        });
+      padding: const EdgeInsets.all(16.0),
+      itemBuilder: (context, i) {
+        final index = i;
+        if (i >= _subjects.length) return null;
+        return _buildRow(_subjects[index]);
+      }
+    );
   }
 
   Widget _buildRow(Subject subject) {

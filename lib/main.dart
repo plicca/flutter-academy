@@ -80,25 +80,49 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
 
   Widget setAccountName(){
     if(IS_STUDENT){
-      return new Text(USER_STUDENT.firstName + " " + USER_STUDENT.lastName);
+      if(USER_STUDENT.firstName != null) { 
+        return new Text(USER_STUDENT.firstName + " " + USER_STUDENT.lastName);
+      } else {
+        return null;
+      }
     } else {
-      return new Text(USER_TEACHER.firstName + " " + USER_TEACHER.lastName);
+      if(USER_TEACHER.firstName != null) {
+        return new Text(USER_TEACHER.firstName + " " + USER_TEACHER.lastName);
+      } else {
+        return null;
+      }
     }
   }
 
   Widget setAccountEmail(){
     if(IS_STUDENT){
-      return new Text(USER_STUDENT.email);
+      if(USER_STUDENT.email != null) {
+        return new Text(USER_STUDENT.email);
+      } else {
+        return null;
+      }
     } else {
-      return new Text(USER_TEACHER.email);
+      if(USER_TEACHER != null) {
+        return new Text(USER_TEACHER.email);
+      } else {
+        return null;
+      }
     }
   }
 
   Widget setAccountImage(){
     if(IS_STUDENT){
-      return new Text(USER_STUDENT.firstName[0], style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: USER_COLOR));
+      if(USER_STUDENT.email != null) {
+        return new Text(USER_STUDENT.firstName[0], style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: USER_COLOR));
+      } else {
+        return null;
+      }
     } else {
-      return new Text(USER_TEACHER.firstName[0], style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: USER_COLOR));
+      if(USER_TEACHER.firstName != null) {
+        return new Text(USER_TEACHER.firstName[0], style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: USER_COLOR));
+      } else {
+        return null;
+      }
     }
   }
 
