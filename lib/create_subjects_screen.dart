@@ -62,7 +62,7 @@ class _CreateSubjectScreenState extends State<CreateSubjectScreen> {
             setState(() async {
               final subject = await createSubject(controllerName.text, controllerDescription.text);
               if (subject != null) {
-                await createProfessorSubject(2, subject.id);
+                await createProfessorSubject(USER_TEACHER.id, subject.id);
                 Navigator.of(context).pop(subject);
               } else {
                 ErrDuplicateSubject(context);

@@ -14,7 +14,6 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  @override
   final TextEditingController _filter = new TextEditingController();
 
   String _searchText = "";
@@ -24,7 +23,8 @@ class _SearchState extends State<Search> {
   List<Subject> processedSubjects = [];
   List<Student> students = [];
   List<Student> processedStudents = [];
-
+  
+  @override
   void initState() {
     super.initState();
     fetchTeachers().then((List<Professor> x) {
