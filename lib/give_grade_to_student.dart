@@ -1,3 +1,4 @@
+import 'package:clip/config/locales.dart';
 import 'package:clip/config/variables.dart';
 import 'package:clip/networking/grade_endpoint.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: USER_COLOR,
-        title: Text("Avaliação"),
+        title: Text(LocaleHolder.getValue(EVALUATION)),
       ),
       body: Container(
         child: Column(
@@ -30,9 +31,9 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
                 padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
                 child: new Column(
                   children: <Widget>[
-                    new Text("Avaliação: ", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0),),
+                    new Text(LocaleHolder.getValue(EVALUATION) + ": ", style: new TextStyle(color: USER_COLOR, fontWeight: FontWeight.bold, fontSize: 16.0),),
                     new TextField(
-                      decoration: new InputDecoration(hintText: "Ex: 9.5"),
+                      decoration: new InputDecoration(hintText: LocaleHolder.getValue(EVALUATION_EXAMPLE)),
                       onSubmitted: (String str) {
                         gradeController.text = str;
                       },
@@ -56,7 +57,7 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
             }
           },
           icon: new Icon(Icons.add_circle),
-          label: new Text("Atribuir"),
+          label: new Text(LocaleHolder.getValue(ASSIGN)),
         ),
       );
   }
@@ -67,7 +68,7 @@ class _GiveGradeToStudent extends State<GiveGradeToStudent> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Não é possível dar uma avaliação em branco'),
+            title: Text(LocaleHolder.getValue(ALERT_EMPTY_GRADE)),
             actions: <Widget>[
               FlatButton(
                 child: Text('OK'),

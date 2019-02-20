@@ -1,3 +1,4 @@
+import 'package:clip/config/locales.dart';
 import 'package:clip/config/variables.dart';
 import 'package:clip/model/student.dart';
 import 'package:clip/model/subject.dart';
@@ -49,7 +50,7 @@ class _SearchState extends State<Search> {
   }
 
   Icon _searchIcon = new Icon(Icons.search);
-  Widget _appBarTitle = new Text('Search');
+  Widget _appBarTitle = new Text(LocaleHolder.getValue(SEARCH));
   int _selected = 0;
   final TextEditingController controller = new TextEditingController();
 
@@ -79,7 +80,7 @@ class _SearchState extends State<Search> {
                 child: new Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                new Text("Search Option:", style: new TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                new Text(LocaleHolder.getValue(SEARCH_OPTION), style: new TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
                 new Padding(
                   padding: new EdgeInsets.only(left: 10.0),
                 ),
@@ -87,15 +88,15 @@ class _SearchState extends State<Search> {
                   value: _selected,
                   items: [
                     new DropdownMenuItem(
-                      child: new Text("Students"),
+                      child: new Text(LocaleHolder.getValue(STUDENTS)),
                       value: 0,
                     ),
                     new DropdownMenuItem(
-                      child: new Text("Teachers"),
+                      child: new Text(LocaleHolder.getValue(TEACHERS)),
                       value: 1,
                     ),
                     new DropdownMenuItem(
-                      child: new Text("Subjects"),
+                      child: new Text(LocaleHolder.getValue(SUBJECTS)),
                       value: 2,
                     )
                   ],
@@ -118,11 +119,11 @@ class _SearchState extends State<Search> {
         this._searchIcon = new Icon(Icons.close);
         this._appBarTitle = new TextField(
           controller: _filter,
-          decoration: new InputDecoration(prefixIcon: new Icon(Icons.search), hintText: 'Procurar...'),
+          decoration: new InputDecoration(prefixIcon: new Icon(Icons.search), hintText: LocaleHolder.getValue(SEARCH) + "..."),
         );
       } else {
         this._searchIcon = new Icon(Icons.search);
-        this._appBarTitle = new Text('Procurar');
+        this._appBarTitle = new Text(LocaleHolder.getValue(SEARCH));
         _filter.clear();
       }
     });

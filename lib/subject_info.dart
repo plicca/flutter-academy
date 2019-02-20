@@ -1,3 +1,4 @@
+import 'package:clip/config/locales.dart';
 import 'package:clip/config/variables.dart';
 import 'package:clip/give_grade_to_student.dart';
 import 'package:clip/model/student_subject_info.dart';
@@ -47,7 +48,7 @@ class _SubjectInfoState extends State<SubjectInfo> {
                 color: USER_COLOR,
               ),
               Center(
-                child: Text("Lista de inscritos", textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)),
+                child: Text(LocaleHolder.getValue(ENROLLED_STUDENTS), textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)),
               ),
               Expanded(
                 child: _buildEnrolledStudents(),

@@ -1,3 +1,4 @@
+import 'package:clip/config/locales.dart';
 import 'package:clip/config/variables.dart';
 import 'package:clip/model/subject.dart';
 import 'package:clip/model/teacher_subject_info.dart';

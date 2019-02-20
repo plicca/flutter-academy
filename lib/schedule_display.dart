@@ -1,3 +1,4 @@
+import 'package:clip/config/locales.dart';
 import 'package:clip/config/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:clip/subject_info.dart';
@@ -9,7 +10,13 @@ class ScheduleDisplay extends StatefulWidget {
 }
 
 class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProviderStateMixin {
-  final days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  final days = [
+    LocaleHolder.getValue(MONDAY),
+    LocaleHolder.getValue(TUESDAY),
+    LocaleHolder.getValue(WEDNESDAY),
+    LocaleHolder.getValue(THURSDAY),
+    LocaleHolder.getValue(FRIDAY)
+  ];
 
   Widget buildNewShift(String startHour, endHour, subjectName, location, shift) {
     final size = MediaQuery.of(context).size;
@@ -79,7 +86,7 @@ class ScheduleDisplayState extends State<ScheduleDisplay> with SingleTickerProvi
     return new Scaffold(
       appBar: new AppBar(
         elevation: 0.0,
-        title: new Text("Schedule"),
+        title: new Text(LocaleHolder.getValue(SCHEDULE)),
         backgroundColor: USER_COLOR,
       ),
       body: PageView.builder(
