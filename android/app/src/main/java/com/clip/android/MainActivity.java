@@ -1,4 +1,4 @@
-package com.example.clip;
+package com.clip.android;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
