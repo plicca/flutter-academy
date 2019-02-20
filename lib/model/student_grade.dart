@@ -7,6 +7,7 @@ class StudentGrade {
   String studentLastName;
   String subjectName;
   int subjectID;
+  String subjectDescription;
   String rank;
   DateTime date;
 
@@ -16,6 +17,7 @@ class StudentGrade {
     this.studentLastName,
     this.subjectName,
     this.subjectID,
+    this.subjectDescription,
     this.rank,
     this.date
   });
@@ -27,6 +29,7 @@ class StudentGrade {
       'StudentLastName': this.studentLastName,
       'SubjectName': this.subjectName,
       'SubjectID': this.subjectID,
+      'SubjectDescription': this.subjectDescription,
       'Rank':this.rank,
       'Date': this.date.millisecondsSinceEpoch ~/ 1000,
     });
@@ -39,6 +42,7 @@ class StudentGrade {
       studentLastName: json ['StudentLastName'],
       subjectName: json['SubjectName'],
       subjectID: json['SubjectID'],
+      subjectDescription: json['SubjectDescription'],
       rank: json['Rank'],
       date: DateTime.fromMillisecondsSinceEpoch(json['Date'] * 1000),
     );

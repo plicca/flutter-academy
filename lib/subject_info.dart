@@ -8,17 +8,19 @@ import 'package:flutter/material.dart';
 
 class SubjectInfo extends StatefulWidget {
   final Subject subject;
+  final bool isNotSearchPage;
 
-  SubjectInfo({this.subject}) : super();
+  SubjectInfo({this.subject, this.isNotSearchPage}) : super();
 
-  _SubjectInfoState createState() => new _SubjectInfoState(subject);
+  _SubjectInfoState createState() => new _SubjectInfoState(subject, isNotSearchPage);
 }
 
 class _SubjectInfoState extends State<SubjectInfo> {
   final Subject subject;
+  final isNotSearchPage;
   List<StudentSubjectsInfo> _enrolled = [];
 
-  _SubjectInfoState(this.subject);
+  _SubjectInfoState(this.subject, this.isNotSearchPage);
 
   void initState() {
     super.initState();
@@ -72,7 +74,7 @@ class _SubjectInfoState extends State<SubjectInfo> {
     return ListTile(
         title: Text(enrolled.studentID.toString() + ": " + enrolled.studentFirstName + " " + enrolled.studentLastName),
         onTap: () {
-          if(!IS_STUDENT){
+          if(!IS_STUDENT && isNotSearchPage){
             Navigator.push(context, MaterialPageRoute(builder: (context) => GiveGradeToStudent(subjectID: enrolled.subjectID, studentID: enrolled.studentID)));
           }
         });
