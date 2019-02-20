@@ -13,11 +13,11 @@ class Grade {
       subjectID: json['subject_id'],
       studentID: json['student_id'],
       rank: json['rank'],
-      date: json['date']
+      date: DateTime.fromMillisecondsSinceEpoch(json['date'] * 1000),
     );
   }
 
   String toJson() {
-    return json.encode({"subject_id": subjectID, "student_id": studentID, "rank": rank, "date": date});
+    return json.encode({"subject_id": subjectID, "student_id": studentID, "rank": rank, "date": date.millisecondsSinceEpoch ~/ 1000});
   }
 }

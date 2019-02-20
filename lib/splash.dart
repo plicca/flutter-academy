@@ -1,3 +1,4 @@
+import 'package:clip/config/locales.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:clip/config/presistent_variables.dart';
@@ -15,6 +16,7 @@ class SplashScreenState extends State<SplashScreen> {
       Timer(
         Duration(seconds: 4),
         () async {
+          LocaleHolder.LOCALE = await PreferencesHolder().languageSet(); 
           final signedIn = await PreferencesHolder().isSignedIn();
           if(signedIn){
               Navigator.of(context).pushReplacementNamed("/Tabs");
