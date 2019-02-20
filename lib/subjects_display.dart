@@ -96,7 +96,7 @@ class _SubjectsState extends State<Subjects> {
                 child: new Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                new Text("Search Option:",
+                new Text(LocaleHolder.getValue(SEARCH_OPTION),
                     style: new TextStyle(
                         fontSize: 16.0, fontWeight: FontWeight.bold)),
                 new Padding(
@@ -104,7 +104,7 @@ class _SubjectsState extends State<Subjects> {
                 ),
                 new DropdownButton(
                   value: _selected,
-                  items: SchoolYears(SubjectIterator()),
+                  items: schoolYears(subjectIterator()),
                   onChanged: onChanged,
                 ),
               ],
@@ -145,7 +145,7 @@ class _SubjectsState extends State<Subjects> {
           processedStudentGrade[i].subjectID.toString() +
           ") " +
           processedStudentGrade[i].subjectName;
-      subtitle = "Avalicação: " + processedStudentGrade[i].rank;
+      subtitle = LocaleHolder.getValue(EVALUATION) + ": " + processedStudentGrade[i].rank;
     } else {
       title = "(" +
           processedTeacherSubjects[i].subjectID.toString() +
@@ -172,7 +172,7 @@ class _SubjectsState extends State<Subjects> {
     );
   }
 
-  List<DropdownMenuItem<int>> SchoolYears(List<String> schoolYears) {
+  List<DropdownMenuItem<int>> schoolYears(List<String> schoolYears) {
     List<DropdownMenuItem<int>> textWidgets = new List<DropdownMenuItem<int>>();
     for (int i = 0; i < schoolYears.length; i++) {
       textWidgets.add(DropdownMenuItem(
@@ -183,7 +183,7 @@ class _SubjectsState extends State<Subjects> {
     return textWidgets;
   }
 
-  List<String> SubjectIterator() {
+  List<String> subjectIterator() {
     List<int> temp = new List<int>();
     List<String> schoolYears = new List<String>();
 
