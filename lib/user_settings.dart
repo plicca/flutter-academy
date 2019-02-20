@@ -1,4 +1,5 @@
 import 'package:clip/config/locales.dart';
+import 'package:clip/config/presistent_variables.dart';
 import 'package:clip/config/variables.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ class Settings extends StatefulWidget {
 }
 
 class SettingsState extends State<Settings> {
-  String _selected = "en";
+  String _selected = LocaleHolder.LOCALE;
 
   @override
   void initState(){
@@ -60,7 +61,9 @@ class SettingsState extends State<Settings> {
                   ],
                   onChanged: (String value) {
                     setState(() {
-                     _selected = value;
+                      _selected = value;
+                      LocaleHolder.LOCALE = value;
+                      PreferencesHolder().persistLanguageSetting(value);
                     });
                   },
                   hint: new Text(LocaleHolder.getValue(LANGUAGE)),

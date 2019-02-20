@@ -1,7 +1,10 @@
+import 'package:clip/config/variables.dart';
+
 class LocaleHolder {
+  static String LOCALE = "";
+
   static String getValue(String key) {
-    String defaultLocale = "en";
-    return _localizedValues[defaultLocale][key] ?? capitalizeFirstLetterOnly(key);
+    return _localizedValues[LOCALE][key] ?? capitalizeFirstLetterOnly(key);
   }
  
   static Map<String, Map<String, String>> _localizedValues = {

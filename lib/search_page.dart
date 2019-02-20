@@ -28,6 +28,23 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration(microseconds: 100), () {
+      initializeFetch();
+    });
+  }
+
+  Icon _searchIcon = new Icon(Icons.search);
+  Widget _appBarTitle = new Text(LocaleHolder.getValue(SEARCH));
+  int _selected = 0;
+  final TextEditingController controller = new TextEditingController();
+
+  void onChanged(int v) {
+    setState(() {
+      _selected = v;
+    });
+  }
+
+  void initializeFetch() async {
     fetchTeachers().then((List<Professor> x) {
       setState(() {
         teachers = x;
@@ -49,30 +66,22 @@ class _SearchState extends State<Search> {
     generateTextFilterListener();
   }
 
-  Icon _searchIcon = new Icon(Icons.search);
-  Widget _appBarTitle = new Text(LocaleHolder.getValue(SEARCH));
-  int _selected = 0;
-  final TextEditingController controller = new TextEditingController();
-
-  void onChanged(int v) {
-    setState(() {
-      _selected = v;
-    });
-  }
-
   Widget build(BuildContext context) {
     return new Scaffold(
         resizeToAvoidBottomPadding: false,
-        appBar: AppBar(
-          centerTitle: true,
-          title: _appBarTitle,
-          backgroundColor: USER_COLOR,
-          actions: <Widget>[
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(38.5),
+          child: AppBar(
+            centerTitle: true,
+            title: _appBarTitle,
+            backgroundColor: USER_COLOR,
+            actions: <Widget>[
             IconButton(
               icon: _searchIcon,
               onPressed: _searchPressed,
             ),
           ],
+          ),
         ),
         body: new Column(
           children: <Widget>[
