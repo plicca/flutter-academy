@@ -230,6 +230,7 @@ class _SubjectsState extends State<Subjects> {
         values.add(YearValue(dateYear: temp.elementAt(i), buttonValue: i));
       }
     }
+    schoolYears.sort();
     return schoolYears;
   }
 
