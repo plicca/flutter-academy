@@ -157,17 +157,24 @@ class _SubjectsState extends State<Subjects> {
       title: Text(title),
       subtitle: Text(subtitle),
       onTap: () {
-        if (!IS_STUDENT) {
-          Subject subject = new Subject(
+        Subject subject;
+        if(!IS_STUDENT) {
+          subject = new Subject(
             id: processedTeacherSubjects[i].subjectID,
             name: processedTeacherSubjects[i].subjectName,
             description: processedTeacherSubjects[i].subjectDescription,
           );
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => SubjectInfo(subject: subject)));
+        } else {
+          subject = new Subject(
+            id: processedStudentGrade[i].subjectID,
+            name: processedStudentGrade[i].subjectName,
+            description: processedStudentGrade[i].subjectDescription,
+          );
         }
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SubjectInfo(subject: subject, isNotSearchPage: true)));
       },
     );
   }

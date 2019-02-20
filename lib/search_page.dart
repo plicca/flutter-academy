@@ -169,7 +169,7 @@ class _SearchState extends State<Search> {
       title: Text(name),
       onTap: () {
         if (_selected == 2) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectInfo(subject: processedSubjects[i])));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectInfo(subject: processedSubjects[i], isNotSearchPage: false)));
         }
       },
     );
