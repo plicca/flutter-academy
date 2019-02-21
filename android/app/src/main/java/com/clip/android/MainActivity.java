@@ -1,4 +1,4 @@
-package com.clip.android;
+package com.myclip.android;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
