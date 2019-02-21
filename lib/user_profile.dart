@@ -19,24 +19,32 @@ class UserProfile extends StatefulWidget {
 class UserProfileState extends State<UserProfile> with SingleTickerProviderStateMixin {
 
   final dateFormat = [dd, '/', mm, '/', yyyy];
+  bool isLoading = true;
 
   void initState() {
     super.initState();
+    initializeFetch();
+  }
+
+  void initializeFetch() {
     if(IS_STUDENT){
       fetchStudent(USER_STUDENT.id).then((User receivedStudent) {
         setState(() {
           currentUser = receivedStudent;
+          isLoading = false;
         });
       });
       fetchGradesByStudent(USER_STUDENT.id).then((List<Grade> receivedList) {
         setState(() {
           studentGradesList = receivedList;
+          isLoading = false;
         });
       });
     } else {
       fetchTeacher(USER_TEACHER.id).then((User receivedTeacher) {
         setState(() {
          currentUser = receivedTeacher; 
+         isLoading = false;
         });
       });
     }
@@ -78,57 +86,56 @@ class UserProfileState extends State<UserProfile> with SingleTickerProviderState
   }
 
   List<Widget> displayProfile() {
-    if(renderProfileUser() == null) {
-      return [
-        new Expanded(
-          child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget> [
-              new CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(USER_COLOR),
-              ),
-            ] 
-          ),
-        )
-      ];
+    if(IS_STUDENT) {
+      return renderProfileUser() + averageGrade();
     } else {
-      if(IS_STUDENT) {
-        return renderProfileUser() + averageGrade();
-      } else {
-        return renderProfileUser();
-      }
+      return renderProfileUser();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: new ListView(
-        children: <Widget>[
-          new Container(
-            padding: EdgeInsets.only(left: 10.0),
-            alignment: Alignment.centerLeft,
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: displayProfile()
-            ),
+    if(isLoading == true) {
+      return Scaffold(
+        body: new Center(
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(USER_COLOR),
+              ),
+            ],
           ),
-        ],
-      ),
-      floatingActionButton: new FloatingActionButton.extended(
-        onPressed: () async {
-          final User result = await Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProfile(user: currentUser)));
-          if(result != null){
-            setState(() {
-              currentUser = result; 
-            });
-          }
-        },
-        backgroundColor: USER_COLOR,
-        label: new Text(LocaleHolder.getValue(UPDATE)),
-        icon: new Icon(Icons.update),
-      )
-    );
+        )
+      );
+    } else {
+      return new Scaffold(
+        body: new ListView(
+          children: <Widget>[
+            new Container(
+              padding: EdgeInsets.only(left: 10.0),
+              alignment: Alignment.centerLeft,
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: displayProfile()
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: new FloatingActionButton.extended(
+          onPressed: () async {
+            final User result = await Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProfile(user: currentUser)));
+            if(result != null){
+              setState(() {
+                currentUser = result; 
+              });
+            }
+          },
+          backgroundColor: USER_COLOR,
+          label: new Text(LocaleHolder.getValue(UPDATE)),
+          icon: new Icon(Icons.update),
+        )
+      );
+    }
   }
 }

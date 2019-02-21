@@ -22,6 +22,8 @@ class Subjects extends StatefulWidget {
 }
 
 class _SubjectsState extends State<Subjects> {
+  
+  bool isLoading = true;
   int _selected = 0;
   List<YearValue> values = [];
 
@@ -39,18 +41,26 @@ class _SubjectsState extends State<Subjects> {
 
   void initState() {
     super.initState();
+    initializeFetch();
+  }
+
+  void initializeFetch() async {
     if (IS_STUDENT) {
       fetchStudentGrade(USER_STUDENT.id)
           .then((List<StudentGrade> subjectsInfo) {
         setState(() {
           _studentGrade = subjectsInfo;
+          isLoading = false;
         });
       });
     } else {
       fetchSubjectsByTeacherID(USER_TEACHER.id)
           .then((List<TeacherSubjectInfo> subjects) {
-        _teacherSubjects = subjects;
+        setState((){
+          _teacherSubjects = subjects;
+          isLoading = false;
       });
+    });
     }
   }
 
@@ -89,7 +99,21 @@ class _SubjectsState extends State<Subjects> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    if (isLoading == true) {
+      return Scaffold(
+        body: new Center(
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(USER_COLOR),
+              ),
+            ],
+          ),
+        ) 
+      );
+    } else {
+      return Scaffold(
         body: new Column(
           children: <Widget>[
             new Center(
@@ -119,7 +143,9 @@ class _SubjectsState extends State<Subjects> {
             )
           ],
         ),
-        floatingActionButton: createSubjectsButton());
+        floatingActionButton: createSubjectsButton()
+      );
+    }
   }
 
   Widget _buildSubjects() {
