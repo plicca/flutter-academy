@@ -21,10 +21,15 @@ dependencies:
   google_sign_in: 4.0.1+1
   font_awesome_flutter: 8.4.0
   shared_preferences: 0.4.3
+  flutter_launcher_icons: 0.7.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons cl  ass for iOS style icons.
   cupertino_icons: 0.1.2
+
+flutter_icons:
+  image_path: "res/img/myCLIP.png"
+  android: true
 
 dev_dependencies:
   flutter_test:
