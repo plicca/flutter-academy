@@ -17,6 +17,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   final TextEditingController _filter = new TextEditingController();
 
+  bool isLoading = true;
   String _searchText = "";
   List<Professor> teachers = [];
   List<Professor> processedTeachers = [];
@@ -63,11 +64,26 @@ class _SearchState extends State<Search> {
         processedStudents = x;
       });
     });
+    isLoading = false;
     generateTextFilterListener();
   }
 
   Widget build(BuildContext context) {
-    return new Scaffold(
+    if(isLoading == true) {
+      return new Scaffold(
+        body: new Center(
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(USER_COLOR),
+              ),
+            ],
+          ),
+        )
+      );
+    } else {
+      return new Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(38.5),
@@ -86,40 +102,43 @@ class _SearchState extends State<Search> {
         body: new Column(
           children: <Widget>[
             new Center(
-                child: new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Text(LocaleHolder.getValue(SEARCH_OPTION), style: new TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                new Padding(
-                  padding: new EdgeInsets.only(left: 10.0),
-                ),
-                new DropdownButton(
-                  value: _selected,
-                  items: [
-                    new DropdownMenuItem(
-                      child: new Text(LocaleHolder.getValue(STUDENTS)),
-                      value: 0,
-                    ),
-                    new DropdownMenuItem(
-                      child: new Text(LocaleHolder.getValue(TEACHERS)),
-                      value: 1,
-                    ),
-                    new DropdownMenuItem(
-                      child: new Text(LocaleHolder.getValue(SUBJECTS)),
-                      value: 2,
-                    )
-                  ],
-                  onChanged: onChanged,
-                ),
-              ],
-            )),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Text(LocaleHolder.getValue(SEARCH_OPTION), style: new TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                  new Padding(
+                    padding: new EdgeInsets.only(left: 10.0),
+                  ),
+                  new DropdownButton(
+                    value: _selected,
+                    items: [
+                      new DropdownMenuItem(
+                        child: new Text(LocaleHolder.getValue(STUDENTS)),
+                        value: 0,
+                      ),
+                      new DropdownMenuItem(
+                        child: new Text(LocaleHolder.getValue(TEACHERS)),
+                        value: 1,
+                      ),
+                      new DropdownMenuItem(
+                        child: new Text(LocaleHolder.getValue(SUBJECTS)),
+                        value: 2,
+                      )
+                    ],
+                    onChanged: onChanged,
+                  ),
+                ],
+              )
+            ),
             new Container(
               child: Expanded(
                 child: _buildList(),
               ),
             )
           ],
-        ));
+        )
+      );
+    }
   }
 
   void _searchPressed() {
