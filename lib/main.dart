@@ -13,16 +13,19 @@ import 'package:clip/subjects_display.dart';
 import 'package:clip/user_profile.dart';
 import 'package:clip/user_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(new MaterialApp(
-    home: SplashScreen(),
-    routes: <String, WidgetBuilder>{
-      "/Tabs": (BuildContext context) => new Tabs(),
-      "/SplashScreen": (BuildContext context) => new SplashScreen(),
-      "/LoginPage": (BuildContext context) => new LoginPage(),
-    })
-  );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    runApp(new MaterialApp(
+      home: SplashScreen(),
+      routes: <String, WidgetBuilder>{
+        "/Tabs": (BuildContext context) => new Tabs(),
+        "/SplashScreen": (BuildContext context) => new SplashScreen(),
+        "/LoginPage": (BuildContext context) => new LoginPage(),
+      })
+    );
+  });
 }
 
 class Tabs extends StatefulWidget {
