@@ -1,3 +1,4 @@
+import 'package:clip/calendar_display.dart';
 import 'package:clip/config/locales.dart';
 import 'package:clip/config/presistent_variables.dart';
 import 'package:clip/config/variables.dart';
@@ -236,7 +237,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
               trailing: new Icon(Icons.calendar_today, color: USER_COLOR),
               title: Text(LocaleHolder.getValue(CALENDAR), style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
               onTap: (){
-                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarDisplay()));
               },
             ),
             new Divider(

@@ -15,7 +15,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="MyCLIP"
-        android:icon="@mipmap/my_clip">
+        android:icon="@mipmap/my_clip_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
