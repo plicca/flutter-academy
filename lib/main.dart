@@ -1,3 +1,4 @@
+import 'package:clip/calendar_display.dart';
 import 'package:clip/config/locales.dart';
 import 'package:clip/config/presistent_variables.dart';
 import 'package:clip/config/variables.dart';
@@ -13,16 +14,19 @@ import 'package:clip/subjects_display.dart';
 import 'package:clip/user_profile.dart';
 import 'package:clip/user_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(new MaterialApp(
-    home: SplashScreen(),
-    routes: <String, WidgetBuilder>{
-      "/Tabs": (BuildContext context) => new Tabs(),
-      "/SplashScreen": (BuildContext context) => new SplashScreen(),
-      "/LoginPage": (BuildContext context) => new LoginPage(),
-    })
-  );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    runApp(new MaterialApp(
+      home: SplashScreen(),
+      routes: <String, WidgetBuilder>{
+        "/Tabs": (BuildContext context) => new Tabs(),
+        "/SplashScreen": (BuildContext context) => new SplashScreen(),
+        "/LoginPage": (BuildContext context) => new LoginPage(),
+      })
+    );
+  });
 }
 
 class Tabs extends StatefulWidget {
@@ -233,7 +237,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
               trailing: new Icon(Icons.calendar_today, color: USER_COLOR),
               title: Text(LocaleHolder.getValue(CALENDAR), style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: USER_COLOR)),
               onTap: (){
-                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarDisplay()));
               },
             ),
             new Divider(

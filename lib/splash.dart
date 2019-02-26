@@ -14,7 +14,7 @@ class SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(Duration(seconds: 1), () {
       Timer(
-        Duration(seconds: 4),
+        Duration(seconds: 3),
         () async {
           LocaleHolder.LOCALE = await PreferencesHolder().languageSet(); 
           final signedIn = await PreferencesHolder().isSignedIn();
