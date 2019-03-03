@@ -72,6 +72,19 @@ class LocaleHolder {
       LANGUAGE: "Language",
       PORTUGUESE: "Portuguese",
       ENGLISH: "English",
+      //Calendar
+      JANUARY: "January",
+      FEBRUARY: "February",
+      MARCH: "March",
+      APRIL: "April",
+      MAY: "May",
+      JUNE: "June",
+      JULY: "July",
+      AUGUST: "August",
+      SEPTEMBER: "September",
+      OCTOBER: "October",
+      NOVEMBER: "November",
+      DECEMBER: "December"
     },
     "pt": {
       //Recorrent
@@ -137,6 +150,19 @@ class LocaleHolder {
       LANGUAGE: "Idioma",
       PORTUGUESE: "Português",
       ENGLISH: "Inglês",
+      //Calendar
+      JANUARY: "Janeiro",
+      FEBRUARY: "Fevereiro",
+      MARCH: "Março",
+      APRIL: "Abril",
+      MAY: "Maio",
+      JUNE: "Junho",
+      JULY: "Julho",
+      AUGUST: "Agosto",
+      SEPTEMBER: "Setembro",
+      OCTOBER: "Outubro",
+      NOVEMBER: "Novembro",
+      DECEMBER: "Dezembro"
     },
   };
  
@@ -201,3 +227,16 @@ const START_DATE = "START_DATE";
 const LANGUAGE = "LANGUAGE";
 const PORTUGUESE = "PORTUGUESE";
 const ENGLISH = "ENGLISH";
+const JANUARY = "JANUARY";
+const FEBRUARY = "FEBRUARY";
+const MARCH = "MARCH";
+const APRIL = "APRIL";
+const MAY = "MAY";
+const JUNE = "JUNE";
+const JULY = "JULY";
+const AUGUST = "AUGUST";
+const SEPTEMBER = "SEPTEMBER";
+const OCTOBER = "OCTOBER";
+const NOVEMBER = "NOVEMBER";
+const DECEMBER = "DECEMBER";
+
