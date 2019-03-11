@@ -1,12 +1,10 @@
-import 'package:clip/config/variables.dart';
-
 class LocaleHolder {
   static String LOCALE = "";
 
   static String getValue(String key) {
     return _localizedValues[LOCALE][key] ?? capitalizeFirstLetterOnly(key);
   }
- 
+
   static Map<String, Map<String, String>> _localizedValues = {
     "en": {
       //Recorrent
@@ -165,7 +163,7 @@ class LocaleHolder {
       DECEMBER: "Dezembro"
     },
   };
- 
+
   static String capitalizeFirstLetterOnly(String input) {
     if (input.length > 1) {
       return input[0].toUpperCase() + input.substring(1).toLowerCase();
@@ -239,4 +237,3 @@ const SEPTEMBER = "SEPTEMBER";
 const OCTOBER = "OCTOBER";
 const NOVEMBER = "NOVEMBER";
 const DECEMBER = "DECEMBER";
-

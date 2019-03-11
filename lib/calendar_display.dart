@@ -65,6 +65,17 @@ class CalendarDisplayState extends State<CalendarDisplay> {
                     )
                   ],
                 ),
+              ),
+              Container(
+                child: new Column(
+                  children: <Widget>[
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                      ],
+                    )
+                  ],
+                ),
               )
             ],
           );
