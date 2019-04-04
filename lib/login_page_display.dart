@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
       color: Colors.white,
       child: new TextFormField(
         validator: (input) {
-          if(input.isEmpty) {
+          if(input.isEmpty || !input.contains("@campus.fct.unl.pt")){
             return LocaleHolder.getValue(VALIDATE_EMAIL);
           }
         },
